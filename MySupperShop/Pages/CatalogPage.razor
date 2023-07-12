@@ -1,0 +1,11 @@
+﻿@page "/catalog"
+@using MySupperShop.Components
+
+<MudDrawerHeader Class="text">Каталог магазина продуктов</MudDrawerHeader>
+<MudGrid Style="background-color:#97fdff">
+    @foreach (var product in _products)
+    {
+        <ProductItem Product="product" />
+    }
+</MudGrid>
+

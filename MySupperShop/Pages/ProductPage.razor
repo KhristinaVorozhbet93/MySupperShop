@@ -1,0 +1,21 @@
+﻿@page "/products/{ProductId:guid}"
+@using MySupperShop.Interfaces;
+@using MySupperShop.Components
+@using MySupperShop.Models;
+@inject IMyShopClient ShopClient
+
+<div>
+    <ProductItem Product = "_product"/>
+</div>
+
+@code {
+    [Parameter]
+    public Guid ProductId { get; set; }
+
+    private Product _product;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _product = await ShopClient.GetProduct(ProductId);
+    }
+}
