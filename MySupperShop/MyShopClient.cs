@@ -31,7 +31,7 @@ namespace MySupperShop
         public async Task AddProduct(Product product)
         {
             ArgumentNullException.ThrowIfNull(nameof(product));
-            var response = await _httpClient!.PostAsJsonAsync("add_product", product);
+            using var response = await _httpClient!.PostAsJsonAsync("add_product", product);
             response.EnsureSuccessStatusCode();
         }
         public async Task<Product> GetProduct(Guid id)
@@ -55,13 +55,13 @@ namespace MySupperShop
         public async Task DeleteProduct(Product product)
         {
             ArgumentNullException.ThrowIfNull(nameof(product));
-            var response = await _httpClient!.PostAsJsonAsync("delete_product", product);
+            using var response = await _httpClient!.PostAsJsonAsync("delete_product", product);
             response.EnsureSuccessStatusCode();
         }
         public async Task UpdateProduct(Product product)
         {
             ArgumentNullException.ThrowIfNull(nameof(product));
-            var response = await _httpClient!.PostAsJsonAsync("update_product", product);
+            using var response = await _httpClient!.PostAsJsonAsync("update_product", product);
             response.EnsureSuccessStatusCode();
         }
     }
