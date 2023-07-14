@@ -43,29 +43,38 @@ app.MapGet("/get_product", GetProductById);
 app.MapPost("/update_product", UpdateProduct);
 app.MapPost("/delete_product", DeleteProduct);
 
-async Task AddProduct([FromBody]Product product, [FromServices]AppDbContext dbContext)
+async Task AddProduct(
+    [FromBody]Product product, 
+    [FromServices]AppDbContext dbContext, 
+    CancellationToken cancellationToken)
 {
-    await dbContext.Products.AddAsync(product);
-    await dbContext.SaveChangesAsync();
+    await dbContext.Products.AddAsync(product, cancellationToken);
+    await dbContext.SaveChangesAsync(cancellationToken);
 }
-async Task<IResult> GetProductById([FromQuery] Guid id,[FromServices] AppDbContext dbContext)
+async Task<IResult> GetProductById(
+    [FromQuery] Guid id,
+    [FromServices] AppDbContext dbContext,
+    CancellationToken cancellationToken)
 {
-    var product = await dbContext.Products.FirstOrDefaultAsync(product => product.Id == id);
+    var product = await dbContext.Products.FirstOrDefaultAsync(product => product.Id == id, cancellationToken);
     if (product is null)
     {
         return Results.NotFound();
     }
     return Results.Ok(product);  
 }
-async Task<List<Product>> GetAllProducts(AppDbContext dbContext)
+async Task<List<Product>> GetAllProducts(AppDbContext dbContext, CancellationToken cancellationToken)
 {
-    return await dbContext.Products.ToListAsync();
+    return await dbContext.Products.ToListAsync(cancellationToken);
 }
-async Task<IResult> UpdateProduct([FromQuery] Guid id, [FromBody] Product newProduct,
-    [FromServices] AppDbContext dbContext)
+async Task<IResult> UpdateProduct(
+    [FromQuery] Guid id, 
+    [FromBody] Product newProduct,
+    [FromServices] AppDbContext dbContext,
+    CancellationToken cancellationToken)
 {
     var product = await dbContext.Products
-        .FirstOrDefaultAsync(product => product.Id == id);
+        .FirstOrDefaultAsync(product => product.Id == id, cancellationToken);
     if (product is null)
     {
         return Results.NotFound();
@@ -73,13 +82,16 @@ async Task<IResult> UpdateProduct([FromQuery] Guid id, [FromBody] Product newPro
     product!.Name = newProduct.Name;
     product.Price = newProduct.Price;
 
-    await dbContext.SaveChangesAsync();
+    await dbContext.SaveChangesAsync(cancellationToken);
     return Results.Ok();
 }
-async Task DeleteProduct([FromBody] Product product,[FromServices] AppDbContext dbContext)
+async Task DeleteProduct(
+    [FromBody] Product product,
+    [FromServices] AppDbContext dbContext, 
+    CancellationToken cancellationToken)
 {
     dbContext.Products.Remove(product);
-    await dbContext.SaveChangesAsync();
+    await dbContext.SaveChangesAsync(cancellationToken);
 }
 app.MapControllers();
 

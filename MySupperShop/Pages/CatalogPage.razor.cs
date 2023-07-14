@@ -13,10 +13,11 @@ namespace MySupperShop.Pages
         private IMyShopClient ShopClient { get; set; } = null!;
 
         private List<Product>? _products;
+        CancellationTokenSource _cts = new CancellationTokenSource();
 
         protected override async Task OnInitializedAsync()
         {
-            _products = await ShopClient.GetProducts();
+            _products = await ShopClient.GetProducts(_cts.Token);
         }
     }
 }

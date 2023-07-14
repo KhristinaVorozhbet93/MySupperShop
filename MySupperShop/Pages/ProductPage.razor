@@ -20,9 +20,10 @@ else
     public Guid ProductId { get; set; }
 
     private Product _product;
+    CancellationTokenSource _cts = new CancellationTokenSource();
 
     protected override async Task OnInitializedAsync()
     {
-        _product = await ShopClient.GetProduct(ProductId);
+        _product = await ShopClient.GetProduct(ProductId, _cts.Token);
     }
 }
