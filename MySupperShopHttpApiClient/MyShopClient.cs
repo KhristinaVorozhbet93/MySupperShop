@@ -28,40 +28,45 @@ namespace MySupperShop
         {
             _httpClient!.Dispose();
         }
-        public async Task AddProduct(Product product)
+        public async Task AddProduct(Product product, CancellationToken cancellationToken)
         {
             ArgumentNullException.ThrowIfNull(nameof(product));
-            using var response = await _httpClient!.PostAsJsonAsync("add_product", product);
+            using var response = await _httpClient!
+                .PostAsJsonAsync("add_product", product, cancellationToken);
             response.EnsureSuccessStatusCode();
         }
-        public async Task<Product> GetProduct(Guid id)
+        public async Task<Product> GetProduct(Guid id, CancellationToken cancellationToken)
         {
-            var product = await _httpClient!.GetFromJsonAsync<Product>($"get_product?id={id}");
+            var product = await _httpClient!
+                .GetFromJsonAsync<Product>($"get_product?id={id}", cancellationToken);
             if (product is null)
             {
                 throw new InvalidOperationException(nameof(product)); 
             }
             return product; 
         }
-        public async Task<List<Product>> GetProducts()
+        public async Task<List<Product>> GetProducts(CancellationToken cancellationToken)
         {
-            var products = await _httpClient!.GetFromJsonAsync<List<Product>>("get_products");
+            var products = await _httpClient!
+                .GetFromJsonAsync<List<Product>>("get_products", cancellationToken);
             if (products is null)
             {
                 throw new InvalidOperationException(nameof(products));
             }
             return products;
         }
-        public async Task DeleteProduct(Product product)
+        public async Task DeleteProduct(Product product, CancellationToken cancellationToken)
         {
             ArgumentNullException.ThrowIfNull(nameof(product));
-            using var response = await _httpClient!.PostAsJsonAsync("delete_product", product);
+            using var response = await _httpClient!
+                .PostAsJsonAsync("delete_product", product, cancellationToken);
             response.EnsureSuccessStatusCode();
         }
-        public async Task UpdateProduct(Guid id, Product newProduct)
+        public async Task UpdateProduct(Guid id, Product newProduct, CancellationToken cancellationToken)
         {
             ArgumentNullException.ThrowIfNull(nameof(newProduct));
-            using var response = await _httpClient!.PostAsJsonAsync($"update_product?id={id}", newProduct);
+            using var response = await _httpClient!
+                .PostAsJsonAsync($"update_product?id={id}", newProduct, cancellationToken);
             response.EnsureSuccessStatusCode();
         }
     }

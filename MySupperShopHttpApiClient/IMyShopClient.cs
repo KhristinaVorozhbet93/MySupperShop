@@ -4,10 +4,10 @@ namespace MySupperShop.Interfaces
 {
     public interface IMyShopClient
     {
-        Task AddProduct(Product product);
-        Task<Product> GetProduct(Guid id); 
-        Task<List<Product>> GetProducts(); 
-        Task DeleteProduct(Product product);
-        Task UpdateProduct(Guid id,Product product);
+        Task AddProduct(Product product, CancellationToken cancellationToken);
+        Task<Product> GetProduct(Guid id, CancellationToken cancellationToken); 
+        Task<List<Product>> GetProducts(CancellationToken cancellationToken); 
+        Task DeleteProduct(Product product, CancellationToken cancellationToken);
+        Task UpdateProduct(Guid id,Product product, CancellationToken cancellationToken);
     }
 }
