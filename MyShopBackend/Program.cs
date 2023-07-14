@@ -61,11 +61,11 @@ async Task<List<Product>> GetAllProducts(AppDbContext dbContext)
 {
     return await dbContext.Products.ToListAsync();
 }
-async Task<IResult> UpdateProduct([FromQuery] Guid guid, [FromBody] Product newProduct,
+async Task<IResult> UpdateProduct([FromQuery] Guid id, [FromBody] Product newProduct,
     [FromServices] AppDbContext dbContext)
 {
     var product = await dbContext.Products
-        .FirstOrDefaultAsync(product => product.Id == guid);
+        .FirstOrDefaultAsync(product => product.Id == id);
     if (product is null)
     {
         return Results.NotFound();

@@ -4,9 +4,16 @@
 @using MySupperShop.Models;
 @inject IMyShopClient ShopClient
 
-<div>
-    <ProductItem Product = "_product"/>
-</div>
+@if (_product is null)
+{
+    <div>Загрузка товара...</div>
+}
+else
+{
+    <div>
+        <ProductItem Product="_product" />
+    </div>
+}
 
 @code {
     [Parameter]

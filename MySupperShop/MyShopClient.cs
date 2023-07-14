@@ -58,10 +58,10 @@ namespace MySupperShop
             using var response = await _httpClient!.PostAsJsonAsync("delete_product", product);
             response.EnsureSuccessStatusCode();
         }
-        public async Task UpdateProduct(Product product)
+        public async Task UpdateProduct(Guid id, Product newProduct)
         {
-            ArgumentNullException.ThrowIfNull(nameof(product));
-            using var response = await _httpClient!.PostAsJsonAsync("update_product", product);
+            ArgumentNullException.ThrowIfNull(nameof(newProduct));
+            using var response = await _httpClient!.PostAsJsonAsync($"update_product?id={id}", newProduct);
             response.EnsureSuccessStatusCode();
         }
     }

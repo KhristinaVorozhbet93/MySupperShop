@@ -3,9 +3,16 @@
 
 <MudDrawerHeader Class="text">Каталог магазина продуктов</MudDrawerHeader>
 <MudGrid Style="background-color:#97fdff">
-    @foreach (var product in _products)
+    @if(_products is null)
     {
-        <ProductItem Product="product" />
+        <div>Страница загружается...</div>
+    }
+    else
+    {
+        @foreach (var product in _products)
+        {
+            <ProductItem Product="product" />
+        }
     }
 </MudGrid>
 

@@ -12,7 +12,7 @@ namespace MySupperShop.Pages
         [Inject]
         private IMyShopClient ShopClient { get; set; } = null!;
 
-        private List<Product> _products = null!;
+        private List<Product>? _products;
 
         protected override async Task OnInitializedAsync()
         {

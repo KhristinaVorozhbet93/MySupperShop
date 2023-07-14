@@ -6,6 +6,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MySupperShop", "MySupperSho
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyShopBackend", "MyShopBackend\MyShopBackend.csproj", "{BBA65B4F-1432-48F8-82C9-3857F6120071}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MySupperShopHttpApiClient", "MySupperShopHttpApiClient\MySupperShopHttpApiClient.csproj", "{46E9A848-9BEC-4616-B028-76E4C4EFEB32}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,6 +22,10 @@ Global
 		{BBA65B4F-1432-48F8-82C9-3857F6120071}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BBA65B4F-1432-48F8-82C9-3857F6120071}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BBA65B4F-1432-48F8-82C9-3857F6120071}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46E9A848-9BEC-4616-B028-76E4C4EFEB32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46E9A848-9BEC-4616-B028-76E4C4EFEB32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46E9A848-9BEC-4616-B028-76E4C4EFEB32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46E9A848-9BEC-4616-B028-76E4C4EFEB32}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
