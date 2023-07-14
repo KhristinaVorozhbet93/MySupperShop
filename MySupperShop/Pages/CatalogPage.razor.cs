@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace MySupperShop.Pages
 {
-    public partial class CatalogPage
+    public partial class CatalogPage : IDisposable
     {
         //[Inject]
         //private ICatalog Catalog { get; set; } = null!;
@@ -13,11 +13,16 @@ namespace MySupperShop.Pages
         private IMyShopClient ShopClient { get; set; } = null!;
 
         private List<Product>? _products;
-        CancellationTokenSource _cts = new CancellationTokenSource();
+        private CancellationTokenSource _cts = new();
 
         protected override async Task OnInitializedAsync()
         {
             _products = await ShopClient.GetProducts(_cts.Token);
+        }
+
+        public void Dispose()
+        {
+            _cts.Cancel();
         }
     }
 }
