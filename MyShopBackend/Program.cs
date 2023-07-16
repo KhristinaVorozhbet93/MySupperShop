@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyShopBackend.Data;
+using MyShopBackend.Interfaces;
 using MyShopBackend.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,9 +14,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 string path = "myapp.db";
+
 builder.Services.AddDbContext<AppDbContext>(options =>
 options.UseSqlite($"DataSource = {path}"));
 if (path == null) throw new Exception();
+
+builder.Services.AddScoped<IProductRepozitory, ProductRepozitory>();
 
 var app = builder.Build();
 app.UseCors(policy =>
@@ -25,7 +29,6 @@ app.UseCors(policy =>
         .AllowAnyHeader()
         .AllowAnyOrigin();
 });
-
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -44,55 +47,38 @@ app.MapPost("/update_product", UpdateProduct);
 app.MapPost("/delete_product", DeleteProduct);
 
 async Task AddProduct(
-    [FromBody]Product product, 
-    [FromServices]AppDbContext dbContext, 
+    [FromBody] Product product, 
+    IProductRepozitory productRepozitory,
     CancellationToken cancellationToken)
 {
-    await dbContext.Products.AddAsync(product, cancellationToken);
-    await dbContext.SaveChangesAsync(cancellationToken);
+    await productRepozitory.AddProduct(product, cancellationToken);
 }
 async Task<IResult> GetProductById(
-    [FromQuery] Guid id,
-    [FromServices] AppDbContext dbContext,
+    [FromQuery] Guid id, 
+    IProductRepozitory productRepozitory, 
     CancellationToken cancellationToken)
 {
-    var product = await dbContext.Products.FirstOrDefaultAsync(product => product.Id == id, cancellationToken);
-    if (product is null)
-    {
-        return Results.NotFound();
-    }
-    return Results.Ok(product);  
+    return await productRepozitory.GetProductById(id, cancellationToken);
 }
-async Task<List<Product>> GetAllProducts(AppDbContext dbContext, CancellationToken cancellationToken)
+async Task<List<Product>> GetAllProducts(IProductRepozitory productRepozitory,
+    CancellationToken cancellationToken)
 {
-    return await dbContext.Products.ToListAsync(cancellationToken);
+    return await productRepozitory.GetAllProducts(cancellationToken);
 }
 async Task<IResult> UpdateProduct(
     [FromQuery] Guid id, 
     [FromBody] Product newProduct,
-    [FromServices] AppDbContext dbContext,
+    IProductRepozitory productRepozitory,
     CancellationToken cancellationToken)
 {
-    var product = await dbContext.Products
-        .FirstOrDefaultAsync(product => product.Id == id, cancellationToken);
-    if (product is null)
-    {
-        return Results.NotFound();
-    }
-    product!.Name = newProduct.Name;
-    product.Price = newProduct.Price;
-
-    await dbContext.SaveChangesAsync(cancellationToken);
-    return Results.Ok();
+    return await productRepozitory.UpdateProduct(id, newProduct, cancellationToken);
 }
 async Task DeleteProduct(
     [FromBody] Product product,
-    [FromServices] AppDbContext dbContext, 
+    IProductRepozitory productRepozitory,
     CancellationToken cancellationToken)
 {
-    dbContext.Products.Remove(product);
-    await dbContext.SaveChangesAsync(cancellationToken);
+    await productRepozitory.DeleteProduct(product,cancellationToken);
 }
 app.MapControllers();
-
 app.Run();
