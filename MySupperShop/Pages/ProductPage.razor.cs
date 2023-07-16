@@ -8,17 +8,38 @@ namespace MySupperShop.Pages
     {
         [Parameter]
         public Guid ProductId { get; set; }
-
         [Inject]
-        public IMyShopClient ShopClient { get; set; }
+        public IMyShopClient? ShopClient { get; set; }
+        [Inject]
+        public NavigationManager? manager { get; set; }
+        public string ProductFieldDeleted { get; set; } = string.Empty;
 
-        private Product _product;
-
-        CancellationTokenSource _cts = new CancellationTokenSource();
+        private Product? _product;
+        private CancellationTokenSource _cts = new CancellationTokenSource();
+        public bool IsHidden = false;
 
         protected override async Task OnInitializedAsync()
         {
-            _product = await ShopClient.GetProduct(ProductId, _cts.Token);
+            _product = await ShopClient!.GetProduct(ProductId, _cts.Token);
+        }
+        public async Task DeleteProduct()
+        {
+            ProductFieldDeleted = string.Empty; 
+            await ShopClient!.DeleteProduct(_product!, _cts.Token);
+            ProductFieldDeleted = "Товар удален!";
+            await InvokeAsync(() => StateHasChanged());
+            await Task.Delay(TimeSpan.FromSeconds(3)); 
+            manager.NavigateTo("/catalog");
+        }
+
+        public void ToProductEditPage()
+        {
+            manager.NavigateTo($"/products/{_product!.Id}/editor");
+        }
+
+        public void ToAddProductPage()
+        {
+            manager.NavigateTo($"/products/new");
         }
         public void Dispose()
         {

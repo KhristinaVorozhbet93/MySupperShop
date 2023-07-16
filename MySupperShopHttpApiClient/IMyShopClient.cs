@@ -8,6 +8,6 @@ namespace MySupperShop.Interfaces
         Task<Product> GetProduct(Guid id, CancellationToken cancellationToken); 
         Task<List<Product>> GetProducts(CancellationToken cancellationToken); 
         Task DeleteProduct(Product product, CancellationToken cancellationToken);
-        Task UpdateProduct(Guid id,Product product, CancellationToken cancellationToken);
+        Task UpdateProduct(Product newProduct, CancellationToken cancellationToken);
     }
 }

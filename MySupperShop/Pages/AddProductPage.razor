@@ -1,0 +1,31 @@
+﻿@page "/products/new"
+
+<h1>Добавление товара</h1>
+
+<MudText Class="text" Style="width: 300px; font-size: 18px; font-weight: normal"> @ProductFieldAdded
+</MudText>
+
+<MudItem xs="3" lg="3" Class="d-flex">
+    <MudPaper Width="300px" Class="pa-4" Style="background-color:#fad1f6">
+        <MudCard Style="background-color: #97fdff">
+            <MudCardContent Style="min-height: 100px">
+                <MudText>Введите название товара:</MudText>
+                <MudTextField @bind-Value="Name" Class="text" Style="background-color: white">
+                </MudTextField>
+                <MudText>Введите цену товара:</MudText>
+                <MudTextField @bind-Value="Price" Style="background-color: white"></MudTextField>
+                <MudText>Введите дату производства:</MudText>
+                <MudTextField @bind-Value="ProducedAt" Style="background-color: white"></MudTextField>
+                <MudText>Введите дату окончания срока годности:</MudText>
+                <MudTextField @bind-Value="ExpiredAt" Style="background-color: white"></MudTextField>
+                <MudText>Введите описание:</MudText>
+                <MudTextField @bind-Value="Description" Style="background-color: white"></MudTextField>
+                <MudText>Введите путь к картинке:</MudText>
+                <MudTextField @bind-Value="Image" Style="background-color: white"></MudTextField>
+            </MudCardContent>
+        </MudCard>
+    </MudPaper>
+</MudItem>
+<MudButton @onclick="SaveProductChanges" Variant="Variant.Filled" Style="background-color: #97fdff; 
+font-size: 15px" Class="mt-4">
+    Добавить</MudButton>

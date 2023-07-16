@@ -66,12 +66,11 @@ async Task<List<Product>> GetAllProducts(IProductRepozitory productRepozitory,
     return await productRepozitory.GetAllProducts(cancellationToken);
 }
 async Task<IResult> UpdateProduct(
-    [FromQuery] Guid id, 
-    [FromBody] Product newProduct,
+    Product newProduct, 
     IProductRepozitory productRepozitory,
     CancellationToken cancellationToken)
 {
-    return await productRepozitory.UpdateProduct(id, newProduct, cancellationToken);
+    return await productRepozitory.UpdateProduct(newProduct, cancellationToken);
 }
 async Task DeleteProduct(
     [FromBody] Product product,
