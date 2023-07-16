@@ -8,22 +8,18 @@
 }
 else
 {
-    <div>
-        <MudText Class="text" Style="width: 300px; font-size: 18px; font-weight: normal">
-            @ProductFieldDeleted
-        </MudText>
-        <ProductItem Product="_product" />
-        <MudButton @onclick="ToProductEditPage" Variant="Variant.Filled" Style="background-color:#fad1f6;
-font-size: 15px" Class="mt-4 mr-4">Редактировать</MudButton>
-        <MudButton Variant="Variant.Filled" Style="background-color:#fad1f6;
-font-size: 15px" Class="mt-4" @onclick = "DeleteProduct">
-            Удалить
-        </MudButton>
-        <br>
-        <MudButton @onclick="ToAddProductPage" Variant="Variant.Filled" Style="background-color:#fad1f6;
-font-size: 15px" Class="mt-4">
-            Добавить новый товар
-        </MudButton>
-    </div>
+    <MudText Class="text" Style="width:300px; font-size:18px; font-weight:normal">
+        @ProductFieldDeleted
+    </MudText>
+    <ProductItem Product="_product" />
+    <MudButton @onclick="ToProductEditPage" Variant="Variant.Filled"
+           Style="background-color:#fad1f6;font-size:15px" Class="mt-4 mr-4">Редактировать</MudButton>
+    <MudButton Variant="Variant.Filled"
+           Style="background-color:#fad1f6;font-size:15px" Class="mt-4" @onclick="DeleteProduct">
+        Удалить
+    </MudButton>
+    <br>
+    <MudButton @onclick="ToAddProductPage" Variant="Variant.Filled"
+           Style="background-color:#fad1f6;font-size:15px" Class="mt-4">Добавить новый товар</MudButton>
 }
 

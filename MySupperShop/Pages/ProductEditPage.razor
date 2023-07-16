@@ -2,37 +2,32 @@
 @using Microsoft.AspNetCore.Components;
 
 <h1>Редактор товара</h1>
-
 @if (_product is null)
 {
     <div>Товар загружается</div>
 }
 else
 {
-    <MudText Class="text" Style="width: 300px; font-size: 18px; font-weight: normal">
-        @ProductFieldChanged
-    </MudText>
-
-
+    <MudText Class="text" Style="width:300px;font-size:18px;font-weight:normal">@ProductFieldChanged</MudText>
     <MudItem xs="3" lg="3" Class="d-flex">
         <MudPaper Width="300px" Class="pa-4" Style="background-color:#fad1f6">
-            <MudCard Style="background-color: #97fdff">
-                <MudCardContent Style="min-height: 100px">
+            <MudCard Style="background-color:#97fdff">
+                <MudCardContent Style="min-height:100px">
                     <MudText>Название товара:</MudText>
-                    <MudTextField @bind-Value="Name" Class="text" Style="background-color: white">
+                    <MudTextField @bind-Value="Name" Class="text" Style="background-color:white">
                     </MudTextField>
                     <MudText>Цена товара:</MudText>
-                    <MudTextField @bind-Value="Price" Style="background-color: white"></MudTextField>
+                    <MudTextField @bind-Value="Price" Style="background-color:white"></MudTextField>
                     <MudText>Дата производства:</MudText>
-                    <MudTextField @bind-Value="ProducedAt" Style="background-color: white"></MudTextField>
+                    <MudTextField @bind-Value="ProducedAt" Style="background-color:white"></MudTextField>
                     <MudText>Срок годности:</MudText>
-                    <MudTextField @bind-Value="ExpiredAt" Style="background-color: white"></MudTextField>
+                    <MudTextField @bind-Value="ExpiredAt" Style="background-color:white"></MudTextField>
                     <MudText>Описание:</MudText>
-                    <MudTextField @bind-Value="Description" Style="background-color: white"></MudTextField>
+                    <MudTextField @bind-Value="Description" Style="background-color:white"></MudTextField>
                 </MudCardContent>
             </MudCard>
         </MudPaper>
     </MudItem>
-    <MudButton @onclick="SaveProductChanges" Variant="Variant.Filled" Style="background-color: #97fdff;
-font-size: 15px" Class="mt-4">Сохранить</MudButton>
+    <MudButton @onclick="SaveProductChanges" Variant="Variant.Filled"
+           Style="background-color:#97fdff;font-size:15px" Class="mt-4">Сохранить</MudButton>
 }

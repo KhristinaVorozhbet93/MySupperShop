@@ -11,12 +11,11 @@ namespace MySupperShop.Pages
         [Inject]
         public IMyShopClient? ShopClient { get; set; }
         [Inject]
-        public NavigationManager? manager { get; set; }
-        public string ProductFieldDeleted { get; set; } = string.Empty;
+        public NavigationManager manager { get; set; }
 
+        public string ProductFieldDeleted { get; set; } = string.Empty;
         private Product? _product;
         private CancellationTokenSource _cts = new CancellationTokenSource();
-        public bool IsHidden = false;
 
         protected override async Task OnInitializedAsync()
         {
@@ -28,7 +27,7 @@ namespace MySupperShop.Pages
             await ShopClient!.DeleteProduct(_product!, _cts.Token);
             ProductFieldDeleted = "Товар удален!";
             await InvokeAsync(() => StateHasChanged());
-            await Task.Delay(TimeSpan.FromSeconds(3)); 
+            await Task.Delay(TimeSpan.FromSeconds(3), _cts.Token); 
             manager.NavigateTo("/catalog");
         }
 

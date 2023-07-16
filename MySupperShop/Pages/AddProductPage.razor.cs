@@ -15,7 +15,6 @@ namespace MySupperShop.Pages
         public DateTime ExpiredAt { get; set; }
         public string Description { get; set; } = string.Empty;
         public string ProductFieldAdded { get; set; } = "";
-
         private CancellationTokenSource _cts = new CancellationTokenSource();
 
         public async Task SaveProductChanges()
