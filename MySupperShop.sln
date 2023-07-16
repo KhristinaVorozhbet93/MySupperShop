@@ -6,7 +6,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MySupperShop", "MySupperSho
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyShopBackend", "MyShopBackend\MyShopBackend.csproj", "{BBA65B4F-1432-48F8-82C9-3857F6120071}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MySupperShopHttpApiClient", "MySupperShopHttpApiClient\MySupperShopHttpApiClient.csproj", "{598283F5-130E-4618-8CE2-27BA734A3FF1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MySupperShopHttpApiClient", "MySupperShopHttpApiClient\MySupperShopHttpApiClient.csproj", "{598283F5-130E-4618-8CE2-27BA734A3FF1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

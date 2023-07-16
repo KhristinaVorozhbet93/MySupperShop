@@ -6,9 +6,6 @@ namespace MySupperShop.Pages
 {
     public partial class CatalogPage : IDisposable
     {
-        //[Inject]
-        //private ICatalog Catalog { get; set; } = null!;
-
         [Inject]
         private IMyShopClient ShopClient { get; set; } = null!;
 

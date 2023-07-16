@@ -1,9 +1,5 @@
 ﻿@page "/products/{ProductId:guid}"
-@using MySupperShop.Interfaces;
 @using MySupperShop.Components
-@using MySupperShop.Models;
-@inject IMyShopClient ShopClient
-@implements IDisposable
 
 @if (_product is null)
 {
@@ -16,20 +12,3 @@ else
     </div>
 }
 
-@code {
-    [Parameter]
-    public Guid ProductId { get; set; }
-
-    private Product _product;
-    CancellationTokenSource _cts = new CancellationTokenSource();
-
-    protected override async Task OnInitializedAsync()
-    {
-        _product = await ShopClient.GetProduct(ProductId, _cts.Token);
-    }
-    public void Dispose()
-    {
-        _cts.Cancel();    
-    }
-    
-}
