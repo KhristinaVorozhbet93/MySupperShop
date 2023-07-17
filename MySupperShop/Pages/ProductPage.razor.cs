@@ -27,7 +27,7 @@ namespace MySupperShop.Pages
             await ShopClient!.DeleteProduct(_product!, _cts.Token);
             ProductFieldDeleted = "Товар удален!";
             await InvokeAsync(() => StateHasChanged());
-            await Task.Delay(TimeSpan.FromSeconds(3), _cts.Token); 
+            await Task.Delay(TimeSpan.FromSeconds(5), _cts.Token); 
             manager.NavigateTo("/catalog");
         }
 

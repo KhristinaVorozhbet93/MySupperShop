@@ -51,7 +51,6 @@ namespace MySupperShop.Pages {
                 Description = Description
             };
             await ShopClient!.UpdateProduct(newProduct, _cts.Token);
-
             ProductFieldChanged = "Товар изменен!";
             await InvokeAsync(() => StateHasChanged());
         }

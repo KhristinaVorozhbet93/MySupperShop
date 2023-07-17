@@ -13,13 +13,15 @@ else
     </MudText>
     <ProductItem Product="_product" />
     <MudButton @onclick="ToProductEditPage" Variant="Variant.Filled"
-           Style="background-color:#fad1f6;font-size:15px" Class="mt-4 mr-4">Редактировать</MudButton>
-    <MudButton Variant="Variant.Filled"
-           Style="background-color:#fad1f6;font-size:15px" Class="mt-4" @onclick="DeleteProduct">
-        Удалить
+           Style="background-color:#fad1f6;font-size:15px" Class="mt-4 mr-4" EndIcon="@Icons.Material.Filled.Edit">
+        Редактировать
     </MudButton>
+    <MudButton Variant="Variant.Filled"
+           Style="background-color:#fad1f6;font-size:15px" Class="mt-4" StartIcon="@Icons.Material.Filled.Delete"
+           @onclick="DeleteProduct">Удалить</MudButton>
     <br>
     <MudButton @onclick="ToAddProductPage" Variant="Variant.Filled"
-           Style="background-color:#fad1f6;font-size:15px" Class="mt-4">Добавить новый товар</MudButton>
+           Style="background-color:#fad1f6;font-size:15px" Class="mt-4" EndIcon="@Icons.Material.Filled.Add">
+        Добавить новый товар
+    </MudButton>
 }
-
