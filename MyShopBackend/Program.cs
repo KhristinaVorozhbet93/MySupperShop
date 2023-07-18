@@ -20,6 +20,8 @@ options.UseSqlite($"DataSource = {path}"));
 if (path == null) throw new Exception();
 
 builder.Services.AddScoped<IProductRepozitory, ProductRepozitory>();
+builder.Services.AddScoped<IAccountRepozitory, AccountRepozitory>();
+builder.Services.AddScoped(typeof(IRepozitory<>), typeof(EfRepozitory<>));
 
 var app = builder.Build();
 app.UseCors(policy =>
@@ -48,36 +50,36 @@ app.MapPost("/delete_product", DeleteProduct);
 
 async Task AddProduct(
     [FromBody] Product product, 
-    IProductRepozitory productRepozitory,
+    IRepozitory<Product> productRepozitory,
     CancellationToken cancellationToken)
 {
-    await productRepozitory.AddProduct(product, cancellationToken);
+    await productRepozitory.Add(product, cancellationToken);
 }
-async Task<IResult> GetProductById(
-    [FromQuery] Guid id, 
-    IProductRepozitory productRepozitory, 
+async Task<Product> GetProductById(
+    [FromQuery] Guid id,
+    IRepozitory<Product> productRepozitory,
     CancellationToken cancellationToken)
 {
-    return await productRepozitory.GetProductById(id, cancellationToken);
+    return await productRepozitory.GetById(id, cancellationToken);
 }
-async Task<List<Product>> GetAllProducts(IProductRepozitory productRepozitory,
+async Task<List<Product>> GetAllProducts(IRepozitory<Product> productRepozitory,
     CancellationToken cancellationToken)
 {
-    return await productRepozitory.GetAllProducts(cancellationToken);
+    return await productRepozitory.GetAll(cancellationToken);
 }
-async Task<IResult> UpdateProduct(
+async Task UpdateProduct(
     Product newProduct, 
-    IProductRepozitory productRepozitory,
+    IRepozitory<Product> productRepozitory,
     CancellationToken cancellationToken)
 {
-    return await productRepozitory.UpdateProduct(newProduct, cancellationToken);
+   await productRepozitory.Update(newProduct, cancellationToken);
 }
 async Task DeleteProduct(
     [FromBody] Product product,
-    IProductRepozitory productRepozitory,
+    IRepozitory<Product> productRepozitory,
     CancellationToken cancellationToken)
 {
-    await productRepozitory.DeleteProduct(product,cancellationToken);
+    await productRepozitory.Delete(product,cancellationToken);
 }
 app.MapControllers();
 app.Run();

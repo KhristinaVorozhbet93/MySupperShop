@@ -2,7 +2,8 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using MySupperShop;
 using MudBlazor.Services;
-using MySupperShop.Interfaces;
+using MySupperShopHttpApiClient.Interfaces;
+using MySupperShopHttpApiClient.Data;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");

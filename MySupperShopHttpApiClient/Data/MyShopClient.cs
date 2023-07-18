@@ -1,8 +1,8 @@
-﻿using MySupperShop.Interfaces;
-using MySupperShop.Models;
+﻿using MySupperShop.Models;
+using MySupperShopHttpApiClient.Interfaces;
 using System.Net.Http.Json;
 
-namespace MySupperShop
+namespace MySupperShopHttpApiClient.Data
 {
     public class MyShopClient : IMyShopClient, IDisposable
     {
@@ -15,7 +15,7 @@ namespace MySupperShop
 
             if (!Uri.TryCreate(host, UriKind.Absolute, out var hostUri))
             {
-                throw new ArgumentException("The host adress shoul be a valid URL",nameof(host));
+                throw new ArgumentException("The host adress shoul be a valid URL", nameof(host));
             }
             _host = host;
             _httpClient = httpClient ?? new HttpClient();
@@ -41,9 +41,9 @@ namespace MySupperShop
                 .GetFromJsonAsync<Product>($"get_product?id={id}", cancellationToken);
             if (product is null)
             {
-                throw new InvalidOperationException(nameof(product)); 
+                throw new InvalidOperationException(nameof(product));
             }
-            return product; 
+            return product;
         }
         public async Task<List<Product>> GetProducts(CancellationToken cancellationToken)
         {
@@ -66,7 +66,7 @@ namespace MySupperShop
         {
             ArgumentNullException.ThrowIfNull(nameof(newProduct));
             await _httpClient!
-                .PostAsJsonAsync($"update_product",newProduct,cancellationToken);
+                .PostAsJsonAsync($"update_product", newProduct, cancellationToken);
             //response.EnsureSuccessStatusCode();
         }
     }

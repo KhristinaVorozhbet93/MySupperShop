@@ -1,6 +1,6 @@
 ﻿using MySupperShop.Models;
-using MySupperShop.Interfaces;
 using Microsoft.AspNetCore.Components;
+using MySupperShopHttpApiClient.Interfaces;
 
 namespace MySupperShop.Pages
 {

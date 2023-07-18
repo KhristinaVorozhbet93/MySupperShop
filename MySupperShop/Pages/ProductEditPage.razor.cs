@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Components;
-using MySupperShop.Interfaces;
 using MySupperShop.Models;
+using MySupperShopHttpApiClient.Interfaces;
 
-namespace MySupperShop.Pages {
+namespace MySupperShop.Pages
+{
     public partial class ProductEditPage : IDisposable
     {
         [Parameter]

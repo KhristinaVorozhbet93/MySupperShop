@@ -1,6 +1,8 @@
-﻿namespace MyShopBackend.Models
+﻿using MyShopBackend.Interfaces;
+
+namespace MyShopBackend.Models
 {
-    public class Product
+    public class Product : IEntity
     {
         public Guid Id { get; init; }
         public string Image { get; set; }
