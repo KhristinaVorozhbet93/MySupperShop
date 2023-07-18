@@ -67,7 +67,6 @@ namespace MySupperShopHttpApiClient.Data
             ArgumentNullException.ThrowIfNull(nameof(newProduct));
             await _httpClient!
                 .PostAsJsonAsync($"update_product", newProduct, cancellationToken);
-            //response.EnsureSuccessStatusCode();
         }
     }
 }

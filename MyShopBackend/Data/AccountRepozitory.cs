@@ -1,4 +1,5 @@
-﻿using MyShopBackend.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using MyShopBackend.Interfaces;
 using MyShopBackend.Models;
 
 namespace MyShopBackend.Data
@@ -7,5 +8,14 @@ namespace MyShopBackend.Data
     {
         private readonly AppDbContext _dbContext;
         public AccountRepozitory(AppDbContext _dbContext) : base(_dbContext) { }
+
+        public async Task<Account> GetByEmail(string email, CancellationToken cancellationToken)
+        {
+            if (email is null)
+            {
+                throw new ArgumentException(nameof(email));
+            }
+            return await _entities.SingleAsync(e => e.Email == email, cancellationToken);
+        }
     }
 }
