@@ -20,7 +20,7 @@ namespace MyShopBackend.Data
         }
         public virtual async Task<TEntity> GetById(Guid id, CancellationToken cancellationToken)
         {
-            var entity = await _entities.FirstOrDefaultAsync(it => it.Id == id, cancellationToken);
+            var entity = await _entities.FirstAsync(it => it.Id == id, cancellationToken);
             return entity;
         }
         public virtual async Task<List<TEntity>> GetAll(CancellationToken cancellationToken)

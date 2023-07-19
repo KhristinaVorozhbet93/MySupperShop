@@ -21,14 +21,30 @@ namespace MyShopBackend.Controllers
             await _repozitory.Add(account, cancellationToken);
         }
         [HttpGet("get_account_by_id")]
-        public async Task<Account> GetAccountById([FromQuery] Guid id, CancellationToken cancellationToken)
+        public async Task<IResult> GetAccountById([FromQuery] Guid id, CancellationToken cancellationToken)
         {
-            return await _repozitory.GetById(id, cancellationToken);
+            try
+            {
+                var account = await _repozitory.GetById(id, cancellationToken);
+                return Results.Ok(account);
+            }
+            catch (InvalidOperationException)
+            {
+                return Results.NotFound();
+            }
         }
         [HttpGet("get_account_by_email")]
-        public async Task<Account> GetAccountByEmail([FromQuery] string email, CancellationToken cancellationToken)
+        public async Task<IResult> GetAccountByEmail([FromQuery] string email, CancellationToken cancellationToken)
         {
-            return await _accountRepozitory.GetByEmail(email, cancellationToken);
+            try
+            {
+                var account = await _accountRepozitory.GetByEmail(email, cancellationToken);
+                return Results.Ok(account);
+            }
+            catch (InvalidOperationException)
+            {
+                return Results.NotFound();
+            }
         }
     }
 }

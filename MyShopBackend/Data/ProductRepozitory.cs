@@ -16,7 +16,7 @@ namespace MyShopBackend.Data
         public async override Task Update(Product newProduct, CancellationToken cancellationToken)
         {
             var product = await _entities
-                .FirstOrDefaultAsync(it => it.Id == newProduct.Id, cancellationToken);
+                .FirstAsync(it => it.Id == newProduct.Id, cancellationToken);
 
             product!.Name = newProduct.Name;
             product.Price = newProduct.Price;

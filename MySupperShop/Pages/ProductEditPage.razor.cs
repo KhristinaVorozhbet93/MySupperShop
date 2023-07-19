@@ -51,11 +51,18 @@ namespace MySupperShop.Pages
                 ExpiredAt = ExpiredAt,
                 Description = Description
             };
-            await ShopClient!.UpdateProduct(newProduct, _cts.Token);
-            ProductFieldChanged = "Товар изменен!";
-            await InvokeAsync(() => StateHasChanged());
+            try
+            {
+                await ShopClient!.UpdateProduct(newProduct, _cts.Token);
+                ProductFieldChanged = "Товар изменен!";
+                await InvokeAsync(() => StateHasChanged());
+            }
+            catch (ArgumentNullException)
+            {
+                ProductFieldChanged = "Товар не изменен!";
+                await InvokeAsync(() => StateHasChanged());
+            }
         }
-
         public void Dispose()
         {
             _cts.Cancel();

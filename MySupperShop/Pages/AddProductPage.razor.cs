@@ -37,9 +37,16 @@ namespace MySupperShop.Pages
                 Description = Description, 
                 Image = Image
             };
-            await ShopClient!.AddProduct(newProduct, _cts.Token);
-            ProductFieldAdded = "Товар добавлен!";
-            await InvokeAsync(() => StateHasChanged());
+            try
+            {
+                await ShopClient!.AddProduct(newProduct, _cts.Token);
+                ProductFieldAdded = "Товар добавлен!";
+                await InvokeAsync(() => StateHasChanged());
+            }
+            catch (ArgumentNullException)
+            {
+                ProductFieldAdded = "Товар не добавлен!";
+            }
         }
 
         public void Dispose()

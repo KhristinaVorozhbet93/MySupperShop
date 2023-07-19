@@ -16,19 +16,43 @@ namespace MyShopBackend.Controllers
 
         }
         [HttpPost("add_product")]
-        public async Task AddProduct([FromBody] Product product, CancellationToken cancellationToken)
+        public async Task<IResult> AddProduct([FromBody] Product product, CancellationToken cancellationToken)
         {
-            await _repozitory.Add(product, cancellationToken);
+            try
+            {
+                await _repozitory.Add(product, cancellationToken);
+                return Results.Ok();
+            }
+            catch (InvalidOperationException)
+            {
+                return Results.NotFound();
+            }
         }
         [HttpGet("get_product")]
-        public async Task<Product> GetProductById([FromQuery] Guid id, CancellationToken cancellationToken)
+        public async Task<IResult> GetProductById([FromQuery] Guid id, CancellationToken cancellationToken)
         {
-            return await _repozitory.GetById(id, cancellationToken);
+            try
+            {
+                var product = await _repozitory.GetById(id, cancellationToken);
+                return Results.Ok(product);
+            }
+            catch (InvalidOperationException)
+            {
+                return Results.NotFound();
+            }
         }
         [HttpGet("get_products")]
-        public async Task<List<Product>> GetAllProducts(CancellationToken cancellationToken)
+        public async Task<IResult> GetAllProducts(CancellationToken cancellationToken)
         {
-            return await _repozitory.GetAll(cancellationToken);
+            try
+            {
+                var products = await _repozitory.GetAll(cancellationToken);
+                return Results.Ok(products);
+            }
+            catch (InvalidOperationException)
+            {
+                return Results.NotFound();
+            }
         }
         [HttpPost("update_product")]
         public async Task UpdateProduct([FromBody] Product newProduct, CancellationToken cancellationToken)
