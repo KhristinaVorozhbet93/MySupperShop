@@ -4,12 +4,12 @@ using MyShopBackend.Models;
 
 namespace MyShopBackend.Controllers
 {
-    public class ControllerAccount : ControllerBase
+    public class AccountController : ControllerBase
     {
         private readonly IRepozitory<Account> _repozitory;
         private readonly IAccountRepozitory _accountRepozitory;
 
-        public ControllerAccount(IRepozitory<Account> repozitory, IAccountRepozitory accountRepozitory)
+        public AccountController(IRepozitory<Account> repozitory, IAccountRepozitory accountRepozitory)
         {
             _repozitory = repozitory ?? throw new ArgumentException(nameof(repozitory));
             _accountRepozitory = accountRepozitory ?? throw new ArgumentException(nameof(accountRepozitory));
