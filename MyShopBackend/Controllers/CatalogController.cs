@@ -6,7 +6,7 @@ namespace MyShopBackend.Controllers
 {
     public class CatalogController : ControllerBase
     {
-        private readonly IRepozitory<Product> _repozitory;
+        private readonly IRepozitory<Product> _repozitory; 
         private readonly IProductRepozitory _productRepozitory;
 
         public CatalogController(IRepozitory<Product> repozitory, IProductRepozitory productRepozitory)
@@ -49,7 +49,7 @@ namespace MyShopBackend.Controllers
                 var products = await _repozitory.GetAll(cancellationToken);
                 return Results.Ok(products);
             }
-            catch (InvalidOperationException)
+            catch (ArgumentNullException)
             {
                 return Results.NotFound();
             }
