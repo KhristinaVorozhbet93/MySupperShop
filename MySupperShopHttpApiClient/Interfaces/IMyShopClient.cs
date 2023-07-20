@@ -1,4 +1,5 @@
-﻿using MySupperShop.Models;
+﻿using MyShopBackend.Models;
+using MySupperShop.Models;
 
 namespace MySupperShopHttpApiClient.Interfaces
 {
@@ -8,6 +9,7 @@ namespace MySupperShopHttpApiClient.Interfaces
         Task<Product> GetProduct(Guid id, CancellationToken cancellationToken);
         Task<List<Product>> GetProducts(CancellationToken cancellationToken);
         Task DeleteProduct(Product product, CancellationToken cancellationToken);
-        Task UpdateProduct(Product newProduct, CancellationToken cancellationToken);
+        Task UpdateProduct(Product product, CancellationToken cancellationToken);
+        Task Register(Account account, CancellationToken cancellationToken);
     }
 }

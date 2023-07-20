@@ -4,6 +4,7 @@ using MyShopBackend.Models;
 
 namespace MyShopBackend.Controllers
 {
+    [ApiController]
     public class AccountController : ControllerBase
     {
         private readonly IRepozitory<Account> _repozitory;
@@ -16,12 +17,12 @@ namespace MyShopBackend.Controllers
         }
 
         [HttpPost("add_account")]
-        public async Task AddAccount([FromBody] Account account, CancellationToken cancellationToken)
+        public async Task AddAccount(Account account, CancellationToken cancellationToken)
         {
             await _repozitory.Add(account, cancellationToken);
         }
         [HttpGet("get_account_by_id")]
-        public async Task<IResult> GetAccountById([FromQuery] Guid id, CancellationToken cancellationToken)
+        public async Task<IResult> GetAccountById(Guid id, CancellationToken cancellationToken)
         {
             try
             {
@@ -33,8 +34,21 @@ namespace MyShopBackend.Controllers
                 return Results.NotFound();
             }
         }
+        [HttpGet("get_accounts")]
+        public async Task<IResult> GetAccounts(CancellationToken cancellationToken)
+        {
+            try
+            {
+                var accounts = await _repozitory.GetAll(cancellationToken);
+                return Results.Ok(accounts);
+            }
+            catch (InvalidOperationException)
+            {
+                return Results.NotFound();
+            }
+        }
         [HttpGet("get_account_by_email")]
-        public async Task<IResult> GetAccountByEmail([FromQuery] string email, CancellationToken cancellationToken)
+        public async Task<IResult> GetAccountByEmail(string email, CancellationToken cancellationToken)
         {
             try
             {

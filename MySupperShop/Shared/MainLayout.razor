@@ -1,15 +1,20 @@
 ﻿@inherits LayoutComponentBase
+@inject NavigationManager manager
 
 <MudThemeProvider />
 <MudDialogProvider />
 <MudSnackbarProvider />
 
-<MudLayout>
-    <MudAppBar Elevation="0">
+<MudLayout Style="background-image:url(https://thumbs.dreamstime.com/b/%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D0%B0-%D0%B8%D1%81%D1%82%D1%8C%D0%B5%D0%B2-%D1%81%D0%B2%D0%B5%D0%B6%D0%B5%D0%B9-%D0%BC%D1%8F%D1%82%D1%8B-57770794.jpg);
+background-repeat:no-repeat;background-size:cover;">
+    <MudAppBar Elevation="0" Style="background-color: #6ec04a">
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
         <MudSpacer />
-        <MudIconButton Icon="@Icons.Custom.Brands.MudBlazor" Color="Color.Inherit" Link="https://mudblazor.com/" Target="_blank" />
-        <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Link="https://github.com/MudBlazor/MudBlazor/" Target="_blank" />
+        <MudButton @onclick="ToRegistrationPage"
+                   Variant="Variant.Filled"
+                   Style="background-color:white;font-size:13px">
+            Регистрация
+        </MudButton>
     </MudAppBar>
     <MudDrawer @bind-Open="_drawerOpen" Elevation="1">
         <MudDrawerHeader>
@@ -30,5 +35,10 @@
     void DrawerToggle()
     {
         _drawerOpen = !_drawerOpen;
+    }
+
+    public void ToRegistrationPage()
+    {
+        manager.NavigateTo("/registration");
     }
 }

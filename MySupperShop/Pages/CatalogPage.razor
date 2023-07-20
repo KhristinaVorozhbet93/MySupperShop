@@ -2,8 +2,8 @@
 @using MySupperShop.Components
 
 <MudDrawerHeader Class="text">Каталог магазина продуктов</MudDrawerHeader>
-<MudGrid Style="background-color:#97fdff">
-    @if(_products is null)
+<MudGrid>
+    @if (_products is null)
     {
         <div>Страница загружается...</div>
     }
@@ -15,4 +15,5 @@
         }
     }
 </MudGrid>
+
 

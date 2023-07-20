@@ -44,16 +44,15 @@ namespace MySupperShop.Pages
                 ProductFieldChanged = "Некорректно введена цена!";
                 return;
             }
-            var newProduct = new Product(Name, Price)
-            {
-                Id = _product!.Id,
-                ProducedAt = ProducedAt,
-                ExpiredAt = ExpiredAt,
-                Description = Description
-            };
+            _product!.Name = Name;
+            _product.Price = Price;
+            _product.Image = Image;
+            _product.ProducedAt = ProducedAt;
+            _product.ExpiredAt = ExpiredAt;
+            _product.Description = Description;
             try
             {
-                await ShopClient!.UpdateProduct(newProduct, _cts.Token);
+                await ShopClient!.UpdateProduct(_product, _cts.Token);
                 ProductFieldChanged = "Товар изменен!";
                 await InvokeAsync(() => StateHasChanged());
             }

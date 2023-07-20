@@ -1,4 +1,5 @@
-﻿using MySupperShop.Models;
+﻿using MyShopBackend.Models;
+using MySupperShop.Models;
 using MySupperShopHttpApiClient.Interfaces;
 using System.Net.Http.Json;
 
@@ -62,11 +63,18 @@ namespace MySupperShopHttpApiClient.Data
                 .PostAsJsonAsync("delete_product", product, cancellationToken);
             response.EnsureSuccessStatusCode();
         }
-        public async Task UpdateProduct(Product newProduct, CancellationToken cancellationToken)
+        public async Task UpdateProduct(Product product, CancellationToken cancellationToken)
         {
-            ArgumentNullException.ThrowIfNull(nameof(newProduct));
+            ArgumentNullException.ThrowIfNull(nameof(product));
             await _httpClient!
-                .PostAsJsonAsync($"update_product", newProduct, cancellationToken);
+                .PostAsJsonAsync($"update_product", product, cancellationToken);
+        }
+        public async Task Register(Account account, CancellationToken cancellationToken)
+        {
+            ArgumentNullException.ThrowIfNull(nameof(account));
+            using var response = await _httpClient!
+                .PostAsJsonAsync("add_account", account, cancellationToken);
+            response.EnsureSuccessStatusCode();
         }
     }
 }

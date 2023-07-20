@@ -4,19 +4,17 @@ using MyShopBackend.Models;
 
 namespace MyShopBackend.Controllers
 {
+    [ApiController]
     public class CatalogController : ControllerBase
     {
         private readonly IRepozitory<Product> _repozitory; 
-        private readonly IProductRepozitory _productRepozitory;
 
-        public CatalogController(IRepozitory<Product> repozitory, IProductRepozitory productRepozitory)
+        public CatalogController(IRepozitory<Product> repozitory)
         {
             _repozitory = repozitory ?? throw new ArgumentException(nameof(repozitory));
-            _productRepozitory = productRepozitory ?? throw new ArgumentException(nameof(_productRepozitory));
-
         }
         [HttpPost("add_product")]
-        public async Task<IResult> AddProduct([FromBody] Product product, CancellationToken cancellationToken)
+        public async Task<IResult> AddProduct(Product product, CancellationToken cancellationToken)
         {
             try
             {
@@ -29,7 +27,7 @@ namespace MyShopBackend.Controllers
             }
         }
         [HttpGet("get_product")]
-        public async Task<IResult> GetProductById([FromQuery] Guid id, CancellationToken cancellationToken)
+        public async Task<IResult> GetProductById(Guid id, CancellationToken cancellationToken)
         {
             try
             {
@@ -55,9 +53,9 @@ namespace MyShopBackend.Controllers
             }
         }
         [HttpPost("update_product")]
-        public async Task UpdateProduct([FromBody] Product newProduct, CancellationToken cancellationToken)
+        public async Task UpdateProduct(Product product, CancellationToken cancellationToken)
         {
-            await _productRepozitory.Update(newProduct, cancellationToken);
+            await _repozitory.Update(product, cancellationToken);
         }
         [HttpPost("delete_product")]
         public async Task DeleteProduct([FromBody] Product product, CancellationToken cancellationToken)

@@ -10,8 +10,8 @@ else
 {
     <MudText Class="text" Style="width:300px;font-size:18px;font-weight:normal">@ProductFieldChanged</MudText>
     <MudItem xs="3" lg="3" Class="d-flex">
-        <MudPaper Width="300px" Class="pa-4" Style="background-color:#fad1f6">
-            <MudCard Style="background-color:#97fdff">
+        <MudPaper Width="300px" Class="pa-4" Style="background-color:#6ec04a">
+            <MudCard>
                 <MudCardContent Style="min-height:100px">
                     <MudText>Название товара:</MudText>
                     <MudTextField @bind-Value="Name" Class="text" Style="background-color:white">
@@ -28,6 +28,6 @@ else
             </MudCard>
         </MudPaper>
     </MudItem>
-    <MudButton @onclick="SaveProductChanges" Variant="Variant.Filled"
-           Style="background-color:#97fdff;font-size:15px" Class="mt-4" StartIcon="@Icons.Material.Filled.Save">Сохранить</MudButton>
+    <MudButton @onclick="SaveProductChanges" Variant="Variant.Filled" Style="background-color:#6ec04a;
+color:white; font-size:15px" Class="mt-4" StartIcon="@Icons.Material.Filled.Save">Сохранить</MudButton>
 }

@@ -5,8 +5,8 @@ namespace MyShopBackend.Data
 {
     public class EfRepozitory<TEntity> : IRepozitory<TEntity> where TEntity : class, IEntity
     {
-        private readonly AppDbContext _dbContext;
-
+        protected readonly AppDbContext _dbContext;
+        
         public EfRepozitory(AppDbContext dbContext)
         {
             _dbContext = dbContext ?? throw new ArgumentException(nameof(dbContext));
