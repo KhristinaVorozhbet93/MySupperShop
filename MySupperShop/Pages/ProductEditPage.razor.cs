@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using MudBlazor;
 using MySupperShop.Models;
 using MySupperShopHttpApiClient.Interfaces;
 
@@ -10,6 +11,8 @@ namespace MySupperShop.Pages
         public Guid ProductId { get; set; }
         [Inject]
         public IMyShopClient? ShopClient { get; set; }
+        [Inject]
+        public IDialogService DialogService { get; set; }
 
         public string Name { get; set; } = string.Empty;
         public decimal Price { get; set; } 
@@ -17,8 +20,6 @@ namespace MySupperShop.Pages
         public DateTime ProducedAt { get; set; }
         public DateTime ExpiredAt { get; set; }
         public string Description { get; set; } = string.Empty;
-        public string ProductFieldChanged{ get; set; } = "";
-
         private Product? _product;
         private CancellationTokenSource _cts = new CancellationTokenSource();
         protected override async Task OnInitializedAsync()
@@ -36,12 +37,12 @@ namespace MySupperShop.Pages
         {
             if (Name == string.Empty)
             {
-                ProductFieldChanged = "Некорректно введено имя!";
+                await DialogService.ShowMessageBox("Ошибка", "Некорректно введено имя!");
                 return;
             }
             if (Price <= 0)
             {
-                ProductFieldChanged = "Некорректно введена цена!";
+                await DialogService.ShowMessageBox("Ошибка", "Некорректно введена цена!");
                 return;
             }
             _product!.Name = Name;
@@ -53,13 +54,11 @@ namespace MySupperShop.Pages
             try
             {
                 await ShopClient!.UpdateProduct(_product, _cts.Token);
-                ProductFieldChanged = "Товар изменен!";
-                await InvokeAsync(() => StateHasChanged());
+                await DialogService.ShowMessageBox("Успешно", "Товар изменен!");
             }
             catch (ArgumentNullException)
             {
-                ProductFieldChanged = "Товар не изменен!";
-                await InvokeAsync(() => StateHasChanged());
+                await DialogService.ShowMessageBox("Ошибка", "Товар не изменен!");
             }
         }
         public void Dispose()

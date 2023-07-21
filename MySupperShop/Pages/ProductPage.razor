@@ -8,9 +8,6 @@
 }
 else
 {
-    <MudText Class="text" Style="width:300px; font-size:18px; font-weight:normal">
-        @ProductFieldDeleted
-    </MudText>
     <ProductItem Product="_product" />
     <MudButton @onclick="ToProductEditPage" Variant="Variant.Filled"
            Style="background-color:#6ec04a;color:white;font-size:15px" Class="mt-4 mr-4" EndIcon="@Icons.Material.Filled.Edit">
@@ -20,8 +17,4 @@ else
            Style="background-color:#6ec04a;color:white;font-size:15px" Class="mt-4" StartIcon="@Icons.Material.Filled.Delete"
            @onclick="DeleteProduct">Удалить</MudButton>
     <br>
-    <MudButton @onclick="ToAddProductPage" Variant="Variant.Filled"
-           Style="background-color:#6ec04a;color:white;font-size:15px" Class="mt-4" EndIcon="@Icons.Material.Filled.Add">
-        Добавить новый товар
-    </MudButton>
 }

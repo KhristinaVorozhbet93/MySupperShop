@@ -8,6 +8,8 @@ namespace MySupperShop.Pages
     {
         [Inject]
         private IMyShopClient? ShopClient { get; set; }
+        [Inject]
+        public NavigationManager manager { get; set; }
         private List<Product>? _products;
         private CancellationTokenSource _cts = new();
 
@@ -18,6 +20,10 @@ namespace MySupperShop.Pages
         public void Dispose()
         {
             _cts.Cancel();
+        }
+        public void ToAddProductPage()
+        {
+            manager.NavigateTo($"/products/new");
         }
     }
 }

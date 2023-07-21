@@ -4,6 +4,6 @@ namespace MyShopBackend.Interfaces
 {
     public interface IAccountRepozitory : IRepozitory<Account>
     {
-        Task<Account> GetByEmail(string email, CancellationToken cancellationToken); 
+        Task<Account> GetByEmail(string email, CancellationToken cancellationToken);
     }
 }

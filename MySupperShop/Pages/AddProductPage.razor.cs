@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using MudBlazor;
 using MySupperShop.Models;
 using MySupperShopHttpApiClient.Interfaces;
 
@@ -8,25 +9,27 @@ namespace MySupperShop.Pages
     {
         [Inject]
         public IMyShopClient? ShopClient { get; set; }
+        [Inject]
+        public IDialogService DialogService { get; set; }
+            
         public string Name { get; set; } = string.Empty;
         public decimal Price { get; set; }
         public string Image { get; set; } = string.Empty;
         public DateTime ProducedAt { get; set; } = DateTime.Now;
         public DateTime ExpiredAt { get; set; }
         public string Description { get; set; } = string.Empty;
-        public string ProductFieldAdded { get; set; } = "";
         private CancellationTokenSource _cts = new CancellationTokenSource();
 
         public async Task SaveProductChanges()
         {
             if (Name == string.Empty)
             {
-                ProductFieldAdded = "Некорректно введено имя!";
+                await DialogService.ShowMessageBox("Ошибка", "Некорректно введено имя!");
                 return; 
             }
             if(Price <= 0)
             {
-                ProductFieldAdded = "Некорректно введена цена!";
+                await DialogService.ShowMessageBox("Ошибка", "Некорректно введена цена!");
                 return;
             }
             var newProduct = new Product(Name, Price)
@@ -40,12 +43,11 @@ namespace MySupperShop.Pages
             try
             {
                 await ShopClient!.AddProduct(newProduct, _cts.Token);
-                ProductFieldAdded = "Товар добавлен!";
-                await InvokeAsync(() => StateHasChanged());
+                await DialogService.ShowMessageBox("Успешно", "Товар добавлен!");
             }
             catch (ArgumentNullException)
             {
-                ProductFieldAdded = "Товар не добавлен!";
+                await DialogService.ShowMessageBox("Ошибка", "Товар не добавлен!");
             }
         }
 
