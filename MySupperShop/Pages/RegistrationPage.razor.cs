@@ -39,7 +39,7 @@ namespace MySupperShop.Pages
         }
         private async Task OnValidSubmit(EditContext context)
         {
-            var account = new RegisterRequest ()
+            var request = new RegisterRequest ()
             {
                 Login = model.Username,
                 Password = model.Password,
@@ -52,9 +52,15 @@ namespace MySupperShop.Pages
                     "Он должен содержать как минимум 8 символов");
                 return; 
             }
-
-            await ShopClient!.Register(account, _cts.Token);
-            await DialogService.ShowMessageBox("Успешно", "Вы успешно зарегистрированы!");
+            try
+            {
+                await ShopClient!.Register(request, _cts.Token);
+                await DialogService.ShowMessageBox("Успешно", "Вы успешно зарегистрированы!");
+            }
+            catch (HttpRequestException)
+            {
+               await DialogService.ShowMessageBox("Ошибка", "Пользователь с таким логином уже существует!");
+            }
             success = true;
             StateHasChanged();          
         }

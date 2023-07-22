@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using MyShopBackend.Data;
 using MyShopBackend.Interfaces;
+using MyShopBackend.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +21,7 @@ if (path == null) throw new Exception();
 builder.Services.AddScoped<IProductRepozitory, ProductRepozitory>();
 builder.Services.AddScoped<IAccountRepozitory, AccountRepozitory>();
 builder.Services.AddScoped(typeof(IRepozitory<>), typeof(EfRepozitory<>));
+builder.Services.AddScoped<AccountService>();
 
 var app = builder.Build();
 app.UseCors(policy =>

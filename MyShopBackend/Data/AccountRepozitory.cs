@@ -17,13 +17,13 @@ namespace MyShopBackend.Data
             }
             return await _entities.SingleAsync(e => e.Email == email, cancellationToken);
         }
-        public async Task<Account?> FindAccountByEmail(string email, CancellationToken cancellationToken)
+        public async Task<Account?> FindAccountByLogin(string login, CancellationToken cancellationToken)
         {
-            if (email is null)
+            if (login is null)
             {
-                throw new ArgumentException(nameof(email));
+                throw new ArgumentException(nameof(login));
             }
-            return await _entities.SingleOrDefaultAsync(e => e.Email == email, cancellationToken);
+            return await _entities.SingleOrDefaultAsync(e => e.Login == login, cancellationToken);
         }
     }
 }

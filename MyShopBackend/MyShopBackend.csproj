@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\OnlineShopDomain\OnlineShopDomain.csproj" />
     <ProjectReference Include="..\OnlineShopHttpModels\OnlineShopHttpModels.csproj" />
   </ItemGroup>
 

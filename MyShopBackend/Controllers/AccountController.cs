@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MyShopBackend.Interfaces;
 using MyShopBackend.Models;
+using MyShopBackend.Services;
 
 namespace MyShopBackend.Controllers
 {
@@ -9,24 +10,22 @@ namespace MyShopBackend.Controllers
     {
         private readonly IRepozitory<Account> _repozitory;
         private readonly IAccountRepozitory _accountRepozitory;
+        private readonly AccountService _accountService;
 
-        public AccountController(IRepozitory<Account> repozitory, IAccountRepozitory accountRepozitory)
+        public AccountController(IRepozitory<Account> repozitory,
+            IAccountRepozitory accountRepozitory,
+            AccountService accountService)
         {
             _repozitory = repozitory ?? throw new ArgumentException(nameof(repozitory));
             _accountRepozitory = accountRepozitory ?? throw new ArgumentException(nameof(accountRepozitory));
+            _accountService = accountService ?? throw new ArgumentException(nameof(accountService));
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult> Register(RegisterRequest request, 
+        public async Task<ActionResult> Register(RegisterRequest request,
             CancellationToken cancellationToken)
         {
-            Account account = new Account(Guid.Empty, request.Login, request.Password, request.Email);
-            var existedAccount = await _accountRepozitory.FindAccountByEmail(request.Email, cancellationToken);
-            if (existedAccount is not null)
-            {
-                return BadRequest("Account with this email alredy exist");
-            }
-            await _repozitory.Add(account, cancellationToken);
+            await _accountService.Register(request.Login, request.Password, request.Email);
             return Ok();
         }
         [HttpGet("get_account_by_id")]
