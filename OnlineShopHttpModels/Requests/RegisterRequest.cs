@@ -1,12 +1,14 @@
-﻿using MyShopBackend.Interfaces;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace MyShopBackend.Models
 {
-    public class Account : IEntity
+    public class RegisterRequest 
     {
-        public Guid Id { get; init; }
+        [Required]
         public string Login { get; set; }
+        [Required]
         public string Password { get; set; }
+        [Required, EmailAddress]
         public string Email { get; set; }
     }
 }

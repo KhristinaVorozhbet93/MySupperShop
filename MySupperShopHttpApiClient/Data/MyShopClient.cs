@@ -69,11 +69,11 @@ namespace MySupperShopHttpApiClient.Data
             await _httpClient!
                 .PostAsJsonAsync($"update_product", product, cancellationToken);
         }
-        public async Task Register(Account account, CancellationToken cancellationToken)
+        public async Task Register(RegisterRequest account, CancellationToken cancellationToken)
         {
             ArgumentNullException.ThrowIfNull(nameof(account));
             using var response = await _httpClient!
-                .PostAsJsonAsync("add_account", account, cancellationToken);
+                .PostAsJsonAsync("register", account, cancellationToken);
             response.EnsureSuccessStatusCode();
         }
     }

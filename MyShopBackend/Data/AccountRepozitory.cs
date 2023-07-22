@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyShopBackend.Interfaces;
 using MyShopBackend.Models;
-using System.Reflection.Metadata.Ecma335;
 
 namespace MyShopBackend.Data
 {
@@ -10,13 +9,21 @@ namespace MyShopBackend.Data
         private readonly AppDbContext _dbContext;
         public AccountRepozitory(AppDbContext _dbContext) : base(_dbContext) { }
 
-        public async Task<Account> GetByEmail(string email, CancellationToken cancellationToken)
+        public async Task<Account> GetAccountByEmail(string email, CancellationToken cancellationToken)
         {
             if (email is null)
             {
                 throw new ArgumentException(nameof(email));
             }
             return await _entities.SingleAsync(e => e.Email == email, cancellationToken);
+        }
+        public async Task<Account?> FindAccountByEmail(string email, CancellationToken cancellationToken)
+        {
+            if (email is null)
+            {
+                throw new ArgumentException(nameof(email));
+            }
+            return await _entities.SingleOrDefaultAsync(e => e.Email == email, cancellationToken);
         }
     }
 }

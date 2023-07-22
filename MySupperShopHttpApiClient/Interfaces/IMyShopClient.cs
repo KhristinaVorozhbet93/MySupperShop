@@ -10,6 +10,6 @@ namespace MySupperShopHttpApiClient.Interfaces
         Task<List<Product>> GetProducts(CancellationToken cancellationToken);
         Task DeleteProduct(Product product, CancellationToken cancellationToken);
         Task UpdateProduct(Product product, CancellationToken cancellationToken);
-        Task Register(Account account, CancellationToken cancellationToken);
+        Task Register(RegisterRequest account, CancellationToken cancellationToken);
     }
 }

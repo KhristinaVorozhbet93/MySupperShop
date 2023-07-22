@@ -39,9 +39,11 @@ namespace MySupperShop.Pages
         }
         private async Task OnValidSubmit(EditContext context)
         {
-            var account = new Account(model.Username, model.Password, model.Email)
+            var account = new RegisterRequest ()
             {
-                Id = Guid.NewGuid()
+                Login = model.Username,
+                Password = model.Password,
+                Email = model.Email
             };
 
             if (!IsPassword(model.Password))

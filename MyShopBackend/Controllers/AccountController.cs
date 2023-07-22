@@ -16,48 +16,56 @@ namespace MyShopBackend.Controllers
             _accountRepozitory = accountRepozitory ?? throw new ArgumentException(nameof(accountRepozitory));
         }
 
-        [HttpPost("add_account")]
-        public async Task AddAccount(Account account, CancellationToken cancellationToken)
+        [HttpPost("register")]
+        public async Task<ActionResult> Register(RegisterRequest request, 
+            CancellationToken cancellationToken)
         {
+            Account account = new Account(Guid.Empty, request.Login, request.Password, request.Email);
+            var existedAccount = await _accountRepozitory.FindAccountByEmail(request.Email, cancellationToken);
+            if (existedAccount is not null)
+            {
+                return BadRequest("Account with this email alredy exist");
+            }
             await _repozitory.Add(account, cancellationToken);
+            return Ok();
         }
         [HttpGet("get_account_by_id")]
-        public async Task<IResult> GetAccountById(Guid id, CancellationToken cancellationToken)
+        public async Task<ActionResult> GetAccountById(Guid id, CancellationToken cancellationToken)
         {
             try
             {
                 var account = await _repozitory.GetById(id, cancellationToken);
-                return Results.Ok(account);
+                return Ok(account);
             }
             catch (InvalidOperationException)
             {
-                return Results.NotFound();
+                return NotFound();
             }
         }
         [HttpGet("get_accounts")]
-        public async Task<IResult> GetAccounts(CancellationToken cancellationToken)
+        public async Task<ActionResult<Account>> GetAccounts(CancellationToken cancellationToken)
         {
             try
             {
                 var accounts = await _repozitory.GetAll(cancellationToken);
-                return Results.Ok(accounts);
+                return Ok(accounts);
             }
             catch (InvalidOperationException)
             {
-                return Results.NotFound();
+                return NotFound();
             }
         }
         [HttpGet("get_account_by_email")]
-        public async Task<IResult> GetAccountByEmail(string email, CancellationToken cancellationToken)
+        public async Task<ActionResult<Account>> GetAccountByEmail(string email, CancellationToken cancellationToken)
         {
             try
             {
-                var account = await _accountRepozitory.GetByEmail(email, cancellationToken);
-                return Results.Ok(account);
+                var account = await _accountRepozitory.GetAccountByEmail(email, cancellationToken);
+                return Ok(account);
             }
             catch (InvalidOperationException)
             {
-                return Results.NotFound();
+                return NotFound();
             }
         }
     }
