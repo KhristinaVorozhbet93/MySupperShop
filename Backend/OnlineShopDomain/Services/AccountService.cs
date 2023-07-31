@@ -1,5 +1,6 @@
 ﻿using MyShopBackend.Interfaces;
 using MyShopBackend.Models;
+using OnlineShopDomain.Exxceptions;
 
 namespace MyShopBackend.Services
 {
@@ -8,25 +9,24 @@ namespace MyShopBackend.Services
         private readonly IAccountRepozitory _accountRepozitory;
         private readonly IRepozitory<Account> _repozitory;
 
-        private CancellationTokenSource _cts = new CancellationTokenSource();
         public AccountService(IAccountRepozitory accountRepozitory, IRepozitory<Account> repozitory)
         {
             _accountRepozitory = 
                 accountRepozitory ?? throw new ArgumentException(nameof(accountRepozitory));
             _repozitory = repozitory ?? throw new ArgumentException(nameof(repozitory));
         }
-        public async Task Register(string login, string email, string password)
+        public async Task Register(string login, string email, string password, CancellationToken cancellationToken)
         {
             ArgumentNullException.ThrowIfNull(login);
             ArgumentNullException.ThrowIfNull(email);
             ArgumentNullException.ThrowIfNull(password);
-            var existedAccount = await _accountRepozitory.FindAccountByLogin(login, _cts.Token);
+            var existedAccount = await _accountRepozitory.FindAccountByLogin(login, cancellationToken);
             if (existedAccount is not null)
             {
-                throw new InvalidOperationException("Account with this email alredy exist");
+                throw new EmailAlreadyExistsException("Account with this login alredy exist");
             }
             Account account = new Account(Guid.Empty,login, password, email);
-            await _repozitory.Add(account, _cts.Token);
+            await _repozitory.Add(account, cancellationToken);
         }
     }
 }

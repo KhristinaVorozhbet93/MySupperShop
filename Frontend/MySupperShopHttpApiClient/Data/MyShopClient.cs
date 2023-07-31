@@ -2,6 +2,8 @@
 using MySupperShop.Models;
 using MySupperShopHttpApiClient.Interfaces;
 using System.Net.Http.Json;
+using System.Net;
+using OnlineShopHttpModels.Responses;
 
 namespace MySupperShopHttpApiClient.Data
 {
@@ -74,6 +76,23 @@ namespace MySupperShopHttpApiClient.Data
             ArgumentNullException.ThrowIfNull(nameof(account));
             var response = await _httpClient!
                 .PostAsJsonAsync("register", account, cancellationToken);
+            if (!response.IsSuccessStatusCode)
+            {
+                if (response.StatusCode == HttpStatusCode.Conflict)
+                {
+                    var error = await response.Content.ReadFromJsonAsync<ErrorResponse>();
+                    throw new MyShopAPIException(error);
+                }
+                else if (response.StatusCode == HttpStatusCode.BadRequest)
+                {
+                    var details = await response.Content.ReadFromJsonAsync<ValidationProblemDetails>();
+                    throw new MyShopAPIException(response.StatusCode, details);
+                }
+                else
+                {
+                    throw new MyShopAPIException("Неизвестная ошибка!");
+                }
+            }
             response.EnsureSuccessStatusCode();
         }
     }

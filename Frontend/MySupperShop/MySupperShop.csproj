@@ -22,8 +22,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\MySupperShopHttpApiClient\MySupperShopHttpApiClient.csproj" />
-	  <ProjectReference Include="..\OnlineShopHttpModels\OnlineShopHttpModels.csproj" />
+	  <ProjectReference Include="..\..\Frontend\MySupperShopHttpApiClient\MySupperShopHttpApiClient.csproj" />
+	  <ProjectReference Include="..\..\Shared\OnlineShopHttpModels\OnlineShopHttpModels.csproj" />
 	</ItemGroup>
 	
 	<ItemGroup>

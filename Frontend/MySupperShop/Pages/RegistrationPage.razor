@@ -1,13 +1,13 @@
 ﻿@page "/registration"; 
 
-<EditForm Model="@model" OnValidSubmit="OnValidSubmit">
+<EditForm Model="@model" OnValidSubmit="ProcessRegistration">
     <DataAnnotationsValidator />
     <MudGrid>
         <MudItem xs="12" sm="7">
             <MudCard>
                 <MudCardContent>
                     <MudTextField Label="Логин" HelperText="Минимум 6 символов"
-                                  @bind-Value="model.Username" For="@(() => model.Username)" />
+                                  @bind-Value="model.Login" For="@(() => model.Login)" />
                     <MudTextField Label="Почта" Class="mt-3"
                                   @bind-Value="model.Email" For="@(() => model.Email)" />
                     <MudTextField Label="Пароль" HelperText="Введите пароль" Class="mt-3"
@@ -21,10 +21,15 @@
                 </MudCardActions>
             </MudCard>
         </MudItem>
-        <MudItem xs="12">
+        @if (_registrationInProgress)
+        {
+            <MudProgressLinear Color="Color.Primary" Indeterminate="true" Class="my-7" />
+        }
+        <MudItem xs="12">      
             <MudText Typo="Typo.body2" Align="Align.Center">
                 Fill out the form correctly to see the success message.
             </MudText>
         </MudItem>
+
     </MudGrid>
 </EditForm>

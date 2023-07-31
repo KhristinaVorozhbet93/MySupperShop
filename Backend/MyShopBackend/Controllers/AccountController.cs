@@ -2,6 +2,8 @@
 using MyShopBackend.Interfaces;
 using MyShopBackend.Models;
 using MyShopBackend.Services;
+using OnlineShopDomain.Exxceptions;
+using OnlineShopHttpModels.Responses;
 
 namespace MyShopBackend.Controllers
 {
@@ -25,8 +27,16 @@ namespace MyShopBackend.Controllers
         public async Task<ActionResult> Register(RegisterRequest request,
             CancellationToken cancellationToken)
         {
-            await _accountService.Register(request.Login, request.Password, request.Email);
-            return Ok();
+            try
+            {
+                await _accountService.Register
+                    (request.Login, request.Password, request.Email, cancellationToken);
+                return Ok();
+            }
+            catch (EmailAlreadyExistsException)
+            {
+                return Conflict(new ErrorResponse("Аккаунт с таким email уже зарегистрирован!"));
+            }      
         }
         [HttpGet("get_account_by_id")]
         public async Task<ActionResult> GetAccountById(Guid id, CancellationToken cancellationToken)
@@ -55,7 +65,8 @@ namespace MyShopBackend.Controllers
             }
         }
         [HttpGet("get_account_by_email")]
-        public async Task<ActionResult<Account>> GetAccountByEmail(string email, CancellationToken cancellationToken)
+        public async Task<ActionResult<Account>> GetAccountByEmail
+            (string email, CancellationToken cancellationToken)
         {
             try
             {
