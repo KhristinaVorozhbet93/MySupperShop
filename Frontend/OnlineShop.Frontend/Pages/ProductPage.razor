@@ -1,0 +1,20 @@
+﻿@page "/products/{ProductId:guid}"
+@using OnlineShop.Frontend.Components
+
+<h1>Информация о товаре</h1>
+@if (_product is null)
+{
+    <div>Загрузка товара...</div>
+}
+else
+{
+    <ProductItem Product="_product" />
+    <MudButton @onclick="ToProductEditPage" Variant="Variant.Filled"
+           Style="background-color:#6ec04a;color:white;font-size:15px" Class="mt-4 mr-4" EndIcon="@Icons.Material.Filled.Edit">
+        Редактировать
+    </MudButton>
+    <MudButton Variant="Variant.Filled"
+           Style="background-color:#6ec04a;color:white;font-size:15px" Class="mt-4" StartIcon="@Icons.Material.Filled.Delete"
+           @onclick="DeleteProduct">Удалить</MudButton>
+    <br>
+}
