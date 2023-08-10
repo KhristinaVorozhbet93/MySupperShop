@@ -1,7 +1,7 @@
 ﻿using OnlineShop.HttpModels.Responses;
 using System.Net;
 
-namespace OnlineShop.HttpApiClient.Data
+namespace OnlineShop.HttpApiClient.Exceptions
 {
     [Serializable]
     public class MyShopAPIException : Exception

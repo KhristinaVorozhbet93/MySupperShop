@@ -4,9 +4,10 @@
     {
         private Guid _id;
         private string _login;
-        private string _password;
+        private string _hashedPassword;
         private string _email;
 
+        protected Account() { }
         public Account(Guid id, string login, string password, string email)
         {
             if (string.IsNullOrWhiteSpace(login))
@@ -24,7 +25,7 @@
 
             _id = id;
             _login = login ?? throw new ArgumentException(nameof(login));
-            _password = password ?? throw new ArgumentException(nameof(password));
+            _hashedPassword = password ?? throw new ArgumentException(nameof(password));
             _email = email ?? throw new ArgumentException(nameof(email));
         }
 
@@ -45,16 +46,16 @@
                 _login = value ?? throw new ArgumentException(nameof(value));
             }
         }
-        public string Password
+        public string HashedPassword
         {
-            get => _password;
+            get => _hashedPassword;
             set
             {
                 if (string.IsNullOrWhiteSpace(value))
                 {
                     throw new ArgumentException($"Value can not be null or whitespace{nameof(value)}");
                 }
-                _password = value ?? throw new ArgumentException(nameof(value));
+                _hashedPassword = value ?? throw new ArgumentException(nameof(value));
             }
         }
         public string Email

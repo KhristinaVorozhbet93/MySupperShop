@@ -1,4 +1,4 @@
-﻿namespace OnlineShop.HttpApiClient.Models
+﻿namespace OnlineShop.HttpApiClient.Entities
 {
     public class Product
     {

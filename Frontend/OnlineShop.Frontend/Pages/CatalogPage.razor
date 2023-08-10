@@ -2,22 +2,28 @@
 @using OnlineShop.Frontend.Components
 
 <MudDrawerHeader Class="text">Каталог магазина продуктов</MudDrawerHeader>
-<MudGrid>
-    @if (_products is null)
+@if (_products is null)
+{
+    <div>Страница загружается...</div>
+    @if (_catalogLoading)
     {
-        <div>Страница загружается...</div>
+        <MudProgressLinear Color="Color.Primary" Indeterminate="true" Class="my-7" />
     }
-    else
-    {
-        <MudButton @onclick="ToAddProductPage" Variant="Variant.Filled"
-               Style="background-color:#6ec04a;color:white;font-size:15px" Class="mt-4 mb-4 " EndIcon="@Icons.Material.Filled.Add">
-            Добавить новый товар
-        </MudButton>
+}
+else
+{
+    <MudButton @onclick="ToAddProductPage"
+           Class="mb-4 ml-4" Style="background-color:#6ec04a;
+        color:white;font-size:15px" EndIcon="@Icons.Material.Filled.Add">
+        Добавить новый товар
+    </MudButton>
+    <MudGrid>
         @foreach (var product in _products)
         {
             <ProductItem Product="product" />
         }
-    }
-</MudGrid>
+    </MudGrid>
+}
+
 
 

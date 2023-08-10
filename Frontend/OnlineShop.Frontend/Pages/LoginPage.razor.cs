@@ -6,9 +6,9 @@ using OnlineShop.HttpModels.Requests;
 
 namespace OnlineShop.Frontend.Pages
 {
-    public partial class RegistrationPage : IDisposable
+    public partial class LoginPage : IDisposable
     {
-        RegisterRequest model = new();
+        LoginRequest model = new();
         [Inject]
         public NavigationManager Manager { get; set; }
         [Inject]
@@ -18,35 +18,53 @@ namespace OnlineShop.Frontend.Pages
         private CancellationTokenSource _cts = new CancellationTokenSource();
         [Inject]
         private IDialogService DialogService { get; set; }
-        private bool _registrationInProgress;
+        private bool _loginInProgress;
+        bool isShow;
+
+        InputType PasswordInput = InputType.Password;
+        string PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+
         public void Dispose()
         {
             _cts.Cancel();
         }
-        private async Task ProcessRegistration()
+        void ShowPassword()
         {
-            if (_registrationInProgress)
+            if (isShow)
+            {
+                isShow = false;
+                PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+                PasswordInput = InputType.Password;
+            }
+            else
+            {
+                isShow = true;
+                PasswordInputIcon = Icons.Material.Filled.Visibility;
+                PasswordInput = InputType.Text;
+            }
+        }
+        private async Task ProcessLogin()
+        {
+            if (_loginInProgress)
             {
                 Snackbar.Configuration.PositionClass = Defaults.Classes.Position.TopCenter;
                 Snackbar.Add("Пожалуйста, подождите...", Severity.Info);
                 return;
             }
-            _registrationInProgress = true;
+            _loginInProgress = true;
             try
             {
-                await ShopClient!.Register(model, _cts.Token);
-                await DialogService.ShowMessageBox("Успешно", "Вы успешно зарегистрированы!");
-                Manager.NavigateTo("/account/login");
-                
+                await ShopClient!.Login(model, _cts.Token);
+                Manager.NavigateTo("/catalog");
             }
             catch (MyShopAPIException e)
             {
-                _registrationInProgress = false;
+                _loginInProgress = false;
                 await DialogService.ShowMessageBox("Ошибка", e.Message);
             }
             finally
             {
-                _registrationInProgress = false;
+                _loginInProgress = false;
             }
         }
     }

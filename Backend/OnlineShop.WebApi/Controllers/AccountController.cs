@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OnlineShop.Domain.Entities;
-using OnlineShop.Domain.Exxceptions;
+using OnlineShop.Domain.Exceptions;
 using OnlineShop.Domain.Interfaces;
 using OnlineShop.Domain.Services;
 using OnlineShop.HttpModels.Requests;
@@ -65,18 +65,38 @@ namespace OnlineShop.WebApi.Controllers
                 return NotFound();
             }
         }
-        [HttpGet("get_account_by_email")]
+        [HttpGet("get_account_by_login")]
         public async Task<ActionResult<Account>> GetAccountByEmail
-            (string email, CancellationToken cancellationToken)
+            (string login, CancellationToken cancellationToken)
         {
             try
             {
-                var account = await _accountRepozitory.GetAccountByEmail(email, cancellationToken);
+                var account = await _accountRepozitory.GetAccountByLogin(login, cancellationToken);
                 return Ok(account);
             }
             catch (InvalidOperationException)
             {
                 return NotFound();
+            }
+        }
+
+        [HttpPost("login")]
+        public async Task<ActionResult<LoginResponse>> Login
+            (LoginRequest request, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var account = 
+                    await _accountService.Login(request.Login, request.Password, cancellationToken);
+                return new LoginResponse(account.Id, account.Login);
+            }
+            catch (AccountNotFoundException)
+            {
+                return Conflict(new ErrorResponse("Аккаунт с таким логином не найден!"));
+            }
+            catch (InvalidPasswordException)
+            {
+                return Conflict(new ErrorResponse("Неверный пароль!"));
             }
         }
     }

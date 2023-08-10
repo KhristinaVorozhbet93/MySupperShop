@@ -1,12 +1,11 @@
 ﻿using System.Net.Http.Json;
-using System.Net;
 using OnlineShop.HttpModels.Responses;
 using OnlineShop.HttpModels.Requests;
-using OnlineShop.HttpApiClient.Models;
-using OnlineShop.HttpApiClient.Interfaces;
-using OnlineShop.HttpApiClient;
+using OnlineShop.HttpApiClient.Data;
+using OnlineShop.HttpApiClient.Entities;
+using OnlineShop.HttpApiClient.Extensions;
 
-namespace OnlineShop.HttpApiClient.Data
+namespace OnlineShop.HttpApiClient
 {
     public class MyShopClient : IMyShopClient, IDisposable
     {
@@ -72,29 +71,21 @@ namespace OnlineShop.HttpApiClient.Data
             await _httpClient!
                 .PostAsJsonAsync($"update_product", product, cancellationToken);
         }
-        public async Task Register(RegisterRequest account, CancellationToken cancellationToken)
+        public async Task<RegisterResponse> Register(RegisterRequest request, CancellationToken cancellationToken)
         {
-            ArgumentNullException.ThrowIfNull(nameof(account));
+            ArgumentNullException.ThrowIfNull(nameof(request));
+            var uri = "register";
             var response = await _httpClient!
-                .PostAsJsonAsync("register", account, cancellationToken);
-            if (!response.IsSuccessStatusCode)
-            {
-                if (response.StatusCode == HttpStatusCode.Conflict)
-                {
-                    var error = await response.Content.ReadFromJsonAsync<ErrorResponse>();
-                    throw new MyShopAPIException(error);
-                }
-                else if (response.StatusCode == HttpStatusCode.BadRequest)
-                {
-                    var details = await response.Content.ReadFromJsonAsync<ValidationProblemDetails>();
-                    throw new MyShopAPIException(response.StatusCode, details);
-                }
-                else
-                {
-                    throw new MyShopAPIException("Неизвестная ошибка!");
-                }
-            }
-            response.EnsureSuccessStatusCode();
+               .PostAndJsonDeserializeAsync<RegisterRequest, RegisterResponse>(uri, request, cancellationToken);
+            return response;
+        }
+        public async Task<LoginResponse> Login(LoginRequest request, CancellationToken cancellationToken)
+        {
+            ArgumentNullException.ThrowIfNull(nameof(request));
+            var uri = "login";
+            var response = await _httpClient!
+                .PostAndJsonDeserializeAsync<LoginRequest, LoginResponse>(uri, request, cancellationToken);
+            return response;
         }
     }
 }

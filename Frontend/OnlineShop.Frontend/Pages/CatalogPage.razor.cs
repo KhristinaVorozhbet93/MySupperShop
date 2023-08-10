@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
-using OnlineShop.HttpApiClient.Interfaces;
-using OnlineShop.HttpApiClient.Models;
+using OnlineShop.HttpApiClient;
+using OnlineShop.HttpApiClient.Entities;
 
 namespace OnlineShop.Frontend.Pages
 {
@@ -12,14 +12,16 @@ namespace OnlineShop.Frontend.Pages
         public NavigationManager manager { get; set; }
         private List<Product>? _products;
         private CancellationTokenSource _cts = new();
-
-        protected override async Task OnInitializedAsync()
-        {
-            _products = await ShopClient!.GetProducts(_cts.Token);
-        }
+        private bool _catalogLoading;
         public void Dispose()
         {
             _cts.Cancel();
+        }
+        protected override async Task OnInitializedAsync()
+        {
+            _catalogLoading = true;
+            _products = await ShopClient!.GetProducts(_cts.Token);
+            _catalogLoading = false; ;
         }
         public void ToAddProductPage()
         {

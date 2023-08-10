@@ -12,8 +12,13 @@ background-repeat:no-repeat;background-size:cover;">
         <MudSpacer />
         <MudButton @onclick="ToRegistrationPage"
                    Variant="Variant.Filled"
-                   Style="background-color:white;font-size:13px">
+                   Style="background-color:white;font-size:13px; margin-right: 10px">
             Регистрация
+        </MudButton>
+        <MudButton @onclick="ToLoginPage"
+                   Variant="Variant.Filled"
+                   Style="background-color:white;font-size:13px">
+            Войти
         </MudButton>
     </MudAppBar>
     <MudDrawer @bind-Open="_drawerOpen" Elevation="1">
@@ -40,5 +45,9 @@ background-repeat:no-repeat;background-size:cover;">
     public void ToRegistrationPage()
     {
         manager.NavigateTo("/registration");
+    }
+    public void ToLoginPage()
+    {
+        manager.NavigateTo("/account/login");
     }
 }

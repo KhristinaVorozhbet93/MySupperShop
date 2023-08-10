@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnlineShop.Data.EntityFramework.Data;
 
@@ -10,14 +11,16 @@ using OnlineShop.Data.EntityFramework.Data;
 namespace MyShopBackend.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230806121427_ChangingFieldPasswordInAccount")]
+    partial class ChangingFieldPasswordInAccount
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "7.0.1");
+            modelBuilder.HasAnnotation("ProductVersion", "7.0.9");
 
-            modelBuilder.Entity("MyShopBackend.Models.Account", b =>
+            modelBuilder.Entity("OnlineShop.Domain.Entities.Account", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -27,11 +30,11 @@ namespace MyShopBackend.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Login")
+                    b.Property<string>("HashedPassword")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Password")
+                    b.Property<string>("Login")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -40,7 +43,7 @@ namespace MyShopBackend.Migrations
                     b.ToTable("Accounts");
                 });
 
-            modelBuilder.Entity("MyShopBackend.Models.Product", b =>
+            modelBuilder.Entity("OnlineShop.Domain.Entities.Product", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()

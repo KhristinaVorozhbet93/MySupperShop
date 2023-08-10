@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using OnlineShop.HttpApiClient.Interfaces;
-using OnlineShop.HttpApiClient.Models;
+using OnlineShop.HttpApiClient;
+using OnlineShop.HttpApiClient.Entities;
 
 namespace OnlineShop.Frontend.Pages
 {
@@ -19,7 +19,10 @@ namespace OnlineShop.Frontend.Pages
         public DateTime ExpiredAt { get; set; }
         public string Description { get; set; } = string.Empty;
         private CancellationTokenSource _cts = new CancellationTokenSource();
-
+        public void Dispose()
+        {
+            _cts.Cancel();
+        }
         public async Task SaveProductChanges()
         {
             if (Name == string.Empty)
@@ -49,11 +52,6 @@ namespace OnlineShop.Frontend.Pages
             {
                 await DialogService.ShowMessageBox("Ошибка", "Товар не добавлен!");
             }
-        }
-
-        public void Dispose()
-        {
-            _cts.Cancel();
         }
     }
 }

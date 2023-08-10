@@ -9,13 +9,13 @@ namespace OnlineShop.Data.EntityFramework.Data
         private readonly AppDbContext _dbContext;
         public AccountRepozitory(AppDbContext _dbContext) : base(_dbContext) { }
 
-        public async Task<Account> GetAccountByEmail(string email, CancellationToken cancellationToken)
+        public async Task<Account> GetAccountByLogin(string login, CancellationToken cancellationToken)
         {
-            if (email is null)
+            if (login is null)
             {
-                throw new ArgumentException(nameof(email));
+                throw new ArgumentException(nameof(login));
             }
-            return await _entities.SingleAsync(e => e.Email == email, cancellationToken);
+            return await _entities.SingleAsync(e => e.Login == login, cancellationToken);
         }
         public async Task<Account?> FindAccountByLogin(string login, CancellationToken cancellationToken)
         {

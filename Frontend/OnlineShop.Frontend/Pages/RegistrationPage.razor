@@ -2,6 +2,8 @@
 
 <EditForm Model="@model" OnValidSubmit="ProcessRegistration">
     <DataAnnotationsValidator />
+    <MudDrawerHeader Style="font-weight:bold;font-size:22px; margin-left: 300px;">
+        Регистрация</MudDrawerHeader>
     <MudGrid>
         <MudItem xs="12" sm="7">
             <MudCard>
@@ -13,7 +15,7 @@
                     <MudTextField Label="Пароль" HelperText="Введите пароль" Class="mt-3"
                                   @bind-Value="model.Password" For="@(() => model.Password)" InputType="InputType.Password" />
                     <MudTextField Label="Пароль" HelperText="Повторите пароль" Class="mt-3"
-                                  @bind-Value="model.Password2" For="@(() => model.Password2)" InputType="InputType.Password" />
+                                  @bind-Value="model.ConfirmedPassword" For="@(() => model.ConfirmedPassword)" InputType="InputType.Password" />
                 </MudCardContent>
                 <MudCardActions>
                     <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Style="background-color:#6ec04a;
@@ -30,6 +32,5 @@
                 Fill out the form correctly to see the success message.
             </MudText>
         </MudItem>
-
     </MudGrid>
 </EditForm>

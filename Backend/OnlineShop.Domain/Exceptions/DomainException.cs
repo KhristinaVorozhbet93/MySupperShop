@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace OnlineShop.Domain.Exxceptions
+namespace OnlineShop.Domain.Exceptions
 {
     public class DomainException : Exception
     {

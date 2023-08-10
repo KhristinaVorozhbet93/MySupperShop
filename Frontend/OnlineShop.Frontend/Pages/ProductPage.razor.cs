@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using OnlineShop.HttpApiClient.Interfaces;
-using OnlineShop.HttpApiClient.Models;
+using OnlineShop.HttpApiClient;
+using OnlineShop.HttpApiClient.Entities;
 
 namespace OnlineShop.Frontend.Pages
 {
@@ -19,6 +19,10 @@ namespace OnlineShop.Frontend.Pages
         private Product? _product;
         private CancellationTokenSource _cts = new CancellationTokenSource();
 
+        public void Dispose()
+        {
+            _cts.Cancel();
+        }
         protected override async Task OnInitializedAsync()
         {
             _product = await ShopClient!.GetProduct(ProductId, _cts.Token);
@@ -53,10 +57,6 @@ namespace OnlineShop.Frontend.Pages
         public void ToProductEditPage()
         {
             manager.NavigateTo($"/products/{_product!.Id}/editor");
-        }
-        public void Dispose()
-        {
-            _cts.Cancel();
         }
     }
 }

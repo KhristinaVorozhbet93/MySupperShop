@@ -1,3 +1,4 @@
+﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31717.71
@@ -18,7 +19,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Frontend", "Frontend", "{C1
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{3E332A83-C9CF-48AE-9BA2-4C0290C1393E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.Data.EntityFramework", "Backend\OnlineShop.DataEntityFramework\OnlineShop.Data.EntityFramework.csproj", "{33D0085E-D691-4B6A-B55B-1C1FA39CC416}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.Data.EntityFramework", "Backend\Infrasctructure\OnlineShop.DataEntityFramework\OnlineShop.Data.EntityFramework.csproj", "{33D0085E-D691-4B6A-B55B-1C1FA39CC416}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrasctructure", "Infrasctructure", "{0DA9B972-20B0-4984-AA32-31723D195282}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.IdentityPasswordHasherLib", "Backend\Infrasctructure\OnlineShop.IdentityPasswordHasherLib\OnlineShop.IdentityPasswordHasherLib.csproj", "{D130E659-8AFF-4F9A-942B-A43E1F51002C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -50,6 +55,10 @@ Global
 		{33D0085E-D691-4B6A-B55B-1C1FA39CC416}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{33D0085E-D691-4B6A-B55B-1C1FA39CC416}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{33D0085E-D691-4B6A-B55B-1C1FA39CC416}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D130E659-8AFF-4F9A-942B-A43E1F51002C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D130E659-8AFF-4F9A-942B-A43E1F51002C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D130E659-8AFF-4F9A-942B-A43E1F51002C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D130E659-8AFF-4F9A-942B-A43E1F51002C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -60,7 +69,9 @@ Global
 		{598283F5-130E-4618-8CE2-27BA734A3FF1} = {C1DA7058-5C9B-47C4-B8B1-80E5613004A0}
 		{6DF3F62F-F5A5-4E6F-8087-2C4BC80C628D} = {3E332A83-C9CF-48AE-9BA2-4C0290C1393E}
 		{22409DBE-F890-4019-B354-4CF90C092EAB} = {DB3E492C-9176-4A4E-9F5C-601C26C3B6A8}
-		{33D0085E-D691-4B6A-B55B-1C1FA39CC416} = {DB3E492C-9176-4A4E-9F5C-601C26C3B6A8}
+		{33D0085E-D691-4B6A-B55B-1C1FA39CC416} = {0DA9B972-20B0-4984-AA32-31723D195282}
+		{0DA9B972-20B0-4984-AA32-31723D195282} = {DB3E492C-9176-4A4E-9F5C-601C26C3B6A8}
+		{D130E659-8AFF-4F9A-942B-A43E1F51002C} = {0DA9B972-20B0-4984-AA32-31723D195282}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {813FB117-65F2-405C-B3F3-DCF5F9146055}
