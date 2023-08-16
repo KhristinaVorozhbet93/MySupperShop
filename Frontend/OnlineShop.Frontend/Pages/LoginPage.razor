@@ -2,21 +2,24 @@
 
 <EditForm Model="@model" OnValidSubmit="ProcessLogin">
     <DataAnnotationsValidator />
-    <MudDrawerHeader Style="font-weight:bold;font-size:22px; margin-left: 300px;">
-        Авторизация</MudDrawerHeader>
-    <MudGrid>
+    <MudDrawerHeader Style="font-weight:bold;font-size:22px; margin-left:300px;">
+        Авторизация
+    </MudDrawerHeader>
+    <MudGrid Style="height:700px">
         <MudItem xs="12" sm="7">
             <MudCard>
                 <MudCardContent>
                     <MudTextField Label="Введите логин"
                                   @bind-Value="model.Login" For="@(() => model.Login)" />
-                    <MudTextField @bind-Value="model.Password" Label="Введите пароль" 
-                    Variant="Variant.Text" InputType="@PasswordInput" Adornment="Adornment.End"
-                    AdornmentIcon="@PasswordInputIcon" OnAdornmentClick="ShowPassword" AdornmentAriaLabel="Show Password" />
+                    <MudTextField @bind-Value="model.Password" Label="Введите пароль"
+                                  Variant="Variant.Text" InputType="@PasswordInput" Adornment="Adornment.End"
+                                  AdornmentIcon="@PasswordInputIcon" OnAdornmentClick="ShowPassword" AdornmentAriaLabel="Show Password" />
                 </MudCardContent>
                 <MudCardActions>
-                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Style="background-color:#6ec04a;
-                               color:white;" Class="ml-auto">Вход</MudButton>
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled"
+                               Style="background-color:#6ec04a;color:white;" Class="ml-auto">
+                        Вход
+                    </MudButton>
                 </MudCardActions>
             </MudCard>
         </MudItem>

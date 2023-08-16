@@ -54,7 +54,8 @@ namespace OnlineShop.Frontend.Pages
             _loginInProgress = true;
             try
             {
-                await ShopClient!.Login(model, _cts.Token);
+                var response = await ShopClient!.Login(model, _cts.Token);
+                await DialogService.ShowMessageBox("Успешно",$"Добро пожаловать,{response.Name}");
                 Manager.NavigateTo("/catalog");
             }
             catch (MyShopAPIException e)

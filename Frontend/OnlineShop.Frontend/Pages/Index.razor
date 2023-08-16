@@ -1,4 +1,31 @@
 ﻿@page "/"
+@inject NavigationManager Manager
 
 
-<MudText Typo="Typo.h3" GutterBottom="true">Добро пожаловать в интернет-магазин!</MudText>
+<div style="float:right; margin-bottom:30px; margin-top:20px">
+    <MudButton @onclick="ToRegistrationPage"
+               Variant="Variant.Filled"
+               Style="background-color: #6ec04a;color:white;font-size:13px; margin-right:10px">
+        Регистрация
+    </MudButton>
+    <MudButton @onclick="ToLoginPage"
+               Variant="Variant.Filled"
+               Style="background-color: #6ec04a;color:white;font-size:13px">
+        Войти
+    </MudButton>
+</div>
+<MudGrid Style="height:700px">
+    <MudText Typo="Typo.h3" GutterBottom="true">Добро пожаловать в интернет-магазин "Продукты!"Зарегистрируйтесь или войдите!</MudText>   
+</MudGrid>
+
+@code {
+
+    public void ToRegistrationPage()
+    {
+        Manager.NavigateTo("account/registration");
+    }
+    public void ToLoginPage()
+    {
+        Manager.NavigateTo("account/login");
+    }
+}

@@ -1,10 +1,11 @@
-﻿@page "/registration"; 
+﻿@page "/account/registration";
 
 <EditForm Model="@model" OnValidSubmit="ProcessRegistration">
     <DataAnnotationsValidator />
-    <MudDrawerHeader Style="font-weight:bold;font-size:22px; margin-left: 300px;">
-        Регистрация</MudDrawerHeader>
-    <MudGrid>
+    <MudDrawerHeader Style="font-weight:bold;font-size:22px; margin-left:300px;">
+        Регистрация
+    </MudDrawerHeader>
+    <MudGrid Style="height:700px">
         <MudItem xs="12" sm="7">
             <MudCard>
                 <MudCardContent>
@@ -27,7 +28,7 @@
         {
             <MudProgressLinear Color="Color.Primary" Indeterminate="true" Class="my-7" />
         }
-        <MudItem xs="12">      
+        <MudItem xs="12">
             <MudText Typo="Typo.body2" Align="Align.Center">
                 Fill out the form correctly to see the success message.
             </MudText>

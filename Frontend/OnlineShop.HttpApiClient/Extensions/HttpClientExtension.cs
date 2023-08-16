@@ -9,7 +9,7 @@ namespace OnlineShop.HttpApiClient.Extensions
     {
         public static async Task<K> PostAndJsonDeserializeAsync<T, K>
             (this HttpClient client, string uri,
-            T request, CancellationToken cancellationToken)
+            T request, CancellationToken cancellationToken) 
         {
             ArgumentNullException.ThrowIfNull(nameof(client));
             if (string.IsNullOrWhiteSpace(uri)) throw new ArgumentException(nameof(uri));

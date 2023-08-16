@@ -34,8 +34,9 @@ namespace OnlineShop.Frontend.Pages
             _registrationInProgress = true;
             try
             {
-                await ShopClient!.Register(model, _cts.Token);
-                await DialogService.ShowMessageBox("Успешно", "Вы успешно зарегистрированы!");
+                var response = await ShopClient!.Register(model, _cts.Token);
+                await DialogService.ShowMessageBox
+                    ("Успешно", $"Поздравляем {response.Login}!Вы успешно зарегистрированы!");
                 Manager.NavigateTo("/account/login");
                 
             }

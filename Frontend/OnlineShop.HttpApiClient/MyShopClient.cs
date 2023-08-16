@@ -74,17 +74,19 @@ namespace OnlineShop.HttpApiClient
         public async Task<RegisterResponse> Register(RegisterRequest request, CancellationToken cancellationToken)
         {
             ArgumentNullException.ThrowIfNull(nameof(request));
-            var uri = "register";
+            var uri = "account/registration";
             var response = await _httpClient!
-               .PostAndJsonDeserializeAsync<RegisterRequest, RegisterResponse>(uri, request, cancellationToken);
+               .PostAndJsonDeserializeAsync<RegisterRequest, RegisterResponse>
+               (uri, request, cancellationToken);
             return response;
         }
         public async Task<LoginResponse> Login(LoginRequest request, CancellationToken cancellationToken)
         {
             ArgumentNullException.ThrowIfNull(nameof(request));
-            var uri = "login";
+            var uri = "account/login";
             var response = await _httpClient!
-                .PostAndJsonDeserializeAsync<LoginRequest, LoginResponse>(uri, request, cancellationToken);
+                .PostAndJsonDeserializeAsync<LoginRequest, LoginResponse>
+                (uri, request, cancellationToken);
             return response;
         }
     }

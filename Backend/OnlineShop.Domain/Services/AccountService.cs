@@ -11,7 +11,7 @@ namespace OnlineShop.Domain.Services
         private readonly IApplicationPasswordHasher _hasher;
 
         public AccountService(IAccountRepozitory accountRepozitory,
-            IRepozitory<Account> repozitory, 
+            IRepozitory<Account> repozitory,
             IApplicationPasswordHasher hasher)
         {
             _accountRepozitory =
@@ -20,42 +20,48 @@ namespace OnlineShop.Domain.Services
             _hasher = hasher ?? throw new ArgumentException(nameof(hasher));
 
         }
-        public async Task Register(string login, string password, string email, CancellationToken cancellationToken)
+        public async Task<Account> Register(string login, 
+            string password,
+            string email, 
+            CancellationToken cancellationToken)
         {
             ArgumentNullException.ThrowIfNull(login);
             ArgumentNullException.ThrowIfNull(email);
             ArgumentNullException.ThrowIfNull(password);
-            var existedAccount = await _accountRepozitory.FindAccountByLogin(login, cancellationToken);
+            var existedAccount = await _accountRepozitory
+                .FindAccountByLogin(login, cancellationToken);
             if (existedAccount is not null)
             {
                 throw new EmailAlreadyExistsException("Account with this login alredy exist");
             }
             Account account = new Account(Guid.Empty, login, EncryptPassword(password), email);
             await _repozitory.Add(account, cancellationToken);
+            return account; 
         }
 
         private string EncryptPassword(string password)
         {
             var hashedPassword = _hasher.HashPassword(password);
             Console.WriteLine(hashedPassword);
-            Console.WriteLine( password);
+            Console.WriteLine(password);
             return hashedPassword;
         }
-        public async Task<Account> Login(string login, string password, CancellationToken cancellationToken)
+        public async Task<Account> Login(string login, 
+            string password, 
+            CancellationToken cancellationToken)
         {
             ArgumentNullException.ThrowIfNull(login);
             ArgumentNullException.ThrowIfNull(password);
 
-            var accountNotFound = await _accountRepozitory.FindAccountByLogin(login, cancellationToken);
+            var accountNotFound = await _accountRepozitory
+                .FindAccountByLogin(login, cancellationToken);
 
             if (accountNotFound is null)
             {
-                throw new AccountNotFoundException("Account with given email not found");
+                throw new AccountNotFoundException("Account with given login not found");
             }
 
             var account = await _accountRepozitory.GetAccountByLogin(login, cancellationToken);
-            Console.WriteLine(account.HashedPassword);
-            Console.WriteLine(password);
 
             var isPasswordValid = _hasher.VerifyHashedPassword
                 (account.HashedPassword, password, out var rehashNedded);
@@ -69,7 +75,7 @@ namespace OnlineShop.Domain.Services
             {
                 await RehashPassword(password, account, cancellationToken);
             }
-            return account; 
+            return account;
         }
 
         private async Task RehashPassword

@@ -9,7 +9,7 @@ namespace OnlineShop.Frontend.Pages
         [Inject]
         private IMyShopClient? ShopClient { get; set; }
         [Inject]
-        public NavigationManager manager { get; set; }
+        public NavigationManager Manager { get; set; }
         private List<Product>? _products;
         private CancellationTokenSource _cts = new();
         private bool _catalogLoading;
@@ -25,7 +25,11 @@ namespace OnlineShop.Frontend.Pages
         }
         public void ToAddProductPage()
         {
-            manager.NavigateTo($"/products/new");
+            Manager.NavigateTo("/products/new");
+        }
+        public void ToIndexPage()
+        {
+            Manager.NavigateTo("/");
         }
     }
 }

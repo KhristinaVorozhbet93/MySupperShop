@@ -1,5 +1,4 @@
 ﻿@inherits LayoutComponentBase
-@inject NavigationManager manager
 
 <MudThemeProvider />
 <MudDialogProvider />
@@ -10,16 +9,6 @@ background-repeat:no-repeat;background-size:cover;">
     <MudAppBar Elevation="0" Style="background-color: #6ec04a">
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
         <MudSpacer />
-        <MudButton @onclick="ToRegistrationPage"
-                   Variant="Variant.Filled"
-                   Style="background-color:white;font-size:13px; margin-right: 10px">
-            Регистрация
-        </MudButton>
-        <MudButton @onclick="ToLoginPage"
-                   Variant="Variant.Filled"
-                   Style="background-color:white;font-size:13px">
-            Войти
-        </MudButton>
     </MudAppBar>
     <MudDrawer @bind-Open="_drawerOpen" Elevation="1">
         <MudDrawerHeader>
@@ -28,7 +17,7 @@ background-repeat:no-repeat;background-size:cover;">
         <NavMenu />
     </MudDrawer>
     <MudMainContent>
-        <MudContainer MaxWidth="MaxWidth.Large" Class="my-16 pt-16">
+        <MudContainer MaxWidth="MaxWidth.Large">
             @Body
         </MudContainer>
     </MudMainContent>
@@ -40,14 +29,5 @@ background-repeat:no-repeat;background-size:cover;">
     void DrawerToggle()
     {
         _drawerOpen = !_drawerOpen;
-    }
-
-    public void ToRegistrationPage()
-    {
-        manager.NavigateTo("/registration");
-    }
-    public void ToLoginPage()
-    {
-        manager.NavigateTo("/account/login");
     }
 }
