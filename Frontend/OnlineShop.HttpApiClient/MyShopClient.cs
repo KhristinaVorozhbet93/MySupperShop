@@ -76,7 +76,7 @@ namespace OnlineShop.HttpApiClient
             ArgumentNullException.ThrowIfNull(nameof(request));
             var uri = "account/registration";
             var response = await _httpClient!
-               .PostAndJsonDeserializeAsync<RegisterRequest, RegisterResponse>
+                .PostAndJsonDeserializeAsync<RegisterRequest, RegisterResponse>
                (uri, request, cancellationToken);
             return response;
         }
