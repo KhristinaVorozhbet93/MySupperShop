@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using OnlineShop.Domain.Exceptions;
 using OnlineShop.Domain.Services;
@@ -27,8 +28,9 @@ namespace OnlineShop.WebApi.Controllers
         {
             try
             {
+                var role = new Role[] {Role.Customer };
                 var account = await _accountService.Register
-                    (request.Login, request.Password, request.Email, cancellationToken);
+                    (request.Login, request.Password, request.Email,role, cancellationToken);
                 return new RegisterResponse(account.Login);
             }
             catch (EmailAlreadyExistsException)

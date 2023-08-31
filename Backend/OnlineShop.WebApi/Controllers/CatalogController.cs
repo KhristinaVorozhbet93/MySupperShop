@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OnlineShop.Domain.Entities;
 using OnlineShop.Domain.Interfaces;
+using System.Data;
 
 namespace OnlineShop.WebApi.Controllers
 {
@@ -13,6 +15,7 @@ namespace OnlineShop.WebApi.Controllers
         {
             _repozitory = repozitory ?? throw new ArgumentException(nameof(repozitory));
         }
+        [Authorize(Roles = nameof(Role.Admin))]
         [HttpPost("add_product")]
         public async Task<ActionResult> AddProduct(Product product, CancellationToken cancellationToken)
         {
@@ -52,12 +55,14 @@ namespace OnlineShop.WebApi.Controllers
                 return NotFound();
             }
         }
+        [Authorize(Roles = nameof(Role.Admin))]
         [HttpPost("update_product")]
         public async Task<ActionResult> UpdateProduct(Product product, CancellationToken cancellationToken)
         {
             await _repozitory.Update(product, cancellationToken);
             return Ok();
         }
+        [Authorize(Roles = nameof(Role.Admin))]
         [HttpPost("delete_product")]
         public async Task<ActionResult> DeleteProduct([FromBody] Product product, CancellationToken cancellationToken)
         {

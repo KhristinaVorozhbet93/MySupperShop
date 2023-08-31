@@ -1,6 +1,7 @@
 ﻿using OnlineShop.Domain.Entities;
 using OnlineShop.Domain.Interfaces;
 using OnlineShop.Domain.Exceptions;
+using OnlineShop.WebApi;
 
 namespace OnlineShop.Domain.Services
 {
@@ -22,7 +23,8 @@ namespace OnlineShop.Domain.Services
         }
         public virtual async Task<Account> Register(string login, 
             string password,
-            string email, 
+            string email,
+            Role[] roles,
             CancellationToken cancellationToken)
         {
             ArgumentNullException.ThrowIfNull(login);
@@ -34,7 +36,7 @@ namespace OnlineShop.Domain.Services
             {
                 throw new EmailAlreadyExistsException("Account with this login alredy exist");
             }
-            Account account = new Account(Guid.Empty, login, EncryptPassword(password), email);
+            Account account = new Account(Guid.Empty, login, EncryptPassword(password), email, roles);
             await _repozitory.Add(account, cancellationToken);
             return account; 
         }

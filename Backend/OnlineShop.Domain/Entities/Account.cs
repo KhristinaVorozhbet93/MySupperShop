@@ -1,4 +1,7 @@
-﻿namespace OnlineShop.Domain.Entities
+﻿using OnlineShop.WebApi;
+using System.Data;
+
+namespace OnlineShop.Domain.Entities
 {
     public class Account : IEntity
     {
@@ -6,9 +9,10 @@
         private string _login;
         private string _hashedPassword;
         private string _email;
+        public Role[] Roles { get; set; }
 
         protected Account() { }
-        public Account(Guid id, string login, string password, string email)
+        public Account(Guid id, string login, string password, string email, Role[] roles)
         {
             if (string.IsNullOrWhiteSpace(login))
             {
@@ -27,6 +31,7 @@
             _login = login ?? throw new ArgumentException(nameof(login));
             _hashedPassword = password ?? throw new ArgumentException(nameof(password));
             _email = email ?? throw new ArgumentException(nameof(email));
+            Roles = roles ?? throw new ArgumentNullException(nameof(roles));
         }
 
         public Guid Id
@@ -70,5 +75,10 @@
                 _email = value ?? throw new ArgumentException(nameof(value));
             }
         }
+        public void GrantRole(Role role)
+        {
+            Roles = Roles.Append(role).ToArray();
+        }
+
     }
 }
