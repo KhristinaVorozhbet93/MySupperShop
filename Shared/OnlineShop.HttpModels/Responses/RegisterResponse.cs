@@ -1,4 +1,4 @@
-﻿namespace OnlineShop.HttpApiClient.Data
+﻿namespace OnlineShop.HttpModels.Responses
 {
     public record RegisterResponse(string Login);
 }

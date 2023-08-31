@@ -1,5 +1,7 @@
 ﻿@page "/products/{ProductId:guid}/editor"
 @using Microsoft.AspNetCore.Components;
+@using OnlineShop.Frontend.Components;
+@inherits AppComponentBase
 
 <h1>Редактор товара</h1>
 @if (_product is null)

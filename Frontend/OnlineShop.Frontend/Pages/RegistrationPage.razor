@@ -1,4 +1,6 @@
 ﻿@page "/account/registration";
+@using OnlineShop.Frontend.Components;
+@inherits AppComponentBase
 
 <EditForm Model="@model" OnValidSubmit="ProcessRegistration">
     <DataAnnotationsValidator />

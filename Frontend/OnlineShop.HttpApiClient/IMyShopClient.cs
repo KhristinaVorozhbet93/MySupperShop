@@ -1,5 +1,4 @@
-﻿using OnlineShop.HttpApiClient.Data;
-using OnlineShop.HttpApiClient.Entities;
+﻿using OnlineShop.HttpApiClient.Entities;
 using OnlineShop.HttpModels.Requests;
 using OnlineShop.HttpModels.Responses;
 

@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OnlineShop.Domain.Exceptions;
 using OnlineShop.Domain.Services;
-using OnlineShop.HttpApiClient.Data;
 using OnlineShop.HttpModels.Requests;
 using OnlineShop.HttpModels.Responses;
+using OnlineShop.WebApi.Services;
+using System.Security.Claims;
 
 namespace OnlineShop.WebApi.Controllers
 {
@@ -11,10 +13,12 @@ namespace OnlineShop.WebApi.Controllers
     public class AccountController : ControllerBase
     {
         private readonly AccountService _accountService;
+        private readonly ITokenService _tokenService;
 
-        public AccountController(AccountService accountService)
+        public AccountController(AccountService accountService, ITokenService tokenService)
         {
             _accountService = accountService ?? throw new ArgumentException(nameof(accountService));
+            _tokenService = tokenService ?? throw new ArgumentException(nameof(tokenService));
         }
 
         [HttpPost("account/registration")]
@@ -41,7 +45,8 @@ namespace OnlineShop.WebApi.Controllers
             {
                 var account =
                     await _accountService.Login(request.Login, request.Password, cancellationToken);
-                return new LoginResponse(account.Id, account.Login);
+                var token = _tokenService.GenerateToken(account);
+                return new LoginResponse(account.Id, account.Login, token);
             }
             catch (AccountNotFoundException)
             {
@@ -51,6 +56,18 @@ namespace OnlineShop.WebApi.Controllers
             {
                 return Conflict(new ErrorResponse("Неверный пароль!"));
             }
+        }
+
+        [Authorize]
+        [HttpPost("current")]
+        public async Task<ActionResult<AccountResponse>> GetCurrentAccount
+            (CancellationToken cancellationToken)
+        {
+            var strId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = Guid.Parse(strId);
+
+            var account = await _accountService.GetAccountById(userId, cancellationToken);
+            return new AccountResponse(account.Id, account.Login, account.Email);
         }
     }
 }

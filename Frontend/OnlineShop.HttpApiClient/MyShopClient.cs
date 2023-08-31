@@ -1,9 +1,9 @@
 ﻿using System.Net.Http.Json;
 using OnlineShop.HttpModels.Responses;
 using OnlineShop.HttpModels.Requests;
-using OnlineShop.HttpApiClient.Data;
 using OnlineShop.HttpApiClient.Entities;
 using OnlineShop.HttpApiClient.Extensions;
+using System.Net.Http.Headers;
 
 namespace OnlineShop.HttpApiClient
 {
@@ -11,6 +11,7 @@ namespace OnlineShop.HttpApiClient
     {
         private readonly string _host;
         private readonly HttpClient? _httpClient;
+        public bool IsAuthorizationTokenSet { get; private set; }
         public MyShopClient(string host = "http://myshop.com/", HttpClient? httpClient = null)
         {
             ArgumentNullException.ThrowIfNull(host);
@@ -30,6 +31,13 @@ namespace OnlineShop.HttpApiClient
         public void Dispose()
         {
             _httpClient!.Dispose();
+        }
+        public void SetAuthorizationToken(string token)
+        {
+            if (token == null) throw new ArgumentNullException(nameof(token));
+            var header = new AuthenticationHeaderValue("Bearer", token);
+            _httpClient!.DefaultRequestHeaders.Authorization = header;
+            IsAuthorizationTokenSet = true;
         }
         public async Task AddProduct(Product product, CancellationToken cancellationToken)
         {
@@ -87,6 +95,8 @@ namespace OnlineShop.HttpApiClient
             var response = await _httpClient!
                 .PostAndJsonDeserializeAsync<LoginRequest, LoginResponse>
                 (uri, request, cancellationToken);
+            _httpClient!.DefaultRequestHeaders.Authorization
+                 = new AuthenticationHeaderValue("Bearer", response.Token);
             return response;
         }
     }

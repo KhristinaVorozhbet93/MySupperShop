@@ -56,6 +56,7 @@ namespace OnlineShop.Frontend.Pages
             {
                 var response = await ShopClient!.Login(model, _cts.Token);
                 await DialogService.ShowMessageBox("Успешно",$"Добро пожаловать,{response.Name}");
+                await LocalStorage.SetItemAsync("token", response.Token);
                 Manager.NavigateTo("/catalog");
             }
             catch (MyShopAPIException e)

@@ -1,4 +1,6 @@
 ﻿@page "/account/login"
+@using OnlineShop.Frontend.Components;
+@inherits AppComponentBase
 
 <EditForm Model="@model" OnValidSubmit="ProcessLogin">
     <DataAnnotationsValidator />

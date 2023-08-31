@@ -20,7 +20,7 @@ namespace OnlineShop.Domain.Services
             _hasher = hasher ?? throw new ArgumentException(nameof(hasher));
 
         }
-        public async Task<Account> Register(string login, 
+        public virtual async Task<Account> Register(string login, 
             string password,
             string email, 
             CancellationToken cancellationToken)
@@ -46,7 +46,7 @@ namespace OnlineShop.Domain.Services
             Console.WriteLine(password);
             return hashedPassword;
         }
-        public async Task<Account> Login(string login, 
+        public virtual async Task<Account> Login(string login, 
             string password, 
             CancellationToken cancellationToken)
         {
@@ -76,6 +76,11 @@ namespace OnlineShop.Domain.Services
                 await RehashPassword(password, account, cancellationToken);
             }
             return account;
+        }
+        public async Task <Account> GetAccountById(Guid guid,
+            CancellationToken cancellationToken)
+        {
+            return  await _repozitory.GetById(guid,cancellationToken);
         }
 
         private async Task RehashPassword
