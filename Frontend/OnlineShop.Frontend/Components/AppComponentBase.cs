@@ -6,12 +6,9 @@ namespace OnlineShop.Frontend.Components
 {
     public class AppComponentBase : ComponentBase
     {
-        [Inject]
-        protected MyShopClient ShopClient { get; private set; }
-        [Inject]
-        protected ILocalStorageService LocalStorage { get; private set; }
-        [Inject]
-        protected AppState State { get; private set; }
+        [Inject] protected IMyShopClient ShopClient { get; private set; }
+        [Inject] protected ILocalStorageService LocalStorage { get; private set; }
+        [Inject] protected AppState State { get; private set; }
         protected async override Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
@@ -22,7 +19,6 @@ namespace OnlineShop.Frontend.Components
             {
                 ShopClient.SetAuthorizationToken("token");
             }
-
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using OnlineShop.Domain.Exceptions;
 using OnlineShop.Domain.Services;
@@ -28,9 +27,9 @@ namespace OnlineShop.WebApi.Controllers
         {
             try
             {
-                var role = new Role[] {Role.Customer };
+                var role = new Role[] { Role.Customer };
                 var account = await _accountService.Register
-                    (request.Login, request.Password, request.Email,role, cancellationToken);
+                    (request.Login, request.Password, request.Email, role, cancellationToken);
                 return new RegisterResponse(account.Login);
             }
             catch (EmailAlreadyExistsException)
@@ -61,7 +60,7 @@ namespace OnlineShop.WebApi.Controllers
         }
 
         [Authorize]
-        [HttpPost("current")]
+        [HttpGet("current")]
         public async Task<ActionResult<AccountResponse>> GetCurrentAccount
             (CancellationToken cancellationToken)
         {
@@ -69,7 +68,30 @@ namespace OnlineShop.WebApi.Controllers
             var userId = Guid.Parse(strId);
 
             var account = await _accountService.GetAccountById(userId, cancellationToken);
-            return new AccountResponse(account.Id, account.Login, account.Email);
+            return new AccountResponse
+                (account.Id, account.Login, account.Email,
+                account.Name, account.LastName, account.Image);
         }
+
+        [Authorize]
+        [HttpPost("account/data")]
+        public async Task<ActionResult> UpdateAccount
+            (AccountRequest request, CancellationToken cancellationToken)
+        {
+            await _accountService.UpdateAccount(request.Login, request.Name, request.LastName,
+                request.Email, cancellationToken);
+            return Ok();
+        }
+
+        [Authorize]
+        [HttpPost("account/password")]
+        public async Task<ActionResult> UpdateAccountPassword
+      (AccountPasswordRequest request, CancellationToken cancellationToken)
+        {
+            await _accountService.UpdateAccountPassword
+                (request.Login, request.OldPassword, request.NewPassword, cancellationToken);
+            return Ok();
+        }
+
     }
 }

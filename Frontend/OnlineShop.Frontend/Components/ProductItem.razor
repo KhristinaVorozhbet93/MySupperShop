@@ -1,4 +1,4 @@
-﻿@using OnlineShop.HttpApiClient.Entities;
+﻿@using OnlineShop.HttpModels.Responses;
 @inject NavigationManager manager
 
 <MudItem xs="3" lg="3" Class="d-flex">
@@ -37,7 +37,7 @@
 
 @code {
     [Parameter]
-    public Product? Product { get; set; }
+    public ProductResponse? Product { get; set; }
 
     public void ToProductInfoPage()
     {

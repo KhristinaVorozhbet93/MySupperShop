@@ -1,14 +1,16 @@
 ﻿using OnlineShop.WebApi;
-using System.Data;
 
 namespace OnlineShop.Domain.Entities
 {
     public class Account : IEntity
     {
         private Guid _id;
+        private string _name;
+        private string _lastName;
         private string _login;
         private string _hashedPassword;
         private string _email;
+        public string? Image { get; set; }
         public Role[] Roles { get; set; }
 
         protected Account() { }
@@ -38,6 +40,30 @@ namespace OnlineShop.Domain.Entities
         {
             get => _id;
             init => _id = value;
+        }
+        public string Name
+        {
+            get => _name;
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    throw new ArgumentException($"Value can not be null or whitespace{nameof(value)}");
+                }
+                _name = value ?? throw new ArgumentException(nameof(value));
+            }
+        }
+        public string LastName
+        {
+            get => _lastName;
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    throw new ArgumentException($"Value can not be null or whitespace{nameof(value)}");
+                }
+                _lastName = value ?? throw new ArgumentException(nameof(value));
+            }
         }
         public string Login
         {
@@ -75,6 +101,7 @@ namespace OnlineShop.Domain.Entities
                 _email = value ?? throw new ArgumentException(nameof(value));
             }
         }
+
         public void GrantRole(Role role)
         {
             Roles = Roles.Append(role).ToArray();

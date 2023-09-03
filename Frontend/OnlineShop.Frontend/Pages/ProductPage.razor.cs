@@ -1,23 +1,19 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using OnlineShop.HttpApiClient;
-using OnlineShop.HttpApiClient.Entities;
+using OnlineShop.HttpModels.Responses;
 
 namespace OnlineShop.Frontend.Pages
 {
     public partial class ProductPage : IDisposable
     {
-        [Parameter]
-        public Guid ProductId { get; set; }
-        [Inject]
-        public IMyShopClient? ShopClient { get; set; }
-        [Inject]
-        public NavigationManager manager { get; set; }
-        [Inject]
-        public IDialogService DialogService { get; set; }
+        [Parameter] public Guid ProductId { get; set; }
+        [Inject] private IMyShopClient ShopClient { get; set; }
+        [Inject] private NavigationManager manager { get; set; }
+        [Inject] private IDialogService DialogService { get; set; }
         string state = string.Empty;
-        private Product? _product;
-        private CancellationTokenSource _cts = new CancellationTokenSource();
+        private ProductResponse? _product;
+        private CancellationTokenSource _cts = new();
 
         public void Dispose()
         {
@@ -38,7 +34,7 @@ namespace OnlineShop.Frontend.Pages
                 state = result == null ? "No" : "Yes";
                 if (state == "Yes")
                 {
-                    await ShopClient!.DeleteProduct(_product!, _cts.Token);
+                    await ShopClient!.DeleteProduct(ProductId, _cts.Token);
                     await DialogService.ShowMessageBox("Информация", "Товар удален!");
                     await Task.Delay(TimeSpan.FromSeconds(3), _cts.Token);
                     manager.NavigateTo("/catalog");

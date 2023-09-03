@@ -36,6 +36,7 @@ builder.Services.AddScoped<IProductRepozitory, ProductRepozitory>();
 builder.Services.AddScoped<IAccountRepozitory, AccountRepozitory>();
 builder.Services.AddScoped(typeof(IRepozitory<>), typeof(EfRepozitory<>));
 builder.Services.AddScoped<AccountService>();
+builder.Services.AddScoped<CatalogService>();
 
 builder.Services.AddSingleton<IApplicationPasswordHasher, IdentityPasswordHasher>();
 builder.Services.AddSingleton<ITokenService, TokenService>();

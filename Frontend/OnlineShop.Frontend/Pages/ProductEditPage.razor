@@ -15,16 +15,16 @@ else
             <MudCard>
                 <MudCardContent Style="min-height:100px">
                     <MudText>Название товара:</MudText>
-                    <MudTextField @bind-Value="Name" Class="text" Style="background-color:white">
+                    <MudTextField @bind-Value="model.Name" Class="text" Style="background-color:white">
                     </MudTextField>
                     <MudText>Цена товара:</MudText>
-                    <MudTextField @bind-Value="Price" Style="background-color:white"></MudTextField>
+                    <MudTextField @bind-Value="model.Price" Style="background-color:white"></MudTextField>
                     <MudText>Дата производства:</MudText>
-                    <MudTextField @bind-Value="ProducedAt" Style="background-color:white"></MudTextField>
+                    <MudTextField @bind-Value="model.ProducedAt" Style="background-color:white"></MudTextField>
                     <MudText>Срок годности:</MudText>
-                    <MudTextField @bind-Value="ExpiredAt" Style="background-color:white"></MudTextField>
+                    <MudTextField @bind-Value="model.ExpiredAt" Style="background-color:white"></MudTextField>
                     <MudText>Описание:</MudText>
-                    <MudTextField @bind-Value="Description" Style="background-color:white"></MudTextField>
+                    <MudTextField @bind-Value="model.Description" Style="background-color:white"></MudTextField>
                 </MudCardContent>
             </MudCard>
         </MudPaper>

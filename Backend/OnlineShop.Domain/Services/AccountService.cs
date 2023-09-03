@@ -21,7 +21,7 @@ namespace OnlineShop.Domain.Services
             _hasher = hasher ?? throw new ArgumentException(nameof(hasher));
 
         }
-        public virtual async Task<Account> Register(string login, 
+        public virtual async Task<Account> Register(string login,
             string password,
             string email,
             Role[] roles,
@@ -38,18 +38,16 @@ namespace OnlineShop.Domain.Services
             }
             Account account = new Account(Guid.Empty, login, EncryptPassword(password), email, roles);
             await _repozitory.Add(account, cancellationToken);
-            return account; 
+            return account;
         }
 
         private string EncryptPassword(string password)
         {
             var hashedPassword = _hasher.HashPassword(password);
-            Console.WriteLine(hashedPassword);
-            Console.WriteLine(password);
             return hashedPassword;
         }
-        public virtual async Task<Account> Login(string login, 
-            string password, 
+        public virtual async Task<Account> Login(string login,
+            string password,
             CancellationToken cancellationToken)
         {
             ArgumentNullException.ThrowIfNull(login);
@@ -79,10 +77,70 @@ namespace OnlineShop.Domain.Services
             }
             return account;
         }
-        public async Task <Account> GetAccountById(Guid guid,
+        public async Task<Account> GetAccountById(Guid guid,
             CancellationToken cancellationToken)
         {
-            return  await _repozitory.GetById(guid,cancellationToken);
+            return await _repozitory.GetById(guid, cancellationToken);
+        }
+
+        public async Task<Account> GetAccountByLogin(string login,
+            CancellationToken cancellationToken)
+        {
+            ArgumentNullException.ThrowIfNull(login);
+
+            var accountNotFound = await _accountRepozitory
+            .FindAccountByLogin(login, cancellationToken);
+
+            if (accountNotFound is null)
+            {
+                throw new AccountNotFoundException("Account with given login not found");
+            }
+            var account = await _accountRepozitory.GetAccountByLogin(login, cancellationToken);
+            return account;
+        }
+
+
+        public async Task UpdateAccount(string login, string name, string lastName,
+            string email,
+           CancellationToken cancellationToken)
+        {
+            ArgumentNullException.ThrowIfNull(login);
+            ArgumentNullException.ThrowIfNull(name);
+            ArgumentNullException.ThrowIfNull(lastName);
+            ArgumentNullException.ThrowIfNull(email);
+
+            var account = await _accountRepozitory.GetAccountByLogin(login, cancellationToken);
+            account.Name = name;
+            account.LastName = lastName;
+            account.Email = email;
+
+            await _repozitory.Update(account, cancellationToken);
+        }
+
+
+        public async Task UpdateAccountPassword(string login, string oldPassword,
+            string newPassword, CancellationToken cancellationToken)
+        {
+            ArgumentNullException.ThrowIfNull(login);
+            ArgumentNullException.ThrowIfNull(oldPassword);
+            ArgumentNullException.ThrowIfNull(newPassword);
+
+            var account = await _accountRepozitory.GetAccountByLogin(login, cancellationToken);
+
+            var isPasswordValid = _hasher.VerifyHashedPassword
+             (account.HashedPassword, oldPassword, out var rehashNedded);
+
+            if (!isPasswordValid)
+            {
+                throw new InvalidPasswordException("Invalid password");
+            }
+            if (rehashNedded)
+            {
+                await RehashPassword(oldPassword, account, cancellationToken);
+            }
+
+            account.HashedPassword = EncryptPassword(newPassword);
+            await _repozitory.Update(account, cancellationToken);
         }
 
         private async Task RehashPassword

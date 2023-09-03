@@ -1,0 +1,38 @@
+﻿@page "/account/editor"
+@using OnlineShop.Frontend.Components;
+@inherits AppComponentBase
+
+
+<MudGrid>
+    <MudCard Style="border: 2px solid black; margin: 20px; float: right; width: 600px;
+height:300px; background-color: white;">
+        <MudCardContent Style="min-height:100px;">
+            <MudText>Почта:</MudText>
+            <MudTextField @bind-Value="_accountRequest.Email" Style="background-color:white"></MudTextField>
+            <MudText>Имя:</MudText>
+            <MudTextField @bind-Value="_accountRequest.Name" Style="background-color:white"></MudTextField>
+            <MudText>Фамилия:</MudText>
+            <MudTextField @bind-Value="_accountRequest.LastName" Style="background-color:white"></MudTextField>
+            <MudButton @onclick="UpdateAccountData" Style="background-color:#6ec04a; margin: 10px; color: white">
+                Сохранить
+            </MudButton>
+        </MudCardContent>
+    </MudCard>
+
+    <MudCard Style="border: 2px solid black; margin: 20px; float: right; width: 600px;
+height:300px; background-color: white;">
+        <MudCardContent Style="min-height:100px;">
+            <MudText>Старый пароль:</MudText>
+            <MudTextField @bind-Value="_accountPasswordRequest.OldPassword" Style="background-color:white"></MudTextField>
+            <MudText>Новый пароль:</MudText>
+            <MudTextField @bind-Value="_accountPasswordRequest.NewPassword" Style="background-color:white"></MudTextField>
+            <MudText>Подтвердите пароль:</MudText>
+            <MudButton @onclick="UpdateAccountPassword" Style="background-color:#6ec04a; margin: 10px; color: white">
+                Сохранить
+            </MudButton>
+        </MudCardContent>
+    </MudCard>
+</MudGrid>
+
+
+

@@ -9,18 +9,18 @@
         <MudCard>
             <MudCardContent Style="min-height: 100px">
                 <MudText>Введите название товара:</MudText>
-                <MudTextField @bind-Value="Name" Class="text" Style="background-color: white">
+                <MudTextField @bind-Value="model.Name" Class="text" Style="background-color: white">
                 </MudTextField>
                 <MudText>Введите цену товара:</MudText>
-                <MudTextField @bind-Value="Price" Style="background-color: white"></MudTextField>
+                <MudTextField @bind-Value="model.Price" Style="background-color: white"></MudTextField>
                 <MudText>Введите дату производства:</MudText>
-                <MudTextField @bind-Value="ProducedAt" Style="background-color: white"></MudTextField>
+                <MudTextField @bind-Value="model.ProducedAt" Style="background-color: white"></MudTextField>
                 <MudText>Введите дату окончания срока годности:</MudText>
-                <MudTextField @bind-Value="ExpiredAt" Style="background-color: white"></MudTextField>
+                <MudTextField @bind-Value="model.ExpiredAt" Style="background-color: white"></MudTextField>
                 <MudText>Введите описание:</MudText>
-                <MudTextField @bind-Value="Description" Style="background-color: white"></MudTextField>
+                <MudTextField @bind-Value="model.Description" Style="background-color: white"></MudTextField>
                 <MudText>Введите путь к картинке:</MudText>
-                <MudTextField @bind-Value="Image" Style="background-color: white"></MudTextField>
+                <MudTextField @bind-Value="model.Image" Style="background-color: white"></MudTextField>
             </MudCardContent>
         </MudCard>
     </MudPaper>
