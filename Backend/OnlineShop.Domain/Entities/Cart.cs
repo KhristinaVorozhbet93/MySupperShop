@@ -4,7 +4,7 @@
     {
 		private Guid _id;
         private Guid _accountId;
-        private List<CartItem> _itmes;
+        public List<CartItem>? Items { get; set; }
 
         protected Cart() { }
         public Cart(Guid accountId)

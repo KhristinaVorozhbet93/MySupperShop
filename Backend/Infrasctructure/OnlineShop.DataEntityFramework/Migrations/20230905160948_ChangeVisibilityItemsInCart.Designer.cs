@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnlineShop.Data.EntityFramework.Data;
 
@@ -10,9 +11,11 @@ using OnlineShop.Data.EntityFramework.Data;
 namespace MyShopBackend.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230905160948_ChangeVisibilityItemsInCart")]
+    partial class ChangeVisibilityItemsInCart
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.9");
@@ -78,11 +81,11 @@ namespace MyShopBackend.Migrations
                     b.Property<Guid>("CartId")
                         .HasColumnType("TEXT");
 
+                    b.Property<double>("Guantity")
+                        .HasColumnType("REAL");
+
                     b.Property<Guid>("ProductId")
                         .HasColumnType("TEXT");
-
-                    b.Property<double>("Quantity")
-                        .HasColumnType("REAL");
 
                     b.HasKey("Id");
 

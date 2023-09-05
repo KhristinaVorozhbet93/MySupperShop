@@ -24,7 +24,7 @@
             get => _productId; 
             init => _productId = value; 
         }
-        public double Guantity
+        public double Quantity
         {
             get => _quantity; 
             set => _quantity = value; 

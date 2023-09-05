@@ -18,7 +18,7 @@ namespace OnlineShop.Domain.Services
 
             if (product is null)
             {
-                throw new InvalidOperationException(nameof(product));
+                throw new ProductNotFoundException(nameof(product));
             }
             return product;
         }
@@ -52,7 +52,7 @@ namespace OnlineShop.Domain.Services
             var product = await _repozitory.GetById(id, cancellationToken);
             if (product is null)
             {
-                throw new InvalidOperationException();
+                throw new ProductNotFoundException(nameof(product));
             }
             await _repozitory.Delete(product, cancellationToken);
         }

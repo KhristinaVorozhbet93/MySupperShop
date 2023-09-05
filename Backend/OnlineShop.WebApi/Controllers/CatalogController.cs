@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OnlineShop.Domain.Exceptions;
 using OnlineShop.Domain.Services;
 using OnlineShop.HttpModels.Requests;
 using OnlineShop.HttpModels.Responses;
@@ -26,7 +27,7 @@ namespace OnlineShop.WebApi.Controllers
                 return Ok(new ProductResponse(product.Id, product.Name, product.Description,
                     product.Price, product.ProducedAt, product.ExpiredAt, product.Image));
             }
-            catch (InvalidOperationException)
+            catch (ProductNotFoundException)
             {
                 return NotFound("Продукт с таким id не найден!");
             }
@@ -75,7 +76,7 @@ namespace OnlineShop.WebApi.Controllers
                 await _catalogService.DeleteProduct(id, cancellationToken);
                 return Ok();
             }
-            catch (InvalidOperationException)
+            catch (ProductNotFoundException)
             {
                 return NotFound("Продукт с таким id не найден!");
             }
