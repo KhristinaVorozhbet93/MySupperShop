@@ -21,7 +21,8 @@ namespace OnlineShop.Frontend.Pages
         }
         protected override async Task OnInitializedAsync()
         {
-            _product = await ShopClient!.GetProduct(ProductId, _cts.Token); 
+            _product = await ShopClient!.GetProduct(ProductId, _cts.Token);
+            model.Id = _product.Id; 
             model.Name = _product.Name;
             model.Price = _product.Price;
             model.Image = _product.Image;

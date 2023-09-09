@@ -59,7 +59,7 @@ namespace OnlineShop.Frontend.Pages
 
         public async Task UpdateAccountPassword()
         {
-            //проверка совпадения паролей и проверка чтобы поля не были пустыми
+            //добавить проверку совпадения паролей и проверка чтобы поля не были пустыми
             _accountPasswordRequest.Login = _accountResponse.Login;
 
             try

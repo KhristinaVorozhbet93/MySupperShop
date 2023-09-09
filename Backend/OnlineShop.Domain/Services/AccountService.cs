@@ -7,19 +7,13 @@ namespace OnlineShop.Domain.Services
 {
     public class AccountService
     {
-        private readonly IAccountRepozitory _accountRepozitory;
-        private readonly IRepozitory<Account> _repozitory;
+        private readonly IUnitOfWork _uow;
         private readonly IApplicationPasswordHasher _hasher;
 
-        public AccountService(IAccountRepozitory accountRepozitory,
-            IRepozitory<Account> repozitory,
-            IApplicationPasswordHasher hasher)
+        public AccountService(IUnitOfWork unitOfWork, IApplicationPasswordHasher hasher)
         {
-            _accountRepozitory =
-                accountRepozitory ?? throw new ArgumentException(nameof(accountRepozitory));
-            _repozitory = repozitory ?? throw new ArgumentException(nameof(repozitory));
             _hasher = hasher ?? throw new ArgumentException(nameof(hasher));
-
+            _uow = unitOfWork ?? throw new ArgumentException(nameof(unitOfWork));
         }
         public virtual async Task<Account> Register(string login,
             string password,
@@ -30,14 +24,19 @@ namespace OnlineShop.Domain.Services
             ArgumentNullException.ThrowIfNull(login);
             ArgumentNullException.ThrowIfNull(email);
             ArgumentNullException.ThrowIfNull(password);
-            var existedAccount = await _accountRepozitory
+            var existedAccount = await _uow.AccountRepozitory
                 .FindAccountByLogin(login, cancellationToken);
             if (existedAccount is not null)
             {
                 throw new EmailAlreadyExistsException("Account with this login alredy exist");
             }
-            Account account = new Account(Guid.Empty, login, EncryptPassword(password), email, roles);
-            await _repozitory.Add(account, cancellationToken);
+            Account account = new Account
+                (Guid.NewGuid(), login, EncryptPassword(password), email, roles);
+            Cart cart = new(account.Id) { Id = Guid.NewGuid() };
+
+            await _uow.AccountRepozitory.Add(account, cancellationToken); 
+            await _uow.CartRepozitory.Add(cart, cancellationToken);
+            await _uow.SaveChangesAsync(cancellationToken);
             return account;
         }
 
@@ -53,7 +52,7 @@ namespace OnlineShop.Domain.Services
             ArgumentNullException.ThrowIfNull(login);
             ArgumentNullException.ThrowIfNull(password);
 
-            var accountNotFound = await _accountRepozitory
+            var accountNotFound = await _uow.AccountRepozitory
                 .FindAccountByLogin(login, cancellationToken);
 
             if (accountNotFound is null)
@@ -61,26 +60,16 @@ namespace OnlineShop.Domain.Services
                 throw new AccountNotFoundException("Account with given login not found");
             }
 
-            var account = await _accountRepozitory.GetAccountByLogin(login, cancellationToken);
-
-            var isPasswordValid = _hasher.VerifyHashedPassword
-                (account.HashedPassword, password, out var rehashNedded);
-
-            if (!isPasswordValid)
-            {
-                throw new InvalidPasswordException("Invalid password");
-            }
-
-            if (rehashNedded)
-            {
-                await RehashPassword(password, account, cancellationToken);
-            }
+            var account = await _uow.AccountRepozitory.GetAccountByLogin(login, cancellationToken);
+            await CheckPassword(password, account, cancellationToken);
             return account;
         }
+
         public async Task<Account> GetAccountById(Guid guid,
             CancellationToken cancellationToken)
         {
-            return await _repozitory.GetById(guid, cancellationToken);
+            var account = await _uow.AccountRepozitory.GetById(guid, cancellationToken);
+            return account;
         }
 
         public async Task<Account> GetAccountByLogin(string login,
@@ -88,19 +77,18 @@ namespace OnlineShop.Domain.Services
         {
             ArgumentNullException.ThrowIfNull(login);
 
-            var accountNotFound = await _accountRepozitory
-            .FindAccountByLogin(login, cancellationToken);
+            var accountNotFound = await _uow.AccountRepozitory
+                                .FindAccountByLogin(login, cancellationToken);
 
             if (accountNotFound is null)
             {
                 throw new AccountNotFoundException("Account with given login not found");
             }
-            var account = await _accountRepozitory.GetAccountByLogin(login, cancellationToken);
+            var account = await _uow.AccountRepozitory.GetAccountByLogin(login, cancellationToken);
             return account;
         }
 
-
-        public async Task UpdateAccount(string login, string name, string lastName,
+        public async Task UpdateAccountData(string login, string name, string lastName,
             string email,
            CancellationToken cancellationToken)
         {
@@ -109,14 +97,13 @@ namespace OnlineShop.Domain.Services
             ArgumentNullException.ThrowIfNull(lastName);
             ArgumentNullException.ThrowIfNull(email);
 
-            var account = await _accountRepozitory.GetAccountByLogin(login, cancellationToken);
+            var account = await _uow.AccountRepozitory.GetAccountByLogin(login, cancellationToken);
             account.Name = name;
             account.LastName = lastName;
             account.Email = email;
-
-            await _repozitory.Update(account, cancellationToken);
+            await _uow.AccountRepozitory.Update(account, cancellationToken);
+            await _uow.SaveChangesAsync(cancellationToken);
         }
-
 
         public async Task UpdateAccountPassword(string login, string oldPassword,
             string newPassword, CancellationToken cancellationToken)
@@ -125,10 +112,20 @@ namespace OnlineShop.Domain.Services
             ArgumentNullException.ThrowIfNull(oldPassword);
             ArgumentNullException.ThrowIfNull(newPassword);
 
-            var account = await _accountRepozitory.GetAccountByLogin(login, cancellationToken);
+            var account = await _uow.AccountRepozitory.GetAccountByLogin(login, cancellationToken);
+            await CheckPassword(oldPassword, account, cancellationToken);
+            account.HashedPassword = EncryptPassword(newPassword);
+            await _uow.AccountRepozitory.Update(account, cancellationToken);
+            await _uow.SaveChangesAsync(cancellationToken);
+        }
 
+        private async Task CheckPassword(string password, 
+            Account account, CancellationToken cancellationToken)
+        {
+            ArgumentNullException.ThrowIfNull(password);
+            ArgumentNullException.ThrowIfNull(account);
             var isPasswordValid = _hasher.VerifyHashedPassword
-             (account.HashedPassword, oldPassword, out var rehashNedded);
+                         (account.HashedPassword, password, out var rehashNedded);
 
             if (!isPasswordValid)
             {
@@ -136,18 +133,15 @@ namespace OnlineShop.Domain.Services
             }
             if (rehashNedded)
             {
-                await RehashPassword(oldPassword, account, cancellationToken);
+                await RehashPassword(password, account, cancellationToken);
             }
-
-            account.HashedPassword = EncryptPassword(newPassword);
-            await _repozitory.Update(account, cancellationToken);
         }
 
         private async Task RehashPassword
             (string password, Account account, CancellationToken cancellationToken)
         {
             account.HashedPassword = EncryptPassword(password);
-            await _accountRepozitory.Update(account, cancellationToken);
+            await _uow.AccountRepozitory.Update(account, cancellationToken);
         }
     }
 }

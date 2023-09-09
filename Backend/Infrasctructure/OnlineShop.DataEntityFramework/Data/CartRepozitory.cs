@@ -1,17 +1,23 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OnlineShop.Domain.Entities;
+using OnlineShop.Domain.Exceptions;
 using OnlineShop.Domain.Interfaces;
 
 namespace OnlineShop.Data.EntityFramework.Data
 {
     public class CartRepozitory : EfRepozitory<Cart>, ICartRepozitory
     {
-        private readonly AppDbContext _dbContext;
-        public CartRepozitory(AppDbContext _dbContext) : base(_dbContext) { }
+        public CartRepozitory(AppDbContext dbContext) : base(dbContext) { }
 
-        public async Task<Cart> GetCartByAccountId(Guid id, CancellationToken cancellationToken)
+        public async Task<Cart> GetCartByAccountId(Guid accountId, CancellationToken cancellationToken)
         {
-            return await _entities.SingleAsync(e => e.AccountId == id, cancellationToken);
+            var account = await _entities
+                .SingleOrDefaultAsync(it => it.AccountId == accountId, cancellationToken) 
+                ?? throw new AccountNotFoundException("Account with given email not found");
+            var cart = await _entities
+                 .Include(c => c.Items)
+                 .SingleOrDefaultAsync(e => e.AccountId == accountId, cancellationToken);
+            return cart;
         }
     }
 }

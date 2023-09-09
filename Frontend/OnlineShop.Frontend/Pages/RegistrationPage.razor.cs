@@ -35,6 +35,7 @@ namespace OnlineShop.Frontend.Pages
             try
             {
                 var response = await ShopClient!.Register(model, _cts.Token);
+
                 await DialogService.ShowMessageBox
                     ("Успешно", $"Поздравляем {response.Login}!Вы успешно зарегистрированы!");
                 Manager.NavigateTo("/account/login");

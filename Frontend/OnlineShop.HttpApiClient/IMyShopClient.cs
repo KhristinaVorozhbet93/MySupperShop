@@ -12,10 +12,15 @@ namespace OnlineShop.HttpApiClient
         Task DeleteProduct(Guid id, CancellationToken cancellationToken);
         Task UpdateProduct(ProductRequest product, CancellationToken cancellationToken);
 
+
         Task<RegisterResponse> Register(RegisterRequest request, CancellationToken cancellationToken);
         Task<LoginResponse> Login(LoginRequest request, CancellationToken cancellationToken);
         Task<AccountResponse> GetAccount(CancellationToken cancellationToken);
         Task UpdateAccountData(AccountRequest request, CancellationToken cancellationToken);
         Task UpdateAccountPassword(AccountPasswordRequest request, CancellationToken cancellationToken);
+
+
+        Task<CartResponse> GetCart(Guid id, CancellationToken cancellationToken);
+        Task AddProductInCart(CartRequest request, CancellationToken cancellationToken);
     }
 }

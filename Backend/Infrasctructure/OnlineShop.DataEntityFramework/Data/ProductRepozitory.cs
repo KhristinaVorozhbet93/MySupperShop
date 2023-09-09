@@ -6,12 +6,7 @@ namespace OnlineShop.Data.EntityFramework.Data
 {
     public class ProductRepozitory : EfRepozitory<Product>, IProductRepozitory
     {
-        private readonly AppDbContext _dbContext;
-
-        public ProductRepozitory(AppDbContext dbContext) : base(dbContext)
-        {
-            _dbContext = dbContext ?? throw new ArgumentException(nameof(dbContext));
-        }
+        public ProductRepozitory(AppDbContext dbContext) : base(dbContext) { }
 
         public async override Task Update(Product newProduct, CancellationToken cancellationToken)
         {

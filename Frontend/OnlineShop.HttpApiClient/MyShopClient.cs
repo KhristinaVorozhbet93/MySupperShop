@@ -81,12 +81,10 @@ namespace OnlineShop.HttpApiClient
         {
             ArgumentNullException.ThrowIfNull(nameof(request));
             var uri = "update_product";
-            await _httpClient!
-                .PostAsJsonAsync(uri, request, cancellationToken);
 
-            //using var response = await _httpClient!
-            //    .PostAsJsonAsync("update_product", request, cancellationToken);
-            //response.EnsureSuccessStatusCode();
+            using var response = await _httpClient!
+                .PostAsJsonAsync(uri, request, cancellationToken);
+            response.EnsureSuccessStatusCode();
         }
 
         //Account
@@ -136,6 +134,29 @@ namespace OnlineShop.HttpApiClient
             ArgumentNullException.ThrowIfNull(nameof(request));
             var response = await _httpClient!.PostAsJsonAsync
                 ("account/password", request, cancellationToken);
+            response.EnsureSuccessStatusCode();
+        }
+
+        //Cart
+        public async Task<CartResponse> GetCart(Guid accountId, CancellationToken cancellationToken)
+        {
+            var uri = $"cart?id={accountId}";
+            var cart = await _httpClient!
+                .GetFromJsonAsync<CartResponse>(uri, cancellationToken);
+            if (cart is null)
+            {
+                throw new InvalidOperationException(nameof(cart));
+            }
+            return cart;
+        }
+
+        public async Task AddProductInCart(CartRequest request,
+            CancellationToken cancellationToken)
+        {
+            ArgumentNullException.ThrowIfNull(nameof(request));
+            var uri = "cart/add_product";
+            var response = await _httpClient!
+                .PostAsJsonAsync(uri, request, cancellationToken);
             response.EnsureSuccessStatusCode();
         }
     }

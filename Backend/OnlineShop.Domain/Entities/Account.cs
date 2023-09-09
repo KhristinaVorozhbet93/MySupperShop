@@ -4,12 +4,12 @@ namespace OnlineShop.Domain.Entities
 {
     public class Account : IEntity
     {
-        private Guid _id;
-        private string _name;
-        private string _lastName;
+        private Guid _id;        
         private string _login;
         private string _hashedPassword;
         private string _email;
+        public string? Name { get; set; }
+        public string? LastName { get; set; }
         public string? Image { get; set; }
         public Role[] Roles { get; set; }
 
@@ -41,30 +41,7 @@ namespace OnlineShop.Domain.Entities
             get => _id;
             init => _id = value;
         }
-        public string Name
-        {
-            get => _name;
-            set
-            {
-                if (string.IsNullOrWhiteSpace(value))
-                {
-                    throw new ArgumentException($"Value can not be null or whitespace{nameof(value)}");
-                }
-                _name = value ?? throw new ArgumentException(nameof(value));
-            }
-        }
-        public string LastName
-        {
-            get => _lastName;
-            set
-            {
-                if (string.IsNullOrWhiteSpace(value))
-                {
-                    throw new ArgumentException($"Value can not be null or whitespace{nameof(value)}");
-                }
-                _lastName = value ?? throw new ArgumentException(nameof(value));
-            }
-        }
+
         public string Login
         {
             get => _login;

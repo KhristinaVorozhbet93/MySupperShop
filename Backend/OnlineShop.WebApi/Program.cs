@@ -32,10 +32,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddScoped(typeof(IRepozitory<>), typeof(EfRepozitory<>));
 builder.Services.AddScoped<IProductRepozitory, ProductRepozitory>();
 builder.Services.AddScoped<IAccountRepozitory, AccountRepozitory>();
-builder.Services.AddScoped<ICartRepozitory, CartRepozitory>(); 
-builder.Services.AddScoped(typeof(IRepozitory<>), typeof(EfRepozitory<>));
+builder.Services.AddScoped<ICartRepozitory, CartRepozitory>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWorkEf>();
+
 builder.Services.AddScoped<AccountService>();
 builder.Services.AddScoped<CatalogService>();
 builder.Services.AddScoped<CartService>();

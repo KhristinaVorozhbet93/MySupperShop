@@ -6,21 +6,17 @@ namespace OnlineShop.Domain.Services
 {
     public class CartService
     {
-        private readonly ICartRepozitory _cartRepozitory;
-        private readonly IProductRepozitory _productRepozitory; 
+        private readonly IUnitOfWork _uow;
 
-        public CartService(ICartRepozitory cartRepozitory, IProductRepozitory productRepozitory)
+        public CartService(IUnitOfWork uow)
         {
-            _cartRepozitory = cartRepozitory
-                ?? throw new ArgumentNullException(nameof(cartRepozitory));
-            _productRepozitory = productRepozitory
-                ?? throw new ArgumentNullException(nameof(productRepozitory));
+            _uow = uow ?? throw new ArgumentNullException(nameof(uow));
         }
 
         public virtual async Task<Cart> GetAccountCart(Guid accountId,
             CancellationToken cancellationToken)
         {
-            var cart = await _cartRepozitory.GetCartByAccountId(accountId, cancellationToken);
+            var cart = await _uow.CartRepozitory.GetCartByAccountId(accountId, cancellationToken);
 
             if (cart is null)
             {
@@ -29,32 +25,22 @@ namespace OnlineShop.Domain.Services
             return cart;
         }
 
-        public virtual async Task AddProduct(Guid accountId, Guid productId, 
+        public virtual async Task AddProduct(Guid accountId, Guid productId,
              CancellationToken cancellationToken, double quantity = 1d)
         {
-            var product = await _productRepozitory.GetById(productId, cancellationToken);
+            var product = await _uow.ProductRepozitory.GetById(productId, cancellationToken);
             if (product is null)
             {
-                throw new ProductNotFoundException(nameof(product)); 
+                throw new ProductNotFoundException(nameof(product));
             }
-            var cart = await _cartRepozitory.GetCartByAccountId(accountId, cancellationToken);
-
+            var cart = await _uow.CartRepozitory.GetCartByAccountId(accountId, cancellationToken);
             if (cart is null)
             {
                 throw new CartNotFoundException(nameof(cart));
             }
-
-            var existedItem = cart.Items.FirstOrDefault(item => item.ProductId == product.Id);
-
-            if (existedItem is null)
-            {
-                cart.Items.Add(new CartItem(Guid.Empty, product.Id, quantity));
-            }
-            else
-            {
-                existedItem.Quantity += quantity;
-            }
-            await _cartRepozitory.Update(cart, cancellationToken);
+            cart.AddItem(product, quantity);
+            await _uow.CartRepozitory.Update(cart, cancellationToken);
+            await _uow.SaveChangesAsync(cancellationToken);
         }
     }
 }

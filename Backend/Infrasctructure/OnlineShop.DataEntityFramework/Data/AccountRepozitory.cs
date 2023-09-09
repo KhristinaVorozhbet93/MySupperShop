@@ -6,8 +6,7 @@ namespace OnlineShop.Data.EntityFramework.Data
 {
     public class AccountRepozitory : EfRepozitory<Account>, IAccountRepozitory
     {
-        private readonly AppDbContext _dbContext;
-        public AccountRepozitory(AppDbContext _dbContext) : base(_dbContext) { }
+        public AccountRepozitory(AppDbContext dbContext) : base(dbContext) { }
 
         public async Task<Account> GetAccountByLogin(string login, CancellationToken cancellationToken)
         {

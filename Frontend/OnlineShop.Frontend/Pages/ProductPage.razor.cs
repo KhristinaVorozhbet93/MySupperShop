@@ -9,7 +9,7 @@ namespace OnlineShop.Frontend.Pages
     {
         [Parameter] public Guid ProductId { get; set; }
         [Inject] private IMyShopClient ShopClient { get; set; }
-        [Inject] private NavigationManager manager { get; set; }
+        [Inject] private NavigationManager Manager { get; set; }
         [Inject] private IDialogService DialogService { get; set; }
         string state = string.Empty;
         private ProductResponse? _product;
@@ -34,10 +34,10 @@ namespace OnlineShop.Frontend.Pages
                 state = result == null ? "No" : "Yes";
                 if (state == "Yes")
                 {
-                    await ShopClient!.DeleteProduct(ProductId, _cts.Token);
+                    await ShopClient.DeleteProduct(ProductId, _cts.Token);
                     await DialogService.ShowMessageBox("Информация", "Товар удален!");
                     await Task.Delay(TimeSpan.FromSeconds(3), _cts.Token);
-                    manager.NavigateTo("/catalog");
+                    Manager.NavigateTo("/catalog");
                 }
                 if (state == "No")
                 {
@@ -52,7 +52,7 @@ namespace OnlineShop.Frontend.Pages
         }
         public void ToProductEditPage()
         {
-            manager.NavigateTo($"/products/{_product!.Id}/editor");
+            Manager.NavigateTo($"/products/{_product!.Id}/editor");
         }
     }
 }

@@ -68,7 +68,7 @@ namespace OnlineShop.WebApi.Controllers
 
         [Authorize(Roles = nameof(Role.Admin))]
         [HttpPost("delete_product")]
-        public async Task<ActionResult> DeleteProduct([FromBody] Guid id,
+        public async Task<ActionResult> DeleteProduct([FromBody]Guid id,
        CancellationToken cancellationToken)
         {
             try
@@ -78,24 +78,20 @@ namespace OnlineShop.WebApi.Controllers
             }
             catch (ProductNotFoundException)
             {
-                return NotFound("Продукт с таким id не найден!");
+                return Conflict (new ErrorResponse("Продукт с таким id не найден!"));
             }
         }
 
-
-
-
-
-
-        //[Authorize(Roles = nameof(Role.Admin))]
-        //[HttpPost("update_product")]
-        //public async Task<ActionResult> UpdateProduct( 
-        //    ProductRequest product, CancellationToken cancellationToken)
-        //{
-        //    await _repozitory.Update(product, cancellationToken);
-        //    return Ok();
-        //}
-
-
+        [Authorize(Roles = nameof(Role.Admin))]
+        [HttpPost("update_product")]
+        public async Task<ActionResult> UpdateProduct(
+            ProductRequest request, CancellationToken cancellationToken)
+        {
+            ArgumentNullException.ThrowIfNull(request);
+            await _catalogService.UpdateProduct(request.Id, request.Name,request.Description,
+                request.Price, request.ProducedAt, request.ExpiredAt, 
+                request.Image, cancellationToken);
+            return Ok();
+        }
     }
 }

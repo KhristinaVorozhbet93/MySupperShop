@@ -17,11 +17,10 @@ namespace OnlineShop.Data.EntityFramework.Data
         public virtual async Task Add(TEntity entity, CancellationToken cancellationToken)
         {
             await _entities.AddAsync(entity, cancellationToken);
-            await _dbContext.SaveChangesAsync(cancellationToken);
         }
         public virtual async Task<TEntity> GetById(Guid id, CancellationToken cancellationToken)
         {
-            var entity = await _entities.FirstAsync(it => it.Id == id, cancellationToken);
+            var entity = await _entities.SingleAsync(it => it.Id == id, cancellationToken);
             return entity;
         }
         public virtual async Task<List<TEntity>> GetAll(CancellationToken cancellationToken)
@@ -32,12 +31,10 @@ namespace OnlineShop.Data.EntityFramework.Data
             CancellationToken cancellationToken)
         {
             _dbContext.Entry(entity).State = EntityState.Modified;
-            await _dbContext.SaveChangesAsync();
         }
         public virtual async Task Delete(TEntity entity, CancellationToken cancellationToken)
         {
             _entities.Remove(entity);
-            await _dbContext.SaveChangesAsync(cancellationToken);
         }
     }
 }

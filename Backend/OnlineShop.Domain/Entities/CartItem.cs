@@ -3,15 +3,16 @@
     public class CartItem : IEntity
     {
         private Guid _id;
-        private Guid _productId;
+        private Product _product;
         private double _quantity;
         public Cart Cart { get; set; } = null;
+
         protected CartItem() { }
-        public CartItem(Guid id,Guid productId, double quantity )
-        {
+        public CartItem(Guid id, Product product, double quantity )
+        {           
             _id = id;
-            _productId = productId;
-            _quantity = quantity; 
+            _quantity = quantity;
+            _product = product ?? throw new ArgumentNullException(nameof(product));
         }
   
         public Guid Id
@@ -19,16 +20,15 @@
             get => _id;
             init => _id = value;
         }
-        public Guid ProductId
+        public Product Product
         {
-            get => _productId; 
-            init => _productId = value; 
+            get => _product; 
+            init => _product = value; 
         }
         public double Quantity
         {
             get => _quantity; 
             set => _quantity = value; 
         }
-
     }
 }

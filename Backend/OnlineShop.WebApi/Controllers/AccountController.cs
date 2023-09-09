@@ -27,7 +27,7 @@ namespace OnlineShop.WebApi.Controllers
         {
             try
             {
-                var role = new Role[] { Role.Customer };
+                var role = new Role[] { Role.Admin };
                 var account = await _accountService.Register
                     (request.Login, request.Password, request.Email, role, cancellationToken);
                 return new RegisterResponse(account.Login);
@@ -78,9 +78,9 @@ namespace OnlineShop.WebApi.Controllers
         public async Task<ActionResult> UpdateAccount
             (AccountRequest request, CancellationToken cancellationToken)
         {
-            await _accountService.UpdateAccount(request.Login, request.Name, request.LastName,
-                request.Email, cancellationToken);
-            return Ok();
+                await _accountService.UpdateAccountData(request.Login, request.Name, 
+                    request.LastName, request.Email, cancellationToken);
+                return Ok();            
         }
 
         [Authorize]
@@ -88,10 +88,16 @@ namespace OnlineShop.WebApi.Controllers
         public async Task<ActionResult> UpdateAccountPassword
       (AccountPasswordRequest request, CancellationToken cancellationToken)
         {
-            await _accountService.UpdateAccountPassword
-                (request.Login, request.OldPassword, request.NewPassword, cancellationToken);
-            return Ok();
+            try
+            {
+                await _accountService.UpdateAccountPassword
+                    (request.Login, request.OldPassword, request.NewPassword, cancellationToken);
+                return Ok();
+            }
+            catch (InvalidPasswordException)
+            {
+                return Conflict(new ErrorResponse("Неверный пароль!"));
+            }
         }
-
     }
 }

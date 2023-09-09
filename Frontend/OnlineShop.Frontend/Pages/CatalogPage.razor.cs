@@ -19,7 +19,7 @@ namespace OnlineShop.Frontend.Pages
         {
             _catalogLoading = true;
             _products = await ShopClient.GetProducts(_cts.Token);
-            _catalogLoading = false; ;
+            _catalogLoading = false;
         }
         public void ToAddProductPage()
         {

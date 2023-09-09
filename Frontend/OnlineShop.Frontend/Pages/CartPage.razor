@@ -1,0 +1,9 @@
+﻿@page "/cart"
+
+@foreach (var product in cartResponse.Products)
+{
+    <div>@product.Name</div>
+    <div>@product.Price</div>
+    <div>@product.Description</div>
+    <hr/>
+}
