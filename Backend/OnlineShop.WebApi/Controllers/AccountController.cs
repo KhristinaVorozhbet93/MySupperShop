@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OnlineShop.Domain;
 using OnlineShop.Domain.Exceptions;
 using OnlineShop.Domain.Services;
 using OnlineShop.HttpModels.Requests;
@@ -79,7 +80,7 @@ namespace OnlineShop.WebApi.Controllers
             (AccountRequest request, CancellationToken cancellationToken)
         {
                 await _accountService.UpdateAccountData(request.Login, request.Name, 
-                    request.LastName, request.Email, cancellationToken);
+                    request.LastName, request.Email, request.Image, cancellationToken);
                 return Ok();            
         }
 
@@ -92,6 +93,22 @@ namespace OnlineShop.WebApi.Controllers
             {
                 await _accountService.UpdateAccountPassword
                     (request.Login, request.OldPassword, request.NewPassword, cancellationToken);
+                return Ok();
+            }
+            catch (InvalidPasswordException)
+            {
+                return Conflict(new ErrorResponse("Неверный пароль!"));
+            }
+        }
+
+        [Authorize]
+        [HttpPost("account/delete")]
+        public async Task<ActionResult> DeleteAccount(AccountRequest request,
+            CancellationToken cancellationToken)
+        {
+            try
+            {
+                await _accountService.DeleteAccount(request.Login, cancellationToken);
                 return Ok();
             }
             catch (InvalidPasswordException)

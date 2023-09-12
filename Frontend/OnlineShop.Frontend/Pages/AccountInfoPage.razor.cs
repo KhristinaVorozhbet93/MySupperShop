@@ -1,17 +1,20 @@
 ﻿using Microsoft.AspNetCore.Components;
+using MudBlazor;
 using OnlineShop.HttpApiClient;
 using OnlineShop.HttpModels.Requests;
+using OnlineShop.HttpModels.Responses;
 
 namespace OnlineShop.Frontend.Pages
 {
     public partial class AccountInfoPage : IDisposable
     {
-        [Inject]
-        private IMyShopClient ShopClient { get; set; }
-        [Inject]
-        public NavigationManager Manager { get; set; }
+        [Inject] private IMyShopClient ShopClient { get; set; }
+        [Inject] public NavigationManager Manager { get; set; }
+        [Inject] private IDialogService DialogService { get; set; }
+        private string state = string.Empty;
         private CancellationTokenSource _cts = new();
-        AccountRequest model = new();
+        private AccountRequest _accountRequest = new();
+        private AccountResponse _accountResponse;
 
         public void Dispose()
         {
@@ -19,13 +22,42 @@ namespace OnlineShop.Frontend.Pages
         }
         protected override async Task OnInitializedAsync()
         {
-            var account = await ShopClient.GetAccount(_cts.Token);
-            model.Login = account.Login;
-            model.Email = account.Email;
-            model.Name = account.Name;
-            model.LastName = account.LastName;
+            _accountResponse = await ShopClient.GetAccount(_cts.Token);
+            _accountRequest.Login = _accountResponse.Login;
+            _accountRequest.Email = _accountResponse.Email; 
+            _accountRequest.Name = _accountResponse.Name;
+            _accountRequest.LastName = _accountResponse.LastName;
+            _accountRequest.Image = _accountResponse.Image; 
         }
 
+        public async Task DeleteAccount()
+        {
+            try
+            {
+                bool? result = await DialogService.ShowMessageBox(
+            "Информация",
+            "Вы верены, что хотите удалить аккаунт?",
+            yesText: "Да", cancelText: "Нет");
+                state = result == null ? "No" : "Yes";
+                if (state == "Yes")
+                {
+                    await ShopClient.DeleteAccount(_accountRequest, _cts.Token);
+                    await DialogService.ShowMessageBox("Информация", "Аккаунт удален!");
+                    await Task.Delay(TimeSpan.FromSeconds(2), _cts.Token);
+                    Manager.NavigateTo("/");
+                }
+                if (state == "No")
+                {
+                    await DialogService.ShowMessageBox("Информация", "Аккаунт не удален!");
+                    return;
+                }
+            }
+            catch (ArgumentNullException)
+            {
+                await DialogService.ShowMessageBox("Ошибка", "Аккаунт не удален!");
+            }
+            
+        }
         public void ToAccountEditorPage()
         {
             Manager.NavigateTo("account/editor");

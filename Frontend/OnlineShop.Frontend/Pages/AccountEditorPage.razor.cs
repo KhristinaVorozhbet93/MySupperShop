@@ -14,9 +14,28 @@ namespace OnlineShop.Frontend.Pages
         private AccountRequest _accountRequest = new();
         private AccountPasswordRequest _accountPasswordRequest = new();
         private AccountResponse _accountResponse;
+        private string _confirmedPassword = string.Empty;
+        private bool isShow;
+        private InputType PasswordInput = InputType.Password;
+        private string PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
         public void Dispose()
         {
             _cts.Cancel();
+        }
+        void ShowPassword()
+        {
+            if (isShow)
+            {
+                isShow = false;
+                PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+                PasswordInput = InputType.Password;
+            }
+            else
+            {
+                isShow = true;
+                PasswordInputIcon = Icons.Material.Filled.Visibility;
+                PasswordInput = InputType.Text;
+            }
         }
         protected override async Task OnInitializedAsync()
         {
@@ -59,7 +78,23 @@ namespace OnlineShop.Frontend.Pages
 
         public async Task UpdateAccountPassword()
         {
-            //добавить проверку совпадения паролей и проверка чтобы поля не были пустыми
+            if (_accountPasswordRequest.OldPassword == string.Empty)
+            {
+                await DialogService.ShowMessageBox("Ошибка", "Введите старый пароль!");
+                return;
+            }
+            if (_accountPasswordRequest.NewPassword == string.Empty 
+                || _confirmedPassword == string.Empty)
+            {
+                await DialogService.ShowMessageBox("Ошибка", "Введите новый пароль!");
+                return;
+            }
+
+            if (_accountPasswordRequest.NewPassword != _confirmedPassword)
+            {
+                await DialogService.ShowMessageBox("Информация", "Новые пароли не сопадают!");
+                return;
+            }
             _accountPasswordRequest.Login = _accountResponse.Login;
 
             try

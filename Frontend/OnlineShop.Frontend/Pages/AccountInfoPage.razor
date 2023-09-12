@@ -2,35 +2,46 @@
 @using OnlineShop.Frontend.Components;
 @inherits AppComponentBase
 
-
-<MudGrid>
-    @*<MudImage Src="@model.Image" Height="400" Width="400" 
-    Style="border: 2px solid black; margin:20px; background-color: white; float: left"/>
-*@
-    <MudGrid 
-        Style="display: flex; border: 2px solid black; margin: 20px; float: right; width: 600px; height:400px; background-color: white">
-        <MudCard Style="height: 395px;  width: 595px; position:relative">
-            <MudCardContent Style="min-height:100px;">
-                <MudText Style="padding-left:15px" Class="textwhite" Typo="Typo.subtitle1">
-                    Логин:
-                    @model.Login
-                </MudText>
-                <MudText Style="padding-left:15px" Class="textsilver" Typo="Typo.subtitle1">
-                    Почта:
-                    @model.Email
-                </MudText>
-                <MudText Style="padding-left:15px" Class="textsilver" Typo="Typo.subtitle1">
-                    Имя:
-                    @model.Name
-                </MudText>
-                <MudText Style="padding-left:15px" Class="textsilver" Typo="Typo.subtitle1">
-                    Фамилия:
-                    @model.LastName
-                </MudText>
-            </MudCardContent>
-            <MudButton @onclick= "ToAccountEditorPage" Style="position:absolute; bottom:10px; background-color:#6ec04a; margin-left: 10px; color: white">
-                Редактировать
-            </MudButton>
-        </MudCard>
+@if (_accountResponse is null)
+{
+    <div>Страница загружается...</div>
+}
+else
+{
+    <MudGrid>
+        <MudGrid Style="display: flex; border: 2px solid black; margin: 20px; float: right; width: 600px; height:400px; background-color: white">
+            <MudCard Style="height: 395px;  width: 595px; position:relative">
+                <MudCardContent Style="min-height:100px;">
+                    <MudImage Src="@_accountResponse.Image" Height="250" Width="200"
+                          Style="border: 2px solid black; margin:20px; background-color: white; float: left" />
+                    <div style="margin-top: 15px;">
+                          <MudText Style="padding-left:15px" Class="textwhite" Typo="Typo.subtitle1">
+                        Логин:
+                        @_accountResponse.Login
+                    </MudText>
+                    <MudText Style="padding-left:15px" Class="textsilver" Typo="Typo.subtitle1">
+                        Почта:
+                        @_accountResponse.Email
+                    </MudText>
+                    <MudText Style="padding-left:15px" Class="textsilver" Typo="Typo.subtitle1">
+                        Имя:
+                        @_accountResponse.Name
+                    </MudText>
+                    <MudText Style="padding-left:15px" Class="textsilver" Typo="Typo.subtitle1">
+                        Фамилия:
+                        @_accountResponse.LastName
+                    </MudText>
+                    </div>
+                </MudCardContent>
+                <div style="position:absolute; bottom:10px; right:10px;">
+                    <MudButton @onclick="ToAccountEditorPage" Style="background-color:#6ec04a; margin-left: 10px; color: white">
+                        Редактировать
+                    </MudButton>
+                    <MudButton @onclick="DeleteAccount" Style="background-color:#6ec04a; margin-left: 10px; color: white">
+                        Удалить аккаунт
+                    </MudButton>
+                </div>
+            </MudCard>
+        </MudGrid>
     </MudGrid>
-</MudGrid>
+}

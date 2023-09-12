@@ -40,14 +40,16 @@ namespace OnlineShop.HttpApiClient
         }
 
         //Product
-        public async Task AddProduct(ProductRequest request, CancellationToken cancellationToken)
+        public async Task AddProduct(ProductRequest productRequest,
+            CancellationToken cancellationToken)
         {
-            ArgumentNullException.ThrowIfNull(nameof(request));
+            ArgumentNullException.ThrowIfNull(nameof(productRequest));
             var uri = "add_product";
             using var response = await _httpClient!
-                .PostAsJsonAsync(uri, request, cancellationToken);
+                .PostAsJsonAsync(uri, productRequest, cancellationToken);
             response.EnsureSuccessStatusCode();
         }
+
         public async Task<ProductResponse> GetProduct(Guid id, CancellationToken cancellationToken)
         {
             var uri = $"get_product?id={id}";
@@ -59,6 +61,7 @@ namespace OnlineShop.HttpApiClient
             }
             return product;
         }
+
         public async Task<List<ProductResponse>> GetProducts(CancellationToken cancellationToken)
         {
             var uri = "get_products";
@@ -70,44 +73,50 @@ namespace OnlineShop.HttpApiClient
             }
             return products;
         }
+
         public async Task DeleteProduct(Guid id, CancellationToken cancellationToken)
         {
-            var uri = "delete_product";
+            var uri = $"delete_product?id={id}";
             using var response = await _httpClient!
                 .PostAsJsonAsync(uri, id, cancellationToken);
             response.EnsureSuccessStatusCode();
         }
-        public async Task UpdateProduct(ProductRequest request, CancellationToken cancellationToken)
+
+        public async Task UpdateProduct(ProductRequest productRequest, CancellationToken cancellationToken)
         {
-            ArgumentNullException.ThrowIfNull(nameof(request));
+            ArgumentNullException.ThrowIfNull(nameof(productRequest));
             var uri = "update_product";
 
             using var response = await _httpClient!
-                .PostAsJsonAsync(uri, request, cancellationToken);
+                .PostAsJsonAsync(uri, productRequest, cancellationToken);
             response.EnsureSuccessStatusCode();
         }
 
         //Account
-        public async Task<RegisterResponse> Register(RegisterRequest request, CancellationToken cancellationToken)
+        public async Task<RegisterResponse> Register(RegisterRequest registeRequest, 
+            CancellationToken cancellationToken)
         {
-            ArgumentNullException.ThrowIfNull(nameof(request));
+            ArgumentNullException.ThrowIfNull(nameof(registeRequest));
             var uri = "account/registration";
             var response = await _httpClient!
                 .PostAndJsonDeserializeAsync<RegisterRequest, RegisterResponse>
-               (uri, request, cancellationToken);
+               (uri, registeRequest, cancellationToken);
             return response;
         }
-        public async Task<LoginResponse> Login(LoginRequest request, CancellationToken cancellationToken)
+
+        public async Task<LoginResponse> Login(LoginRequest loginRequest, 
+            CancellationToken cancellationToken)
         {
-            ArgumentNullException.ThrowIfNull(nameof(request));
+            ArgumentNullException.ThrowIfNull(nameof(loginRequest));
             var uri = "account/login";
             var response = await _httpClient!
                 .PostAndJsonDeserializeAsync<LoginRequest, LoginResponse>
-                (uri, request, cancellationToken);
+                (uri, loginRequest, cancellationToken);
             _httpClient!.DefaultRequestHeaders.Authorization
                  = new AuthenticationHeaderValue("Bearer", response.Token);
             return response;
         }
+
         public async Task<AccountResponse> GetAccount(CancellationToken cancellationToken)
         {
             var uri = "current";
@@ -120,27 +129,36 @@ namespace OnlineShop.HttpApiClient
             return response;
         }
 
-        public async Task UpdateAccountData(AccountRequest request,
+        public async Task UpdateAccountData(AccountRequest accountRequest,
             CancellationToken cancellationToken)
         {
-            ArgumentNullException.ThrowIfNull(nameof(request));
+            ArgumentNullException.ThrowIfNull(nameof(accountRequest));
             var response = await _httpClient!.PostAsJsonAsync
-                 ("account/data", request, cancellationToken);
+                 ("account/data", accountRequest, cancellationToken);
             response.EnsureSuccessStatusCode();
         }
-        public async Task UpdateAccountPassword(AccountPasswordRequest request,
+
+        public async Task UpdateAccountPassword(AccountPasswordRequest accountPasswordRequest,
             CancellationToken cancellationToken)
         {
-            ArgumentNullException.ThrowIfNull(nameof(request));
+            ArgumentNullException.ThrowIfNull(nameof(accountPasswordRequest));
             var response = await _httpClient!.PostAsJsonAsync
-                ("account/password", request, cancellationToken);
+                ("account/password", accountPasswordRequest, cancellationToken);
+            response.EnsureSuccessStatusCode();
+        }
+
+        public async Task DeleteAccount(AccountRequest accountRequest, CancellationToken cancellationToken)
+        {
+            var uri = "account/delete";
+            using var response = await _httpClient!
+                .PostAsJsonAsync(uri, accountRequest, cancellationToken);
             response.EnsureSuccessStatusCode();
         }
 
         //Cart
         public async Task<CartResponse> GetCart(Guid accountId, CancellationToken cancellationToken)
         {
-            var uri = $"cart?id={accountId}";
+            var uri = $"cart?accountId={accountId}";
             var cart = await _httpClient!
                 .GetFromJsonAsync<CartResponse>(uri, cancellationToken);
             if (cart is null)
@@ -150,13 +168,13 @@ namespace OnlineShop.HttpApiClient
             return cart;
         }
 
-        public async Task AddProductInCart(CartRequest request,
+        public async Task AddProductInCart(CartRequest cartRequest,
             CancellationToken cancellationToken)
         {
-            ArgumentNullException.ThrowIfNull(nameof(request));
+            ArgumentNullException.ThrowIfNull(nameof(cartRequest));
             var uri = "cart/add_product";
             var response = await _httpClient!
-                .PostAsJsonAsync(uri, request, cancellationToken);
+                .PostAsJsonAsync(uri, cartRequest, cancellationToken);
             response.EnsureSuccessStatusCode();
         }
     }

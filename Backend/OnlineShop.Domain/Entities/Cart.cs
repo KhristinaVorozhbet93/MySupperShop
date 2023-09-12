@@ -29,7 +29,8 @@
             ArgumentNullException.ThrowIfNull(product);
             if (quantity <= 0) throw new ArgumentOutOfRangeException(nameof(quantity)); 
             if (Items == null) throw new InvalidOperationException("Cart items is null");
-
+            
+            //здесь Product null
             var existedItem = Items.SingleOrDefault(item => item.Product.Id == product.Id);
 
             if (existedItem is null)

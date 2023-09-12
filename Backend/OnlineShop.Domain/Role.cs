@@ -1,4 +1,4 @@
-﻿namespace OnlineShop.WebApi
+﻿namespace OnlineShop.Domain
 {
     public enum Role
     {

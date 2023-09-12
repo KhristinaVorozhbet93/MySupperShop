@@ -1,6 +1,4 @@
-﻿using OnlineShop.WebApi;
-
-namespace OnlineShop.Domain.Entities
+﻿namespace OnlineShop.Domain.Entities
 {
     public class Account : IEntity
     {

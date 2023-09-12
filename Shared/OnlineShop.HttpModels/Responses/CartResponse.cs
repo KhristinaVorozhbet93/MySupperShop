@@ -1,4 +1,4 @@
 ﻿namespace OnlineShop.HttpModels.Responses
 {
-    public record CartResponse(List<ProductResponse> Products); 
+    public record CartResponse(List<ProductCartResponse> Products); 
 }

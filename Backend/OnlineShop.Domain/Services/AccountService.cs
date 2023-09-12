@@ -1,7 +1,6 @@
 ﻿using OnlineShop.Domain.Entities;
 using OnlineShop.Domain.Interfaces;
 using OnlineShop.Domain.Exceptions;
-using OnlineShop.WebApi;
 
 namespace OnlineShop.Domain.Services
 {
@@ -15,6 +14,7 @@ namespace OnlineShop.Domain.Services
             _hasher = hasher ?? throw new ArgumentException(nameof(hasher));
             _uow = unitOfWork ?? throw new ArgumentException(nameof(unitOfWork));
         }
+
         public virtual async Task<Account> Register(string login,
             string password,
             string email,
@@ -33,18 +33,12 @@ namespace OnlineShop.Domain.Services
             Account account = new Account
                 (Guid.NewGuid(), login, EncryptPassword(password), email, roles);
             Cart cart = new(account.Id) { Id = Guid.NewGuid() };
-
             await _uow.AccountRepozitory.Add(account, cancellationToken); 
             await _uow.CartRepozitory.Add(cart, cancellationToken);
             await _uow.SaveChangesAsync(cancellationToken);
             return account;
         }
 
-        private string EncryptPassword(string password)
-        {
-            var hashedPassword = _hasher.HashPassword(password);
-            return hashedPassword;
-        }
         public virtual async Task<Account> Login(string login,
             string password,
             CancellationToken cancellationToken)
@@ -89,7 +83,7 @@ namespace OnlineShop.Domain.Services
         }
 
         public async Task UpdateAccountData(string login, string name, string lastName,
-            string email,
+            string email,string? image,
            CancellationToken cancellationToken)
         {
             ArgumentNullException.ThrowIfNull(login);
@@ -101,6 +95,7 @@ namespace OnlineShop.Domain.Services
             account.Name = name;
             account.LastName = lastName;
             account.Email = email;
+            account.Image = image; 
             await _uow.AccountRepozitory.Update(account, cancellationToken);
             await _uow.SaveChangesAsync(cancellationToken);
         }
@@ -116,6 +111,14 @@ namespace OnlineShop.Domain.Services
             await CheckPassword(oldPassword, account, cancellationToken);
             account.HashedPassword = EncryptPassword(newPassword);
             await _uow.AccountRepozitory.Update(account, cancellationToken);
+            await _uow.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task DeleteAccount(string login, CancellationToken cancellationToken)
+        {
+            ArgumentNullException.ThrowIfNull(login);
+            var account = await _uow.AccountRepozitory.GetAccountByLogin(login, cancellationToken);
+            await _uow.AccountRepozitory.Delete(account, cancellationToken);
             await _uow.SaveChangesAsync(cancellationToken);
         }
 
@@ -135,6 +138,12 @@ namespace OnlineShop.Domain.Services
             {
                 await RehashPassword(password, account, cancellationToken);
             }
+        }
+
+        private string EncryptPassword(string password)
+        {
+            var hashedPassword = _hasher.HashPassword(password);
+            return hashedPassword;
         }
 
         private async Task RehashPassword

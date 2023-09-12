@@ -1,9 +1,16 @@
 ﻿@page "/cart"
-
-@foreach (var product in cartResponse.Products)
+@using OnlineShop.Frontend.Components;
+<MudDrawerHeader Style="font-weight:bold;font-size:22px; margin-left:300px;">
+    Корзина
+</MudDrawerHeader>
+@if (cartResponse is null)
 {
-    <div>@product.Name</div>
-    <div>@product.Price</div>
-    <div>@product.Description</div>
-    <hr/>
+    <div>Страница загружается...</div>
+}
+else
+{
+    @foreach (var product in cartResponse.Products)
+    {
+        <ProductCartItem Product="@product"/>
+    }
 }

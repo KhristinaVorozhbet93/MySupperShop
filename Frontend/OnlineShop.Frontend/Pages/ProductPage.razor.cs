@@ -11,7 +11,7 @@ namespace OnlineShop.Frontend.Pages
         [Inject] private IMyShopClient ShopClient { get; set; }
         [Inject] private NavigationManager Manager { get; set; }
         [Inject] private IDialogService DialogService { get; set; }
-        string state = string.Empty;
+        private string state = string.Empty;
         private ProductResponse? _product;
         private CancellationTokenSource _cts = new();
 

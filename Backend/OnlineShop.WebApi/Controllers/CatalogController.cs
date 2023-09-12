@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OnlineShop.Domain;
 using OnlineShop.Domain.Exceptions;
 using OnlineShop.Domain.Services;
 using OnlineShop.HttpModels.Requests;
@@ -68,7 +69,7 @@ namespace OnlineShop.WebApi.Controllers
 
         [Authorize(Roles = nameof(Role.Admin))]
         [HttpPost("delete_product")]
-        public async Task<ActionResult> DeleteProduct([FromBody]Guid id,
+        public async Task<ActionResult> DeleteProduct(Guid id,
        CancellationToken cancellationToken)
         {
             try

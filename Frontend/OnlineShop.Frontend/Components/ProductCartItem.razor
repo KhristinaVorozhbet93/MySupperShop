@@ -1,0 +1,27 @@
+﻿@using OnlineShop.HttpModels.Responses;
+
+<div style="display:flex;">
+    <MudCheckBox Checked="false" />
+    <div style="background-color:white;border:15px solid #6ec04a;width:1000px;padding:10px;
+                margin-bottom:10px;display:flex;">
+        <div>
+            <MudImage Src="@Product!.Image" Height="100" Width="100"
+                      Style="cursor:pointer;margin:30px;margin-right:200px" />
+        </div>
+        <div style="display:flex">
+            <MudText Class="textwhite" Style="margin-right:100px;width:150px" Typo="Typo.subtitle1">
+                @Product.Name
+            </MudText>
+            <MudText Class="textwhite" Typo="Typo.subtitle1">
+                @Product.Quantity
+            </MudText>
+            <MudText Class="textsilver" Style="position:absolute;right:300px;margin-left:10px" 
+            Typo="Typo.subtitle1">@Product.Price</MudText>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter] public ProductCartResponse? Product { get; set; }
+}
+

@@ -7,7 +7,6 @@ namespace OnlineShop.HttpModels.Requests
         [Required]
         [StringLength(30, ErrorMessage = "Логин минимум 6 символов", MinimumLength = 6)]
         public string Login { get; set; }
-
         [Required]
         [EmailAddress]
         public string Email { get; set; }
@@ -15,5 +14,6 @@ namespace OnlineShop.HttpModels.Requests
         public string Name { get; set; }
         [Required]
         public string LastName { get; set; }
+        public string? Image { get; set; }
     }
 }

@@ -39,17 +39,15 @@ namespace OnlineShop.WebApi.Controllers
         [HttpGet("cart")]
         public async Task<ActionResult<CartResponse>> GetAccountCart(Guid accountId,
              CancellationToken cancellationToken)
-        {
+        { 
             try
             {
                 var cart = await _cartService.GetAccountCart(accountId, cancellationToken);
-                List<ProductResponse> products = new();
-
+                List<ProductCartResponse> products = new();
                 foreach (var item in cart.Items)
                 {
-                    products.Add(new ProductResponse(item.Product.Id, item.Product.Name,
-                        item.Product.Description, item.Product.Price, item.Product.ProducedAt,
-                        item.Product.ExpiredAt, item.Product.Image)); 
+                    products.Add(new ProductCartResponse(item.Product.Id, item.Product.Name,
+                        item.Product.Price, item.Product.Image, item.Quantity)); 
                 }
                 return new CartResponse(products);
             }
