@@ -9,21 +9,21 @@
         <MudCard>
             <MudCardContent Style="min-height: 100px">
                 <MudText>Введите название товара:</MudText>
-                <MudTextField @bind-Value="model.Name" Class="text" Style="background-color: white">
+                <MudTextField @bind-Value="model.Name" Class="text" Style="background-color:white">
                 </MudTextField>
                 <MudText>Введите цену товара:</MudText>
-                <MudTextField @bind-Value="model.Price" Style="background-color: white"></MudTextField>
+                <MudTextField @bind-Value="model.Price" Style="background-color:white"></MudTextField>
                 <MudText>Введите дату производства:</MudText>
-                <MudTextField @bind-Value="model.ProducedAt" Style="background-color: white"></MudTextField>
+                <MudTextField @bind-Value="model.ProducedAt" Style="background-color:white"></MudTextField>
                 <MudText>Введите дату окончания срока годности:</MudText>
-                <MudTextField @bind-Value="model.ExpiredAt" Style="background-color: white"></MudTextField>
+                <MudTextField @bind-Value="model.ExpiredAt" Style="background-color:white"></MudTextField>
                 <MudText>Введите описание:</MudText>
-                <MudTextField @bind-Value="model.Description" Style="background-color: white"></MudTextField>
+                <MudTextField @bind-Value="model.Description" Style="background-color:white"></MudTextField>
                 <MudText>Введите путь к картинке:</MudText>
-                <MudTextField @bind-Value="model.Image" Style="background-color: white"></MudTextField>
+                <MudTextField @bind-Value="model.Image" Style="background-color:white"></MudTextField>
             </MudCardContent>
         </MudCard>
     </MudPaper>
 </MudItem>
 <MudButton @onclick="SaveProductChanges" Variant="Variant.Filled" Style="background-color:#6ec04a;
-color:white; font-size:15px" Class="mt-4" EndIcon="@Icons.Material.Filled.Add">Добавить</MudButton>
+color:white;font-size:15px" Class="mt-4" EndIcon="@Icons.Material.Filled.Add">Добавить</MudButton>

@@ -10,6 +10,10 @@ using OnlineShop.WebApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+//builder.Services.AddHttpLogging(options => options.LoggingField); 
+
+
+
 JwtConfig jwtConfig = builder.Configuration
    .GetRequiredSection("JwtConfig")
    .Get<JwtConfig>();
@@ -69,7 +73,6 @@ builder.Services.AddAuthentication(options =>
     });
 builder.Services.AddAuthorization();
 
-
 var app = builder.Build();
 
 app.UseCors(policy =>
@@ -80,12 +83,13 @@ app.UseCors(policy =>
         .AllowAnyOrigin();
 });
 
+app.UseHttpLogging();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+} 
 
 app.UseHttpsRedirection();
 

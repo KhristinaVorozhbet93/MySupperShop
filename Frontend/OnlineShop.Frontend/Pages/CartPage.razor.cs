@@ -4,16 +4,11 @@ using OnlineShop.HttpModels.Responses;
 
 namespace OnlineShop.Frontend.Pages
 {
-    public partial class CartPage : IDisposable
+    public partial class CartPage
     {
         [Inject] private IMyShopClient ShopClient { get; set; }
         private CartResponse cartResponse;
         private CancellationTokenSource _cts = new();
-
-        public void Dispose()
-        {
-            _cts.Cancel();
-        }
 
         protected override async Task OnInitializedAsync()
         {

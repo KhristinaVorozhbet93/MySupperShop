@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Components;
 using OnlineShop.HttpApiClient;
 
-namespace OnlineShop.Frontend.Components
+namespace OnlineShop.Frontend.Pages
 {
     public class AppComponentBase : ComponentBase
     {
@@ -13,11 +13,12 @@ namespace OnlineShop.Frontend.Components
         {
             await base.OnInitializedAsync();
             if (State.IsTokenChecked) return;
-            State.IsTokenChecked = true;
             string token = await LocalStorage.GetItemAsync<string>("token");
+           
             if (!string.IsNullOrWhiteSpace(token))
             {
-                ShopClient.SetAuthorizationToken("token");
+                ShopClient.SetAuthorizationToken(token);
+                State.IsTokenChecked = true;
             }
         }
     }

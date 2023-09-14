@@ -1,6 +1,8 @@
 ﻿@page "/cart"
 @using OnlineShop.Frontend.Components;
-<MudDrawerHeader Style="font-weight:bold;font-size:22px; margin-left:300px;">
+@inherits AppComponentBase
+
+<MudDrawerHeader Style="font-weight:bold;font-size:22px;margin-left:300px;">
     Корзина
 </MudDrawerHeader>
 @if (cartResponse is null)

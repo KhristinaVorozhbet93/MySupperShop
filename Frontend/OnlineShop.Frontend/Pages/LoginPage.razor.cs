@@ -6,28 +6,21 @@ using OnlineShop.HttpModels.Requests;
 
 namespace OnlineShop.Frontend.Pages
 {
-    public partial class LoginPage : IDisposable
+    public partial class LoginPage 
     {
-        LoginRequest model = new();
-        [Inject]
-        public NavigationManager Manager { get; set; }
-        [Inject]
-        public IMyShopClient? ShopClient { get; set; }
-        [Inject]
-        public ISnackbar Snackbar { get; set; }
+        
+        [Inject] public NavigationManager Manager { get; set; }
+        [Inject] public IMyShopClient? ShopClient { get; set; }
+        [Inject] public ISnackbar Snackbar { get; set; }     
+        [Inject] private IDialogService DialogService { get; set; }
         private CancellationTokenSource _cts = new CancellationTokenSource();
-        [Inject]
-        private IDialogService DialogService { get; set; }
+        private LoginRequest model = new();
         private bool _loginInProgress;
-        bool isShow;
+        private bool isShow;
 
         InputType PasswordInput = InputType.Password;
         string PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
 
-        public void Dispose()
-        {
-            _cts.Cancel();
-        }
         void ShowPassword()
         {
             if (isShow)

@@ -6,7 +6,7 @@ using OnlineShop.HttpModels.Responses;
 
 namespace OnlineShop.Frontend.Pages
 {
-    public partial class ProductEditPage : IDisposable
+    public partial class ProductEditPage
     {
         [Parameter] public Guid ProductId { get; set; }
         [Inject] private IMyShopClient ShopClient { get; set; }
@@ -15,10 +15,7 @@ namespace OnlineShop.Frontend.Pages
         private ProductRequest model = new();
         private ProductResponse? _product;
         private CancellationTokenSource _cts = new CancellationTokenSource();
-        public void Dispose()
-        {
-            _cts.Cancel();
-        }
+
         protected override async Task OnInitializedAsync()
         {
             _product = await ShopClient!.GetProduct(ProductId, _cts.Token);

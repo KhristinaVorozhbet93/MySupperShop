@@ -6,7 +6,7 @@ using OnlineShop.HttpModels.Requests;
 
 namespace OnlineShop.Frontend.Pages
 {
-    public partial class RegistrationPage : IDisposable
+    public partial class RegistrationPage
     {
         RegisterRequest model = new();
         [Inject]
@@ -19,10 +19,7 @@ namespace OnlineShop.Frontend.Pages
         [Inject]
         private IDialogService DialogService { get; set; }
         private bool _registrationInProgress;
-        public void Dispose()
-        {
-            _cts.Cancel();
-        }
+ 
         private async Task ProcessRegistration()
         {
             if (_registrationInProgress)

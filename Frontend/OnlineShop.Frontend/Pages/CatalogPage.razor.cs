@@ -4,17 +4,14 @@ using OnlineShop.HttpModels.Responses;
 
 namespace OnlineShop.Frontend.Pages
 {
-    public partial class CatalogPage : IDisposable
+    public partial class CatalogPage 
     {
         [Inject] private IMyShopClient ShopClient { get; set; }
         [Inject] private NavigationManager Manager { get; set; }
         private List<ProductResponse>? _products;
         private CancellationTokenSource _cts = new();
         private bool _catalogLoading;
-        public void Dispose()
-        {
-            _cts.Cancel();
-        }
+
         protected override async Task OnInitializedAsync()
         {
             _catalogLoading = true;

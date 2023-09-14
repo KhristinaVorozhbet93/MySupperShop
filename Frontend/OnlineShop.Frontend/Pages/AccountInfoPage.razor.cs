@@ -6,7 +6,7 @@ using OnlineShop.HttpModels.Responses;
 
 namespace OnlineShop.Frontend.Pages
 {
-    public partial class AccountInfoPage : IDisposable
+    public partial class AccountInfoPage
     {
         [Inject] private IMyShopClient ShopClient { get; set; }
         [Inject] public NavigationManager Manager { get; set; }
@@ -16,10 +16,6 @@ namespace OnlineShop.Frontend.Pages
         private AccountRequest _accountRequest = new();
         private AccountResponse _accountResponse;
 
-        public void Dispose()
-        {
-            _cts.Cancel();
-        }
         protected override async Task OnInitializedAsync()
         {
             _accountResponse = await ShopClient.GetAccount(_cts.Token);

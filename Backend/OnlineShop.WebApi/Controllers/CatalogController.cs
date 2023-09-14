@@ -1,13 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OnlineShop.Domain;
-using OnlineShop.Domain.Exceptions;
 using OnlineShop.Domain.Services;
 using OnlineShop.HttpModels.Requests;
 using OnlineShop.HttpModels.Responses;
+using OnlineShop.WebApi.Filtres;
 
 namespace OnlineShop.WebApi.Controllers
 {
+    [CentralizedExceptionHandlingFilter]
     [ApiController]
     public class CatalogController : ControllerBase
     {
@@ -22,16 +23,9 @@ namespace OnlineShop.WebApi.Controllers
         public async Task<ActionResult<ProductResponse>> GetProductById
            (Guid id, CancellationToken cancellationToken)
         {
-            try
-            {
-                var product = await _catalogService.GetProduct(id, cancellationToken);
-                return Ok(new ProductResponse(product.Id, product.Name, product.Description,
-                    product.Price, product.ProducedAt, product.ExpiredAt, product.Image));
-            }
-            catch (ProductNotFoundException)
-            {
-                return NotFound("Продукт с таким id не найден!");
-            }
+            var product = await _catalogService.GetProduct(id, cancellationToken);
+            return Ok(new ProductResponse(product.Id, product.Name, product.Description,
+                product.Price, product.ProducedAt, product.ExpiredAt, product.Image));
         }
 
         [Authorize]
@@ -72,15 +66,8 @@ namespace OnlineShop.WebApi.Controllers
         public async Task<ActionResult> DeleteProduct(Guid id,
        CancellationToken cancellationToken)
         {
-            try
-            {
-                await _catalogService.DeleteProduct(id, cancellationToken);
-                return Ok();
-            }
-            catch (ProductNotFoundException)
-            {
-                return Conflict (new ErrorResponse("Продукт с таким id не найден!"));
-            }
+            await _catalogService.DeleteProduct(id, cancellationToken);
+            return Ok();
         }
 
         [Authorize(Roles = nameof(Role.Admin))]
@@ -89,8 +76,8 @@ namespace OnlineShop.WebApi.Controllers
             ProductRequest request, CancellationToken cancellationToken)
         {
             ArgumentNullException.ThrowIfNull(request);
-            await _catalogService.UpdateProduct(request.Id, request.Name,request.Description,
-                request.Price, request.ProducedAt, request.ExpiredAt, 
+            await _catalogService.UpdateProduct(request.Id, request.Name, request.Description,
+                request.Price, request.ProducedAt, request.ExpiredAt,
                 request.Image, cancellationToken);
             return Ok();
         }

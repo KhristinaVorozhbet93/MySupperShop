@@ -6,7 +6,7 @@ using OnlineShop.HttpModels.Responses;
 
 namespace OnlineShop.Frontend.Pages
 {
-    public partial class AccountEditorPage : IDisposable
+    public partial class AccountEditorPage 
     {
         [Inject] private IMyShopClient ShopClient { get; set; }
         [Inject] private IDialogService DialogService { get; set; }
@@ -18,10 +18,7 @@ namespace OnlineShop.Frontend.Pages
         private bool isShow;
         private InputType PasswordInput = InputType.Password;
         private string PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
-        public void Dispose()
-        {
-            _cts.Cancel();
-        }
+
         void ShowPassword()
         {
             if (isShow)

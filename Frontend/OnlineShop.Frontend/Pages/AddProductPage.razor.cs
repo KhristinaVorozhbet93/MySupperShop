@@ -5,7 +5,7 @@ using OnlineShop.HttpModels.Requests;
 
 namespace OnlineShop.Frontend.Pages
 {
-    public partial class AddProductPage : IDisposable
+    public partial class AddProductPage
     {
         [Inject] private IMyShopClient ShopClient { get; set; }
         [Inject] private IDialogService DialogService { get; set; }
@@ -13,10 +13,7 @@ namespace OnlineShop.Frontend.Pages
         private CancellationTokenSource _cts = new();
 
         private ProductRequest model = new();
-        public void Dispose()
-        {
-            _cts.Cancel();
-        }
+
         public async Task SaveProductChanges()
         {
             if (model.Name == string.Empty)

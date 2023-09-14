@@ -7,14 +7,14 @@ namespace OnlineShop.HttpApiClient.Exceptions
     public class MyShopAPIException : Exception
     {
         public ErrorResponse Error { get; set; }
-        public HttpStatusCode? StatusCode { get; set; }
+        public int? StatusCode { get; set; }
         public ValidationProblemDetails? Details { get; set; }
 
         public MyShopAPIException()
         {
         }
 
-        public MyShopAPIException(HttpStatusCode statusCode, ValidationProblemDetails details)
+        public MyShopAPIException(int statusCode, ValidationProblemDetails details)
             : base(details.Title)
         {
             StatusCode = statusCode;

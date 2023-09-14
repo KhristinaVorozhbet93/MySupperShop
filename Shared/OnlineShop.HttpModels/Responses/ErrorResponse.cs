@@ -2,5 +2,5 @@
 
 namespace OnlineShop.HttpModels.Responses
 {
-    public record ErrorResponse(string Message, HttpStatusCode? StatusCode = null);
+    public record ErrorResponse(string Message, int? StatusCode = null);
 }

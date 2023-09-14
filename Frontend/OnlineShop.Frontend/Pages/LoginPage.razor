@@ -4,7 +4,7 @@
 
 <EditForm Model="@model" OnValidSubmit="ProcessLogin">
     <DataAnnotationsValidator />
-    <MudDrawerHeader Style="font-weight:bold;font-size:22px; margin-left:300px;">
+    <MudDrawerHeader Style="font-weight:bold;font-size:22px;margin-left:300px;">
         Авторизация
     </MudDrawerHeader>
     <MudGrid Style="height:700px">
@@ -15,7 +15,7 @@
                                   @bind-Value="model.Login" For="@(() => model.Login)" />
                     <MudTextField @bind-Value="model.Password" Label="Введите пароль"
                                   Variant="Variant.Text" InputType="@PasswordInput" Adornment="Adornment.End"
-                                  AdornmentIcon="@PasswordInputIcon" OnAdornmentClick="ShowPassword" AdornmentAriaLabel="Show Password" />
+                                  AdornmentIcon="@PasswordInputIcon" OnAdornmentClick="ShowPassword" />
                 </MudCardContent>
                 <MudCardActions>
                     <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled"

@@ -26,8 +26,9 @@ namespace OnlineShop.HttpApiClient.Extensions
                 }
                 else if (response.StatusCode == HttpStatusCode.BadRequest)
                 {
-                    var details = await response.Content.ReadFromJsonAsync<ValidationProblemDetails>();
-                    throw new MyShopAPIException(response.StatusCode, details);
+                    var details = await response.Content
+                        .ReadFromJsonAsync<ValidationProblemDetails>();
+                    throw new MyShopAPIException((int)response.StatusCode, details);
                 }
                 else
                 {
