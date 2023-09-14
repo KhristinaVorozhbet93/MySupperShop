@@ -14,6 +14,11 @@ namespace OnlineShop.Frontend.Pages
 
         private ProductRequest model = new();
 
+        protected override async Task OnInitializedAsync()
+        {
+            await base.OnInitializedAsync();
+        }
+
         public async Task SaveProductChanges()
         {
             if (model.Name == string.Empty)

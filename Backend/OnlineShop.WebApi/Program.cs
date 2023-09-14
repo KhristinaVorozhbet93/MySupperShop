@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using OnlineShop.Data.EntityFramework.Data;
@@ -10,9 +11,8 @@ using OnlineShop.WebApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//builder.Services.AddHttpLogging(options => options.LoggingField); 
-
-
+builder.Services.AddHttpLogging
+    (options => options.LoggingFields = HttpLoggingFields.All); 
 
 JwtConfig jwtConfig = builder.Configuration
    .GetRequiredSection("JwtConfig")
@@ -92,6 +92,7 @@ if (app.Environment.IsDevelopment())
 } 
 
 app.UseHttpsRedirection();
+app.UseHttpLogging();
 
 app.UseAuthentication();
 app.UseAuthorization();

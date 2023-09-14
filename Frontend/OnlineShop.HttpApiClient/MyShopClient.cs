@@ -10,6 +10,7 @@ namespace OnlineShop.HttpApiClient
     {
         private readonly string _host;
         private readonly HttpClient? _httpClient;
+        public bool IsAuthorizationTokenSet { get; private set; }
         public MyShopClient(string host = "http://myshop.com/", HttpClient? httpClient = null)
         {
             ArgumentNullException.ThrowIfNull(host);
@@ -30,13 +31,15 @@ namespace OnlineShop.HttpApiClient
         {
             _httpClient!.Dispose();
         }
+
         public void SetAuthorizationToken(string token)
         {
-            if (token == null) throw new ArgumentNullException(nameof(token));
-            var header = new AuthenticationHeaderValue("Bearer", token);
-            _httpClient!.DefaultRequestHeaders.Authorization = header;
-        }
+            if (token is null) throw new ArgumentNullException(nameof(token));
 
+            _httpClient.DefaultRequestHeaders.Authorization 
+                = new AuthenticationHeaderValue("Bearer", token);
+            IsAuthorizationTokenSet = true;
+        }
         //Product
         public async Task AddProduct(ProductRequest productRequest,
             CancellationToken cancellationToken)

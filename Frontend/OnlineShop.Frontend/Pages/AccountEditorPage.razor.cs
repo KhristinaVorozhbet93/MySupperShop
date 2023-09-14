@@ -19,6 +19,16 @@ namespace OnlineShop.Frontend.Pages
         private InputType PasswordInput = InputType.Password;
         private string PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
 
+        protected override async Task OnInitializedAsync()
+        {
+            await base.OnInitializedAsync();
+            _accountResponse = await ShopClient.GetAccount(_cts.Token);
+            _accountRequest.Login = _accountResponse.Login;
+            _accountRequest.Email = _accountResponse.Email;
+            _accountRequest.Name = _accountResponse.Name;
+            _accountRequest.LastName = _accountResponse.LastName;
+        }
+
         void ShowPassword()
         {
             if (isShow)
@@ -33,14 +43,6 @@ namespace OnlineShop.Frontend.Pages
                 PasswordInputIcon = Icons.Material.Filled.Visibility;
                 PasswordInput = InputType.Text;
             }
-        }
-        protected override async Task OnInitializedAsync()
-        {
-            _accountResponse = await ShopClient.GetAccount(_cts.Token);
-            _accountRequest.Login = _accountResponse.Login;
-            _accountRequest.Email = _accountResponse.Email;
-            _accountRequest.Name = _accountResponse.Name;
-            _accountRequest.LastName = _accountResponse.LastName;
         }
 
         public async Task UpdateAccountData()

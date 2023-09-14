@@ -12,6 +12,7 @@ namespace OnlineShop.Frontend.Pages
 
         protected override async Task OnInitializedAsync()
         {
+            await base.OnInitializedAsync();
             var account = await ShopClient.GetAccount(_cts.Token);
             cartResponse = await ShopClient.GetCart(account.Id, _cts.Token);      
         }

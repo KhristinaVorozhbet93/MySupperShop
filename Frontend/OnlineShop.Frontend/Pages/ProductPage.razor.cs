@@ -17,6 +17,7 @@ namespace OnlineShop.Frontend.Pages
 
         protected override async Task OnInitializedAsync()
         {
+            await base.OnInitializedAsync();
             _product = await ShopClient!.GetProduct(ProductId, _cts.Token);
         }
         public async Task DeleteProduct()

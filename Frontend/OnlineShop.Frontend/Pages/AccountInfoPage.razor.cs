@@ -18,6 +18,7 @@ namespace OnlineShop.Frontend.Pages
 
         protected override async Task OnInitializedAsync()
         {
+            await base.OnInitializedAsync();
             _accountResponse = await ShopClient.GetAccount(_cts.Token);
             _accountRequest.Login = _accountResponse.Login;
             _accountRequest.Email = _accountResponse.Email; 

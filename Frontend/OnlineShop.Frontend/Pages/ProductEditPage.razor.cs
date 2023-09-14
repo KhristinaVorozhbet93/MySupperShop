@@ -18,6 +18,7 @@ namespace OnlineShop.Frontend.Pages
 
         protected override async Task OnInitializedAsync()
         {
+            await base.OnInitializedAsync();
             _product = await ShopClient!.GetProduct(ProductId, _cts.Token);
             model.Id = _product.Id; 
             model.Name = _product.Name;

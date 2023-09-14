@@ -14,6 +14,7 @@ namespace OnlineShop.Frontend.Pages
 
         protected override async Task OnInitializedAsync()
         {
+            await base.OnInitializedAsync();
             _catalogLoading = true;
             _products = await ShopClient.GetProducts(_cts.Token);
             _catalogLoading = false;
