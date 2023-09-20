@@ -1,4 +1,4 @@
 ﻿namespace OnlineShop.HttpModels.Responses
 {
-    public record LoginResponse(Guid Id, string Name, string Token);
+    public record LoginResponse(Guid Id, string Login, Guid ConfirmationCodeId);
 }

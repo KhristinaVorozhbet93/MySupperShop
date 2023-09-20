@@ -10,6 +10,7 @@ namespace OnlineShop.Data.EntityFramework.Data
         public DbSet<Account> Accounts => Set<Account>();
         public DbSet<Cart> Carts => Set<Cart>();
         public DbSet<CartItem> CartItems => Set<CartItem>();
+        public DbSet<ConfirmationCode> ConfirmationCodes => Set<ConfirmationCode>();
 
         public AppDbContext(
             DbContextOptions<AppDbContext> options)

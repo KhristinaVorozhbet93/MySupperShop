@@ -23,5 +23,11 @@ namespace OnlineShop.Frontend.Pages
                 ShopClient.SetAuthorizationToken(token);
             }
         }
+
+        protected async Task ClearToken()
+        {
+            await LocalStorage.RemoveItemAsync("token");
+            State.IsTokenChecked = false;
+        }
     }
 }

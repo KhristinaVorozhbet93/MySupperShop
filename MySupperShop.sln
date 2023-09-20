@@ -19,13 +19,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Frontend", "Frontend", "{C1
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{3E332A83-C9CF-48AE-9BA2-4C0290C1393E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.Data.EntityFramework", "Backend\Infrasctructure\OnlineShop.DataEntityFramework\OnlineShop.Data.EntityFramework.csproj", "{33D0085E-D691-4B6A-B55B-1C1FA39CC416}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.Data.EntityFramework", "Backend\Infrastructure\OnlineShop.DataEntityFramework\OnlineShop.Data.EntityFramework.csproj", "{33D0085E-D691-4B6A-B55B-1C1FA39CC416}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrasctructure", "Infrasctructure", "{0DA9B972-20B0-4984-AA32-31723D195282}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.IdentityPasswordHasherLib", "Backend\Infrasctructure\OnlineShop.IdentityPasswordHasherLib\OnlineShop.IdentityPasswordHasherLib.csproj", "{D130E659-8AFF-4F9A-942B-A43E1F51002C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.IdentityPasswordHasherLib", "Backend\Infrastructure\OnlineShop.IdentityPasswordHasherLib\OnlineShop.IdentityPasswordHasherLib.csproj", "{D130E659-8AFF-4F9A-942B-A43E1F51002C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{1FD8C93D-F13F-4C60-8F57-C1E5C6008A2D}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{1FD8C93D-F13F-4C60-8F57-C1E5C6008A2D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.MailKit.EmailSender", "Backend\Infrastructure\OnlineShop.MailKit.EmailSender\OnlineShop.MailKit.EmailSender.csproj", "{99907768-E936-4B1E-893D-C0A913E4C13D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,6 +63,10 @@ Global
 		{D130E659-8AFF-4F9A-942B-A43E1F51002C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D130E659-8AFF-4F9A-942B-A43E1F51002C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D130E659-8AFF-4F9A-942B-A43E1F51002C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99907768-E936-4B1E-893D-C0A913E4C13D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99907768-E936-4B1E-893D-C0A913E4C13D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99907768-E936-4B1E-893D-C0A913E4C13D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99907768-E936-4B1E-893D-C0A913E4C13D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -75,6 +81,7 @@ Global
 		{0DA9B972-20B0-4984-AA32-31723D195282} = {DB3E492C-9176-4A4E-9F5C-601C26C3B6A8}
 		{D130E659-8AFF-4F9A-942B-A43E1F51002C} = {0DA9B972-20B0-4984-AA32-31723D195282}
 		{1FD8C93D-F13F-4C60-8F57-C1E5C6008A2D} = {DB3E492C-9176-4A4E-9F5C-601C26C3B6A8}
+		{99907768-E936-4B1E-893D-C0A913E4C13D} = {0DA9B972-20B0-4984-AA32-31723D195282}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {813FB117-65F2-405C-B3F3-DCF5F9146055}

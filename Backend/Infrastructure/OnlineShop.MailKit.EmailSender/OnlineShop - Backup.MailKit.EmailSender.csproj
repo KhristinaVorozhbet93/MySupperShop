@@ -4,11 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <UserSecretsId>19321996-d90f-4d3e-a08f-150fd5d18675</UserSecretsId>
+    <UserSecretsId>a76240a7-d5b4-484c-a541-9c8ad0a4c4f5</UserSecretsId>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="MediatR" Version="12.1.1" />
-  </ItemGroup>
 
 </Project>

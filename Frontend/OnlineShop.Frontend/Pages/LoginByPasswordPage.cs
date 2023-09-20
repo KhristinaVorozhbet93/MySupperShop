@@ -3,18 +3,20 @@ using MudBlazor;
 using OnlineShop.HttpApiClient;
 using OnlineShop.HttpApiClient.Exceptions;
 using OnlineShop.HttpModels.Requests;
+using OnlineShop.HttpModels.Responses;
 
 namespace OnlineShop.Frontend.Pages
 {
-    public partial class LoginPage 
-    {
-        
+    public partial class LoginByPasswordPage 
+    {      
         [Inject] public NavigationManager Manager { get; set; }
         [Inject] public IMyShopClient? ShopClient { get; set; }
         [Inject] public ISnackbar Snackbar { get; set; }     
         [Inject] private IDialogService DialogService { get; set; }
         private CancellationTokenSource _cts = new CancellationTokenSource();
-        private LoginRequest model = new();
+        private LoginRequest _loginRequest = new();
+        private LoginResponse _loginResponse;
+        private LoginByCodeRequest _loginByCodeRequest = new();
         private bool _loginInProgress;
         private bool isShow;
 
@@ -36,7 +38,7 @@ namespace OnlineShop.Frontend.Pages
                 PasswordInput = InputType.Text;
             }
         }
-        private async Task ProcessLogin()
+        private async Task ProcessLoginByPassword()
         {
             if (_loginInProgress)
             {
@@ -47,10 +49,10 @@ namespace OnlineShop.Frontend.Pages
             _loginInProgress = true;
             try
             {
-                var response = await ShopClient!.Login(model, _cts.Token);
-                await DialogService.ShowMessageBox("Успешно",$"Добро пожаловать,{response.Name}");
-                await LocalStorage.SetItemAsync("token", response.Token);
-                Manager.NavigateTo("/catalog");
+                _loginResponse = await ShopClient!.LoginByPassword(_loginRequest, _cts.Token);
+                _loginByCodeRequest.CodeId = _loginResponse.ConfirmationCodeId;
+                _loginByCodeRequest.Login = _loginResponse.Login;
+                await DialogService.ShowMessageBox("Информация", "Теперь введите код в окне ниже");
             }
             catch (MyShopAPIException e)
             {
@@ -60,6 +62,23 @@ namespace OnlineShop.Frontend.Pages
             finally
             {
                 _loginInProgress = false;
+            }
+
+        }
+
+        private async Task ProcessLoginByCode()
+        {
+            try
+            {
+                var response = await ShopClient!.LoginByCode(_loginByCodeRequest, _cts.Token);
+                await DialogService.ShowMessageBox("Успех", $"Добро пожаловать {response.Login}");
+                await LocalStorage.SetItemAsync("token", response.Token);
+                Manager.NavigateTo("/catalog");
+            }
+            catch (MyShopAPIException e)
+            {
+                _loginInProgress = false;
+                await DialogService.ShowMessageBox("Ошибка", e.Message);
             }
         }
     }

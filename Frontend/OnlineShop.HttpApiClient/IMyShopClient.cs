@@ -6,6 +6,7 @@ namespace OnlineShop.HttpApiClient
     public interface IMyShopClient
     {
         public void SetAuthorizationToken(string token);
+        public void ResetAuthorizationToken();
         //Product
         Task AddProduct(ProductRequest product, CancellationToken cancellationToken);
         Task<ProductResponse> GetProduct(Guid id, CancellationToken cancellationToken);
@@ -15,7 +16,9 @@ namespace OnlineShop.HttpApiClient
 
         //Account
         Task<RegisterResponse> Register(RegisterRequest request, CancellationToken cancellationToken);
-        Task<LoginResponse> Login(LoginRequest request, CancellationToken cancellationToken);
+        Task<LoginResponse> LoginByPassword(LoginRequest request, CancellationToken cancellationToken);
+        Task<LoginByCodeResponse> LoginByCode(LoginByCodeRequest loginByCodeRequest,
+        CancellationToken cancellationToken);
         Task<AccountResponse> GetAccount(CancellationToken cancellationToken);
         Task UpdateAccountData(AccountRequest request, CancellationToken cancellationToken);
         Task UpdateAccountPassword(AccountPasswordRequest request, CancellationToken cancellationToken);

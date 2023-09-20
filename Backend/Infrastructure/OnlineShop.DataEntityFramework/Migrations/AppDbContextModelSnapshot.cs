@@ -91,6 +91,30 @@ namespace MyShopBackend.Migrations
                     b.ToTable("CartItems");
                 });
 
+            modelBuilder.Entity("OnlineShop.Domain.Entities.ConfirmationCode", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("AccountId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTimeOffset>("CreateAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTimeOffset>("ExpiredAt")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ConfirmationCodes");
+                });
+
             modelBuilder.Entity("OnlineShop.Domain.Entities.Product", b =>
                 {
                     b.Property<Guid>("Id")

@@ -31,7 +31,9 @@ namespace OnlineShop.WebApi.Filtres
                 InvalidPasswordException => "Неверный пароль!",
                 ProductNotFoundException => "Не найден продукт с данным id!",
                 CartNotFoundException => "Корзины по такому id не сущестует!",
-                DomainException => "Неизвестная ошибка", 
+                CodeNotFoundException => "Код с таким id не найден!", 
+                InvalidCodeException => "Неверный код!",
+                DomainException => "Неизвестная ошибка!", 
                 _ => null
             }; 
         }

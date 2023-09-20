@@ -52,9 +52,17 @@ namespace OnlineShop.Frontend.Pages
             catch (ArgumentNullException)
             {
                 await DialogService.ShowMessageBox("Ошибка", "Аккаунт не удален!");
-            }
-            
+            }           
         }
+
+        public async Task LogOut()
+        {
+            ShopClient.ResetAuthorizationToken();
+            await ClearToken();
+            await Task.Delay(TimeSpan.FromSeconds(2));
+            Manager.NavigateTo("/");
+        }
+
         public void ToAccountEditorPage()
         {
             Manager.NavigateTo("account/editor");

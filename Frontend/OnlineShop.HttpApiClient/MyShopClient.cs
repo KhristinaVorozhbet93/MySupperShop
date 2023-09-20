@@ -10,6 +10,7 @@ namespace OnlineShop.HttpApiClient
     {
         private readonly string _host;
         private readonly HttpClient? _httpClient;
+        private readonly bool _isInjected = false; 
         public bool IsAuthorizationTokenSet { get; private set; }
         public MyShopClient(string host = "http://myshop.com/", HttpClient? httpClient = null)
         {
@@ -21,7 +22,14 @@ namespace OnlineShop.HttpApiClient
                 throw new ArgumentException("The host adress shoul be a valid URL", nameof(host));
             }
             _host = host;
-            _httpClient = httpClient ?? new HttpClient();
+
+            if (httpClient is not null)
+            {
+                _httpClient = httpClient;
+                _isInjected = true;
+            }
+
+             _httpClient =  new HttpClient();
             if (_httpClient.BaseAddress is null)
             {
                 _httpClient.BaseAddress = hostUri;
@@ -29,7 +37,10 @@ namespace OnlineShop.HttpApiClient
         }
         public void Dispose()
         {
-            _httpClient!.Dispose();
+            if (_isInjected)
+            {
+                _httpClient!.Dispose();
+            }
         }
 
         public void SetAuthorizationToken(string token)
@@ -40,6 +51,13 @@ namespace OnlineShop.HttpApiClient
                 = new AuthenticationHeaderValue("Bearer", token);
             IsAuthorizationTokenSet = true;
         }
+
+        public void ResetAuthorizationToken()
+        {
+            _httpClient.DefaultRequestHeaders.Remove("Authorization");
+            IsAuthorizationTokenSet = false;
+        }
+
         //Product
         public async Task AddProduct(ProductRequest productRequest,
             CancellationToken cancellationToken)
@@ -105,16 +123,27 @@ namespace OnlineShop.HttpApiClient
             return response;
         }
 
-        public async Task<LoginResponse> Login(LoginRequest loginRequest, 
+        public async Task<LoginResponse> LoginByPassword(LoginRequest loginRequest, 
             CancellationToken cancellationToken)
         {
             ArgumentNullException.ThrowIfNull(nameof(loginRequest));
-            var uri = "account/login";
+            var uri = "account/login_by_password";
             var response = await _httpClient!
                 .PostAndJsonDeserializeAsync<LoginRequest, LoginResponse>
-                (uri, loginRequest, cancellationToken);
+                (uri, loginRequest, cancellationToken);     
+            return response;
+        }
+
+        public async Task<LoginByCodeResponse> LoginByCode(LoginByCodeRequest loginByCodeRequest,
+        CancellationToken cancellationToken)
+        {
+            ArgumentNullException.ThrowIfNull(nameof(loginByCodeRequest));
+            var uri = "account/login_by_code";
+            var response = await _httpClient!
+                .PostAndJsonDeserializeAsync<LoginByCodeRequest, LoginByCodeResponse>
+                (uri, loginByCodeRequest, cancellationToken);
             _httpClient!.DefaultRequestHeaders.Authorization
-                 = new AuthenticationHeaderValue("Bearer", response.Token);
+                = new AuthenticationHeaderValue("Bearer", response.Token);
             return response;
         }
 

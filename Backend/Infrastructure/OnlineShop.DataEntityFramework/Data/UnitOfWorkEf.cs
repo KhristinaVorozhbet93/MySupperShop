@@ -7,13 +7,16 @@ namespace OnlineShop.Data.EntityFramework.Data
         public IAccountRepozitory AccountRepozitory { get; }
         public ICartRepozitory CartRepozitory { get; }
         public IProductRepozitory ProductRepozitory { get; }
+        public IConfirmationCodeRepozitory ConfirmationCodeRepozitory { get; }
         private readonly AppDbContext _dbContext;
 
         public UnitOfWorkEf(
         AppDbContext dbContext,
             IAccountRepozitory accountRepository,
             ICartRepozitory cartRepository, 
-            IProductRepozitory productRepozitory)
+            IProductRepozitory productRepozitory, 
+            IConfirmationCodeRepozitory confirmationCodeRepozitory)
+
         {
             _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
             AccountRepozitory = accountRepository 
@@ -22,6 +25,8 @@ namespace OnlineShop.Data.EntityFramework.Data
                 ?? throw new ArgumentNullException(nameof(cartRepository));
             ProductRepozitory = productRepozitory
                 ?? throw new ArgumentNullException(nameof(productRepozitory));
+            ConfirmationCodeRepozitory = confirmationCodeRepozitory
+                ?? throw new ArgumentNullException(nameof(confirmationCodeRepozitory));
         }
 
         public Task<int> SaveChangesAsync(CancellationToken cancellationToken)

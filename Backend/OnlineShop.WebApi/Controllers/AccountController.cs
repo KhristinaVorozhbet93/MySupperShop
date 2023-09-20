@@ -17,31 +17,41 @@ namespace OnlineShop.WebApi.Controllers
         private readonly AccountService _accountService;
         private readonly ITokenService _tokenService;
 
-        public AccountController(AccountService accountService, ITokenService tokenService)
+        public AccountController(AccountService accountService, 
+            ITokenService tokenService)
         {
             _accountService = accountService ?? throw new ArgumentException(nameof(accountService));
             _tokenService = tokenService ?? throw new ArgumentException(nameof(tokenService));
         }
 
         [HttpPost("account/registration")]
-        public async Task<ActionResult<LoginResponse>> Register(RegisterRequest request,
+        public async Task<ActionResult<RegisterResponse>> Register(RegisterRequest request,
            CancellationToken cancellationToken)
         {
             var role = new Role[] { Role.Admin };
             var account = await _accountService.Register
                 (request.Login, request.Password, request.Email, role, cancellationToken);
-            var token = _tokenService.GenerateToken(account);
-            return new LoginResponse(account.Id, account.Login, token);
+            return new RegisterResponse(account.Login);
         }
 
-        [HttpPost("account/login")]
-        public async Task<ActionResult<LoginResponse>> Login
+        [HttpPost("account/login_by_password")]
+        public async Task<ActionResult<LoginResponse>> LoginByPassword
             (LoginRequest request, CancellationToken cancellationToken)
         {
+            var (account,codeId) =
+                await _accountService.Login(request.Login, request.Password, cancellationToken);                     
+            return new LoginResponse(account.Id, account.Login, codeId);
+        }
+
+        [HttpPost("account/login_by_code")]
+        public async Task<ActionResult<LoginByCodeResponse>> LoginByCode
+           (LoginByCodeRequest request, CancellationToken cancellationToken)
+        {
             var account =
-                await _accountService.Login(request.Login, request.Password, cancellationToken);
+                await _accountService.LoginByCode
+                (request.Login,request.CodeId, request.Code, cancellationToken);
             var token = _tokenService.GenerateToken(account);
-            return new LoginResponse(account.Id, account.Login, token);
+            return new LoginByCodeResponse(account.Id, account.Login, token); 
         }
 
         [Authorize]

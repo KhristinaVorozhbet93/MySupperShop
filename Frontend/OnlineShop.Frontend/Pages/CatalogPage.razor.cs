@@ -23,9 +23,5 @@ namespace OnlineShop.Frontend.Pages
         {
             Manager.NavigateTo("/products/new");
         }
-        public void ToIndexPage()
-        {
-            Manager.NavigateTo("/");
-        }
     }
 }
