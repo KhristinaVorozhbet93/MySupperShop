@@ -5,7 +5,7 @@ VisualStudioVersion = 17.0.31717.71
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.Frontend", "Frontend\OnlineShop.Frontend\OnlineShop.Frontend.csproj", "{7E5FA954-80AD-4F79-978B-F0466B67624A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.WebApi", "Backend\OnlineShop.WebApi\OnlineShop.WebApi.csproj", "{BBA65B4F-1432-48F8-82C9-3857F6120071}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.WebApi", "Backend\Presentation\OnlineShop.WebApi\OnlineShop.WebApi.csproj", "{BBA65B4F-1432-48F8-82C9-3857F6120071}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.HttpApiClient", "Frontend\OnlineShop.HttpApiClient\OnlineShop.HttpApiClient.csproj", "{598283F5-130E-4618-8CE2-27BA734A3FF1}"
 EndProject

@@ -21,11 +21,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Shared\OnlineShop.HttpModels\OnlineShop.HttpModels.csproj" />
-    <ProjectReference Include="..\Infrastructure\OnlineShop.DataEntityFramework\OnlineShop.Data.EntityFramework.csproj" />
-    <ProjectReference Include="..\Infrastructure\OnlineShop.IdentityPasswordHasherLib\OnlineShop.IdentityPasswordHasherLib.csproj" />
-    <ProjectReference Include="..\Infrastructure\OnlineShop.MailKit.EmailSender\OnlineShop.MailKit.EmailSender.csproj" />
-    <ProjectReference Include="..\OnlineShop.Domain\OnlineShop.Domain.csproj" />
+    <ProjectReference Include="..\..\..\Shared\OnlineShop.HttpModels\OnlineShop.HttpModels.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\OnlineShop.DataEntityFramework\OnlineShop.Data.EntityFramework.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\OnlineShop.IdentityPasswordHasherLib\OnlineShop.IdentityPasswordHasherLib.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\OnlineShop.MailKit.EmailSender\OnlineShop.MailKit.EmailSender.csproj" />
+    <ProjectReference Include="..\..\OnlineShop.Domain\OnlineShop.Domain.csproj" />
   </ItemGroup>
 
 </Project>
