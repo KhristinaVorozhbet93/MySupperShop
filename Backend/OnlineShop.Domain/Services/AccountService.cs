@@ -206,7 +206,7 @@ namespace OnlineShop.Domain.Services
             await _uow.ConfirmationCodeRepozitory.Add(code, cancellationToken);
             await _uow.SaveChangesAsync(cancellationToken);
 
-            await _mediator.Publish(new UserLoginEvent(account.Email, "Подтверждение кода",
+            await _mediator.Publish(new UserLoginedByPasswordEvent(account.Email, "Подтверждение кода",
                 $"Код подтверждения {code.Code}"), cancellationToken);
             return code; 
         }
