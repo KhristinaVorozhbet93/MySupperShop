@@ -41,7 +41,8 @@ if (path == null) throw new Exception();
 builder.Services.AddCors();
 builder.Services.AddControllers(options =>
 {
-    options.Filters.Add<CentralizedExceptionHandlingFilter>();
+    options.Filters.Add<AuthorizationAPIKeyFilter>();
+    options.Filters.Add<CentralizedExceptionHandlingFilter>();  
 });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

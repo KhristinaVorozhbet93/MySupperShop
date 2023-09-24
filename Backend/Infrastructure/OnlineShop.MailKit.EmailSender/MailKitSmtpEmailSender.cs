@@ -26,7 +26,8 @@ namespace OnlineShop.MailKit.EmailSender
         {
             if (!_smtpClient.IsConnected)
             {
-                await _smtpClient.ConnectAsync(_smtpConfig.Host, _smtpConfig.Port, false, cancellationToken);
+                await _smtpClient.ConnectAsync
+                    (_smtpConfig.Host, _smtpConfig.Port, false, cancellationToken);
             }
             if (!_smtpClient.IsAuthenticated)
             {

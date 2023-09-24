@@ -10,7 +10,7 @@ namespace OnlineShop.HttpApiClient
     {
         private readonly string _host;
         private readonly HttpClient? _httpClient;
-        private readonly bool _isInjected = false; 
+        private readonly bool _isInjected = false;
         public bool IsAuthorizationTokenSet { get; private set; }
         public MyShopClient(string host = "http://myshop.com/", HttpClient? httpClient = null)
         {
@@ -29,11 +29,14 @@ namespace OnlineShop.HttpApiClient
                 _isInjected = true;
             }
 
-             _httpClient =  new HttpClient();
+            _httpClient = new HttpClient();
             if (_httpClient.BaseAddress is null)
             {
                 _httpClient.BaseAddress = hostUri;
             }
+
+            _httpClient.DefaultRequestHeaders.Add("Api-Key", "API_KEY");
+
         }
         public void Dispose()
         {
@@ -47,7 +50,7 @@ namespace OnlineShop.HttpApiClient
         {
             if (token is null) throw new ArgumentNullException(nameof(token));
 
-            _httpClient.DefaultRequestHeaders.Authorization 
+            _httpClient.DefaultRequestHeaders.Authorization
                 = new AuthenticationHeaderValue("Bearer", token);
             IsAuthorizationTokenSet = true;
         }
@@ -112,7 +115,7 @@ namespace OnlineShop.HttpApiClient
         }
 
         //Account
-        public async Task<RegisterResponse> Register(RegisterRequest registeRequest, 
+        public async Task<RegisterResponse> Register(RegisterRequest registeRequest,
             CancellationToken cancellationToken)
         {
             ArgumentNullException.ThrowIfNull(nameof(registeRequest));
@@ -123,14 +126,14 @@ namespace OnlineShop.HttpApiClient
             return response;
         }
 
-        public async Task<LoginResponse> LoginByPassword(LoginRequest loginRequest, 
+        public async Task<LoginResponse> LoginByPassword(LoginRequest loginRequest,
             CancellationToken cancellationToken)
         {
             ArgumentNullException.ThrowIfNull(nameof(loginRequest));
             var uri = "account/login_by_password";
             var response = await _httpClient!
                 .PostAndJsonDeserializeAsync<LoginRequest, LoginResponse>
-                (uri, loginRequest, cancellationToken);     
+                (uri, loginRequest, cancellationToken);
             return response;
         }
 
