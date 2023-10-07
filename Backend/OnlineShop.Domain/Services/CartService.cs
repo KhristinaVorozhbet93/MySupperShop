@@ -28,6 +28,7 @@ namespace OnlineShop.Domain.Services
         public virtual async Task AddProduct(Guid accountId, Guid productId,
              CancellationToken cancellationToken, double quantity = 1d)
         {
+            if (quantity <= 0) throw new ArgumentOutOfRangeException(nameof(quantity));
             var product = await _uow.ProductRepozitory.GetById(productId, cancellationToken);
             if (product is null)
             {

@@ -39,7 +39,6 @@
                     В корзину
                 </MudButton>
             </div>
-
         </MudCard>
     </MudPaper>
 </MudItem>
@@ -59,7 +58,7 @@
     }
 
     public async Task ToAddInCart()
-    {     
+    {
         var account = await ShopClient.GetAccount(_cts.Token);
         if (Product is not null)
         {
@@ -73,7 +72,9 @@
         }
         cartRequest.Product = productRequest;
         cartRequest.AccountId = account.Id;
+
         cartRequest.Quantity = Quantity;
+
         try
         {
             await ShopClient.AddProductInCart(cartRequest, _cts.Token);

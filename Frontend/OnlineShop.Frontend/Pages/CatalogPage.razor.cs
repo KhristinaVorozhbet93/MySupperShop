@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Components;
+using MudBlazor;
 using OnlineShop.HttpApiClient;
 using OnlineShop.HttpModels.Responses;
 
 namespace OnlineShop.Frontend.Pages
 {
-    public partial class CatalogPage 
+    public partial class CatalogPage
     {
         [Inject] private IMyShopClient ShopClient { get; set; }
         [Inject] private NavigationManager Manager { get; set; }
