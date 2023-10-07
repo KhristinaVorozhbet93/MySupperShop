@@ -35,15 +35,18 @@ namespace OnlineShop.Domain.Tests
             Assert.Equal(2d, cart.Items.First().Quantity);       
         }
 
-        [Fact]
-        public void Adding_an_item_to_cart_with_a_negative_quantity()
+        [Theory]
+        [InlineData (-1)]
+        [InlineData (0)]
+
+        public void Adding_an_item_to_cart_with_a_negative_quantity(double quantity)
         {
             var cart = new Cart(Guid.NewGuid());
             var product = new Product(Guid.NewGuid(), "Киви", "Киви, цена за кг", 123, DateTime.Now,
                 DateTime.Now.AddDays(10), "Киви");
 
             //Act / Assert
-            Assert.Throws<ArgumentOutOfRangeException>(() => cart.AddItem(product, -1d)); 
+            Assert.Throws<ArgumentOutOfRangeException>(() => cart.AddItem(product, quantity)); 
         }
     }
 }
