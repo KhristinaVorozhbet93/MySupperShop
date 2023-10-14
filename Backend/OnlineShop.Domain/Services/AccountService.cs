@@ -30,18 +30,22 @@ namespace OnlineShop.Domain.Services
             ArgumentNullException.ThrowIfNull(login);
             ArgumentNullException.ThrowIfNull(email);
             ArgumentNullException.ThrowIfNull(password);
+
             var existedAccount = await _uow.AccountRepozitory
                 .FindAccountByLogin(login, cancellationToken);
             if (existedAccount is not null)
             {
                 throw new EmailAlreadyExistsException("Account with this login alredy exist");
             }
+
             Account account = new Account
                 (Guid.NewGuid(), login, EncryptPassword(password), email, roles);
+
             Cart cart = new(account.Id) { Id = Guid.NewGuid() };
             await _uow.AccountRepozitory.Add(account, cancellationToken); 
             await _uow.CartRepozitory.Add(cart, cancellationToken);
             await _uow.SaveChangesAsync(cancellationToken);
+
             await _mediator.Publish(new AccountRegistredEvent(account), cancellationToken);
             return account;
         }
